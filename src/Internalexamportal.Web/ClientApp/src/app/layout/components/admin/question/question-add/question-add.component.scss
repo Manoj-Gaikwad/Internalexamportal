@@ -1,0 +1,51 @@
+.content {
+    width: 100%;
+    margin: 10px;
+    border: 1px;
+    .header {
+        height: 62px;
+        .category-selector {
+            margin: 5px;
+            width: 50%;
+        }
+        .mat-raised-button {
+            margin: 10px;
+        }
+        .category {
+            text-transform: capitalize;
+            text-align: left;
+            font-weight: 600;
+        }
+    }
+    .mb-24 {
+        width: 100%;
+        .form {
+            width: 50%;
+            .editor {
+                height: 350px;
+
+                .ck-content {
+                    height: 350px;
+                }
+                .display-icon {
+                    font-size: 18px;
+                }
+            }
+            .containtData {
+                .question {
+                    .accordionData {
+                        .accordion {
+                            width: 100%;
+                            margin: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.ql-toolbar.ql-snow+.ql-container.ql-snow 
+{
+  height: 300px;
+}

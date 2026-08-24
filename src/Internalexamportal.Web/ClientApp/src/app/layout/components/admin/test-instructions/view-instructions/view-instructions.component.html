@@ -1,0 +1,15 @@
+<!-- CONTENT -->
+<mat-card class="mat-elevation-z0 w-100-p h-90-p">
+	<mat-card-header>
+		<mat-card-title>Test Instructions</mat-card-title>
+	</mat-card-header>
+
+	<mat-dialog-content fxLayoutAlign="start start">
+		<div class="w-100-p" [innerHtml]='description | safeHtml'></div>
+	</mat-dialog-content>
+</mat-card>
+<mat-dialog-actions fxLayoutAlign="center center">
+	<button mat-raised-button mat-dialog-close color="accent" tabindex="-1">
+		START
+	</button>
+</mat-dialog-actions>

@@ -1,0 +1,209 @@
+<div class="page-layout simple fullwidth">
+  <div class="content p-20" fxLayout="column">
+    <mat-card>
+      <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>
+          Role Permissions
+        </mat-card-title>
+      </mat-card-header>
+      <!-- HEADER -->
+
+      <!-- CONTENT -->
+      <mat-card-content>
+        <mat-tab-group dynamicHeight color="primary">
+          <mat-tab label="Permissions">
+            <div class="content p-12">
+
+              <div class="header" fxLayout="row" fxLayoutAlign="start center">
+
+                <mat-form-field appearance="outline" fxFlex="100" class="p-4" [style.fontSize.px]='16'>
+                  <mat-label>Role</mat-label>
+                  <mat-select required (selectionChange)="getAllPermission()" [(ngModel)]="roleId" disableOptionCentering>
+                    @for (item of roles; track item) {
+                      <mat-option [value]="item.id">
+                        {{item.name}}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+
+              <div fxLayout="row wrap" fxLayoutAlign="start stretch" fxLayoutGap="15px grid">
+                @for (parent of parentPermissions; track parent) {
+                  <div fxFlex="25%">
+                    <mat-card fxFill>
+                      <mat-card-header class="permission-header">
+                        <mat-card-title [style.fontSize.px]='16'>
+                          <mat-label>
+                            <mat-checkbox id="{{parent.id}}" [(ngModel)]="parent.isChecked"
+                              [ngModelOptions]="{standalone: true}"
+                              [indeterminate]="checkParentIndertiminateState(parent.id)"
+                              (change)="onParentPermissionChange(parent.id,$event)">
+                              {{parent.permissionName}}
+                            </mat-checkbox>
+                          </mat-label>
+                        </mat-card-title>
+                      </mat-card-header>
+                      <mat-divider></mat-divider>
+                      <mat-card-content fxLayout="column" fxLayoutAlign="start start"
+                        fxLayoutGap="2px">
+                        @for (child of childPermissions; track child) {
+                          @if (child.parentId == parent.id) {
+                            <mat-label>
+                              <mat-checkbox id="{{child.id}}" [disabled]="!parent.isChecked"
+                                (change)="setPermission(child.id,$event)"
+                                [(ngModel)]="child.isChecked"
+                                [ngModelOptions]="{standalone: true}">
+                                {{child.permissionName}}
+                              </mat-checkbox>
+                            </mat-label>
+                          }
+                        }
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="full-width" align="end">
+              <button type="button" mat-raised-button class="mat-accent m-12" aria-label="Save"
+                [disabled]="!roleId" (click)='onSubmit()'>
+                Save
+              </button>
+            </div>
+          </mat-tab>
+          <mat-tab label="Roles">
+
+            <div class="content p-12">
+
+              <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
+
+                <mat-form-field fxFlex="20" appearance="outline" [style.fontSize.px]="12" class="compact">
+                  <mat-label>Search</mat-label>
+                  <input matInput (ngModelChange)="this.searchTerm.next($event);"
+                    [(ngModel)]="searchText" placeholder="Type to Search...">
+                    <mat-icon matSuffix class="secondary-text"
+                      [ngStyle]="{'cursor':isSearchText?'pointer':'auto' }"
+                      (click)="isSearchText ? clearSearch():''">
+                      {{isSearchText ?'close': 'search'}}
+                    </mat-icon>
+                  </mat-form-field>
+
+                  <button type="button" mat-raised-button class=" add-todo-button mat-accent mb-20"
+                    aria-label="ADD TASK" (click)="openAddRoleDialog()">
+                    <mat-icon class="length-icon display-icon">add</mat-icon>
+                    Add Role
+                  </button>
+                </div>
+
+                <table [style.width.%]="100" mat-table [dataSource]="dataSource" matSort>
+
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> SrNo</th>
+                    <td mat-cell *matCellDef="let row; let i = index"> {{i+1}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+                    <td mat-cell *matCellDef="let row"> {{row.name}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="count">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Users </th>
+                    <td mat-cell *matCellDef="let row"> {{row.count}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="createdDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </th>
+                    <td mat-cell *matCellDef="let row">
+                      @if ((row.createdDate == '0001-01-01T00:00:00')) {
+                        NA
+                      }
+                      @if ((row.createdDate != '0001-01-01T00:00:00')) {
+                        {{row.createdDate | date : 'dd/MM/yyyy, h:mm a'}}
+                      }
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="isActive">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                    <td mat-cell *matCellDef="let row">
+                      @if (row.isActive) {
+                        <mat-icon matTooltip="Active" matTooltipPosition="after"
+                          class="active-icon green-600 s-16">
+                          check
+                        </mat-icon>
+                      }
+                      @if (!row.isActive) {
+                        <mat-icon matTooltip="Inactive" matTooltipPosition="after"
+                          class="active-icon red-500 s-16">
+                          close
+                        </mat-icon>
+                      }
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let row">
+
+                      @if (row.name != rolesEnum.SuperAdmin && row.name != rolesEnum.Candidate) {
+                        <button mat-icon-button [matMenuTriggerFor]="actionMenu" aria-label="more"
+                          >
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                      }
+
+                      <mat-menu #actionMenu="matMenu">
+
+                        <button mat-menu-item (click)="openEditRoleDialog(row)">
+                          <mat-icon>edit</mat-icon>
+                          <span>Edit</span>
+                        </button>
+
+                        <button mat-menu-item (click)="toggleRoleStatus(row)">
+                          @if (row.isActive) {
+                            <mat-icon class="active-icon red-500 s-16">close
+                            </mat-icon>
+                          }
+                          @if (!row.isActive) {
+                            <mat-icon class="active-icon green-600 s-16">done
+                            </mat-icon>
+                          }
+                          @if (!row.isActive) {
+                            <span>Make Active</span>
+                          }
+                          @if (row.isActive) {
+                            <span>Make Inactive</span>
+                          }
+                        </button>
+
+                      </mat-menu>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                  </table>
+
+
+                  @if (dataSource?.data?.length === 0) {
+                    <div>
+                      <h3 class="w-100-p m-0 p-12" style="text-align: center;">
+                        No Roles Found!
+                      </h3>
+                    </div>
+                  }
+
+                  <mat-paginator [pageSizeOptions]="[10, 20]"></mat-paginator>
+
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>

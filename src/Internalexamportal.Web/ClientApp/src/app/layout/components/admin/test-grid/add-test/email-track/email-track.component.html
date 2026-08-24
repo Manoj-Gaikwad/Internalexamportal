@@ -1,0 +1,56 @@
+<div class="" fxLayout="row">
+  <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+  <mat-accordion fxFlex="100">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Email Link To Test Taker
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form [formGroup]="emailForm" name="emailForm" (ngSubmit)="onSubmit()">
+        <div class="textboxesArea" fxLayout="column" fxFlex="100">
+          <div class="" fxLayout="row" fxFlex="100">
+
+            <div class="" fxLayout="row" fxFlex="100">
+              <div class="" fxFlex="40" fxLayout="column" fxLayoutAlign="space-between none">
+
+                <mat-form-field appearance="outline" fxFlex="40">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email">
+                  <mat-error>Invalid Email.</mat-error>
+                </mat-form-field>
+
+                @if (activationType == 1) {
+                  <h3 class="text-center">
+                    <b>OR</b>
+                  </h3>
+                }
+
+                @if (activationType == 1) {
+                  <mat-form-field appearance="outline" fxFlex="40">
+                    <mat-label>Group</mat-label>
+                    <mat-select formControlName="group">
+                      @for (group of groups; track group) {
+                        <mat-option [value]="group.id">
+                          {{group.name}}
+                        </mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                }
+              </div>
+
+            </div>
+          </div>
+          &nbsp;
+          <div class="search" fxFlex fxLayout="row" fxLayoutAlign=" center center">
+            <button mat-raised-button class="mat-acc`ent submit-button" aria-label="Send"> Send </button>
+          </div>
+
+        </div>
+
+      </form>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

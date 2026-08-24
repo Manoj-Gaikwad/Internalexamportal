@@ -1,0 +1,194 @@
+<div class="page-layout simple fullwidth">
+  <div class="content p-20" fxLayout="column">
+    <mat-card>
+      <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>
+          Manage Questions
+        </mat-card-title>
+      </mat-card-header>
+      <!-- HEADER -->
+
+      <!-- CONTENT -->
+      <mat-card-content>
+        <div class="content">
+          <form [formGroup]="SubjectForm" name="SubjectForm" (ngSubmit)="onSubmit()">
+            <div class="header" fxLayout="row" fxLayoutAlign="start">
+
+              <mat-form-field appearance="outline" class="category-selector" fxLayout="column" fxFlex="18"
+                permission-based-access permissionKey="{{permissionEnum.ViewQuestion}}">
+                <mat-label>SELECT SUBJECT</mat-label>
+                <mat-select multiple (selectionChange)="onSubjectSelectionChange($event)"
+                  formControlName="SubjectId" disableOptionCentering>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="subjectSearchControl"
+                      placeholderLabel="Search Subjects..." noEntriesFoundLabel="No Subject Found"
+                      [showToggleAllCheckbox]="true"
+                      [toggleAllCheckboxChecked]="toggleAllSubjectsStatus"
+                      (toggleAll)="toggleAllSubjects($event)">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  @for (subject of filteredSubjects | async; track subject) {
+                    <mat-option [value]="subject.id">
+                      {{subject.subjectName}}
+                    </mat-option>
+                  }
+                </mat-select>
+                <mat-error>Subject is required!</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="category-selector" fxLayout="column" fxFlex="18"
+                permission-based-access permissionKey="{{permissionEnum.ViewQuestion}}">
+                <mat-label>SELECT TOPIC</mat-label>
+                <mat-select multiple formControlName="SubjectTopicId" disableOptionCentering>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="topicSearchControl"
+                      placeholderLabel="Search Topics..." noEntriesFoundLabel="No Topic Found"
+                      [showToggleAllCheckbox]="true"
+                      [toggleAllCheckboxChecked]="toggleAllTopicsStatus"
+                      (toggleAll)="toggleAllTopics($event)">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  @for (subject of filteredTopics | async; track subject) {
+                    <mat-optgroup
+                      [label]="subject.subjectName">
+                      @for (topic of subject.subjectTopic; track topic) {
+                        <mat-option [value]="topic.id">
+                          {{topic.topic}}
+                        </mat-option>
+                      }
+                    </mat-optgroup>
+                  }
+                </mat-select>
+                <mat-error>Topic is required!</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="category-selector" fxLayout="column" fxFlex="18"
+                permission-based-access permissionKey="{{permissionEnum.ViewQuestion}}">
+                <mat-label>QUESTION TYPE</mat-label>
+                <mat-select formControlName="QusetionTypeId" multiple disableOptionCentering>
+                  @for (option of QuestionType; track option) {
+                    <mat-option [value]="option.id">
+                      {{option.type}}
+                    </mat-option>
+                  }
+                </mat-select>
+                <mat-error>Question Type is required!</mat-error>
+              </mat-form-field>
+
+
+              <mat-form-field fxFlex="20" appearance="outline" permission-based-access
+                permissionKey="{{permissionEnum.ViewQuestion}}">
+                <mat-label>Search</mat-label>
+                <input matInput (keyup)="this.searchQuestions.next($event.target.value)"
+                  formControlName="searchTerm" placeholder="Type to Search...">
+                  <mat-icon matSuffix class="secondary-text"
+                    [ngStyle]="{'cursor':isSearchText?'pointer':'auto' }"
+                    (click)="isSearchText ? resetFilter():''">
+                    {{isSearchText ?'close': 'search'}}
+                  </mat-icon>
+                </mat-form-field>
+
+                <div class="search" fxFlex="26" fxLayout="row" fxLayoutAlign="space-evenly center">
+                  <button type="submit" mat-raised-button class="mat-accent add-todo-button submit mb-20"
+                    aria-label="ADD TASK" permission-based-access
+                    permissionKey="{{permissionEnum.ViewQuestion}}">
+                    Apply
+                  </button>
+
+                  <button mat-raised-button class="primary mb-20" (click)="resetSearchFilter()">
+                    Reset
+                  </button>
+
+                  <button type="button" mat-raised-button class=" add-todo-button mat-accent mb-20"
+                    permission-based-access permissionKey="{{permissionEnum.AddEditQuestion}}"
+                    (click)="openAddQuestionDialog()">
+                    <mat-icon class="length-icon display-icon">add</mat-icon>
+                    Add
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <table mat-table class="mt-20" [dataSource]="dataSource" matSort
+              (matSortChange)="sortChange($event)" permission-based-access
+              permissionKey="{{permissionEnum.ViewQuestion}}">
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> SrNo</th>
+                <td mat-cell *matCellDef="let row;let i = index;"> {{getRowIndex(i)}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef> Question </th>
+                <td mat-cell *matCellDef="let row">
+                  <div fxLayout="row wrap" fxLayoutAlign="start center">
+                    <div class="single-line-text" [innerHtml]='row.description'></div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="subject">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Subject </th>
+                <td mat-cell *matCellDef="let row">
+                  <div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">
+                    {{row.subject}}
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="topic">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Topic </th>
+                <td mat-cell *matCellDef="let row">
+                  <div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">
+                    {{row.topic}}
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                <td mat-cell *matCellDef="let row">
+                  <div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">
+                    {{getAbbriviation(row.type)}}
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-icon class="length-icon display-icon mat-accent cursor-pointer"
+                    permission-based-access permissionKey="{{permissionEnum.AddEditQuestion}}"
+                  (click)="openEditQuestionDialog(row)">edit</mat-icon>
+                  &nbsp;
+                  <mat-icon class="length-icon display-icon cursor-pointer" color="warn"
+                    permission-based-access permissionKey="{{permissionEnum.DeleteQuestion}}"
+                  (click)="openDialog(row)">delete</mat-icon>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            @if (dataSource?.data?.length === 0) {
+              <div>
+                <h3 class="w-100-p m-0 p-12" style="text-align: center;">
+                  No Records Found!
+                </h3>
+              </div>
+            }
+
+            <mat-paginator [length]="paginate.totalRecords" [pageSize]="paginate.pageSize"
+              [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons (page)="nextOrPreviousPage($event)"
+              permission-based-access permissionKey="{{permissionEnum.ViewQuestion}}">
+            </mat-paginator>
+
+
+
+          </div>
+        </mat-card-content>
+        <!-- CONTENT -->
+      </mat-card>
+    </div>
+  </div>

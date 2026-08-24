@@ -1,0 +1,144 @@
+<div id="login" class="inner-scroll" fxLayout="row" fxLayoutAlign="start">
+
+  <div id="login-intro" fxFlex fxHide fxShow.gt-xs>
+
+  </div>
+
+  <div id="login-form-wrapper" fusePerfectScrollbar>
+    <div id="registration-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+      <div class="logo" fxHide.gt-xs>
+        <img src="assets/images/backgrounds/bg.jpg">
+      </div>
+
+      <div class="title">CANDIDATE REGISTRATION</div>
+
+      <form [formGroup]="registerForm" autocomplete="off" (ngSubmit)="register()">
+        <mat-error>{{errorMsg}}</mat-error>
+
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput type="text" formControlName="firstName" maxlength="25">
+          <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+          @if (registerForm.get('firstName').hasError('required')) {
+            <mat-error>
+              FirstName is required.
+            </mat-error>
+          }
+          @if (registerForm.get('firstName').hasError('pattern')) {
+            <mat-error>
+              FirstName is not valid.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" formControlName="lastName" maxlength="25">
+          <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+          @if (registerForm.get('lastName').hasError('required')) {
+            <mat-error>
+              LastName is required.
+            </mat-error>
+          }
+          @if (registerForm.get('lastName').hasError('pattern')) {
+            <mat-error>
+              LastName is not valid.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline"
+          [ngClass]="{'custom-margin': registerForm.get('userName').hasError('pattern')}">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" maxlength="50">
+          <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+          @if (registerForm.get('email').hasError('required')) {
+            <mat-error>
+              Email Id is required
+            </mat-error>
+          }
+          @if (registerForm.get('email').hasError('pattern')) {
+            <mat-error>
+              Email is not valid.
+            </mat-error>
+          }
+          @if (registerForm.get('email').hasError('isUserNameUnique')) {
+            <mat-error>
+              Email already exists.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input matInput type="tel" formControlName="phoneNumber" maxlength="10">
+          <mat-icon matSuffix class="secondary-text">local_phone</mat-icon>
+          @if (registerForm.get('phoneNumber').hasError('required')) {
+            <mat-error>
+              This field is required.
+            </mat-error>
+          }
+          @if ((registerForm.get('phoneNumber').hasError('maxlength') ||
+            registerForm.get('phoneNumber').hasError('minlength')) && !registerForm.get('phoneNumber').hasError('pattern')) {
+            <mat-error
+              >
+              Phone number must have ten digits.
+            </mat-error>
+          }
+          @if (registerForm.get('phoneNumber').hasError('pattern')) {
+            <mat-error>
+              Phone number is not valid.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password" maxlength="50">
+          <mat-icon matSuffix class="secondary-text" style="cursor: pointer;" (click)="showPassword = !showPassword">
+            {{showPassword ? 'visibility_off': 'visibility'}}
+          </mat-icon>
+          @if (registerForm.get('password').hasError('required')) {
+            <mat-error>
+              This field is required.
+            </mat-error>
+          }
+          @if (registerForm.get('password').hasError('pattern')) {
+            <mat-error>
+              Password must have at least 1 uppercase letter, 1 number, 1 lower case letter and 1 non alpha numeric
+              character.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline"
+          [ngClass]="{'mt-28': registerForm.get('password').hasError('pattern') && registerForm.get('password').touched}">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirmPassword" maxlength="50">
+          <mat-icon matSuffix class="secondary-text" style="cursor: pointer;" (click)="showConfirmPassword = !showConfirmPassword">
+            {{showConfirmPassword ? 'visibility_off': 'visibility'}}
+          </mat-icon>
+          @if (registerForm.get('confirmPassword').hasError('required')) {
+            <mat-error>
+              This field is required.
+            </mat-error>
+          }
+          @if (!registerForm.get('confirmPassword').hasError('required') && registerForm.get('confirmPassword').hasError('passwordsNotMatching')) {
+            <mat-error
+              >
+              Passwords do not match.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-raised-button color="accent" class="submit-button" aria-label="REGISTER"
+          [disabled]="!registerForm.valid">
+          REGISTER
+        </button>
+        <div class="login" fxLayout="row" fxLayoutAlign="center center">
+          <a class="link" [routerLink]="''">Go back to login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

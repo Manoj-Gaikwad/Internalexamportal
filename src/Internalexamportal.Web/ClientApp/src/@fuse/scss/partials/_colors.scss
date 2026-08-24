@@ -1,0 +1,639 @@
+// -----------------------------------------------------------------------------------------------------
+// @ Material theming import (REQUIRED for Angular Material 20)
+// -----------------------------------------------------------------------------------------------------
+@use 'sass:map';
+@use 'sass:meta';
+@use 'sass:list';
+@use 'sass:string';
+@use '@angular/material' as mat;
+@use '@angular/material/core/m2' as m2;
+@use '../partials/breakpoints' as *;
+
+// -----------------------------------------------------------------------------------------------------
+// NOTE
+// -----------------------------------------------------------------------------------------------------
+// This file is a compatibility shim to let the legacy Fuse theme (which expects palettes like
+// $mat-blue and functions like mat-color($mat-blue, 500)) work while routing actual colors to
+// Angular Material 20 (M3) design tokens (CSS custom properties).
+//
+// Strategy:
+// - Provide a $matPalettes map where each palette name contains a map of hues -> token values.
+// - Provide mat-color($palette, $hue) function which accepts either a palette map or a palette key.
+// - Define $mat-<name> variables (maps) so existing code that references $mat-blue, $mat-red, etc.
+//   continues to work.
+// - Map hues to M3 tokens (by default many hues return the primary/secondary/tertiary/surface tokens).
+//   You can later refine specific hue -> token mapping if you want more granular control.
+//
+// Important: the theme should also define the M3 CSS variables at runtime (e.g. in :root or via
+// a runtime theme script). Examples of tokens used below:
+//   --md-sys-color-primary, --md-sys-color-on-primary, --md-sys-color-secondary, etc.
+//
+// If you want a full token generator (light/dark) we can replace the mapped tokens with computed
+// values derived from brand colors — but this shim gets you moving quickly.
+
+
+
+:root {
+  --mat-sys-primary: #1976d2;
+  --mat-sys-on-primary: #ffffff;
+
+  --mat-sys-secondary: #03a9f4;
+  --mat-sys-on-secondary: #ffffff;
+
+  --mat-sys-tertiary: #26a69a;
+  --mat-sys-on-tertiary: #ffffff;
+
+  --mat-sys-error: #d32f2f;
+  --mat-sys-on-error: #ffffff;
+
+  --mat-sys-outline: rgba(0,0,0,0.54);
+  --mat-sys-surface: #ffffff;
+  --mat-sys-on-surface: #000000;
+}
+
+// -----------------------------------------------------------------------------------------------------
+// Helper: M3 token map for legacy palette names
+// Map palette name -> map(hue -> token)
+// By default many hues map to a small set of M3 tokens.
+// You can change which token each hue returns here.
+// -----------------------------------------------------------------------------------------------------
+$matPalettes: (
+  red: (
+    50: var(--mat-sys-error),
+    100: var(--mat-sys-error),
+    200: var(--mat-sys-error),
+    300: var(--mat-sys-error),
+    400: var(--mat-sys-error),
+    500: var(--mat-sys-error),
+    600: var(--mat-sys-error),
+    700: var(--mat-sys-error),
+    800: var(--mat-sys-error),
+    900: var(--mat-sys-error),
+    A100: var(--mat-sys-error),
+    A200: var(--mat-sys-error),
+    A400: var(--mat-sys-error),
+    A700: var(--mat-sys-error),
+    default: var(--mat-sys-error),
+    'default-contrast': var(--mat-sys-on-error)
+  ),
+  pink: (
+    50: var(--mat-sys-primary),
+    100: var(--mat-sys-primary),
+    200: var(--mat-sys-primary),
+    300: var(--mat-sys-primary),
+    400: var(--mat-sys-primary),
+    500: var(--mat-sys-primary),
+    600: var(--mat-sys-primary),
+    700: var(--mat-sys-primary),
+    800: var(--mat-sys-primary),
+    900: var(--mat-sys-primary),
+    A100: var(--mat-sys-primary),
+    A200: var(--mat-sys-primary),
+    A400: var(--mat-sys-primary),
+    A700: var(--mat-sys-primary),
+    default: var(--mat-sys-primary),
+    'default-contrast': var(--mat-sys-on-primary)
+  ),
+  purple: (
+    50: var(--mat-sys-primary),
+    100: var(--mat-sys-primary),
+    200: var(--mat-sys-primary),
+    300: var(--mat-sys-primary),
+    400: var(--mat-sys-primary),
+    500: var(--mat-sys-primary),
+    600: var(--mat-sys-primary),
+    700: var(--mat-sys-primary),
+    800: var(--mat-sys-primary),
+    900: var(--mat-sys-primary),
+    A100: var(--mat-sys-primary),
+    A200: var(--mat-sys-primary),
+    A400: var(--mat-sys-primary),
+    A700: var(--mat-sys-primary),
+    default: var(--mat-sys-primary),
+    'default-contrast': var(--mat-sys-on-primary)
+  ),
+//   deep-purple: map.get(map.get($matPalettes, purple), 500),
+//   indigo: (
+//     50: var(--md-sys-color-primary),
+//     100: var(--md-sys-color-primary),
+//     200: var(--md-sys-color-primary),
+//     300: var(--md-sys-color-primary),
+//     400: var(--md-sys-color-primary),
+//     500: var(--md-sys-color-primary),
+//     600: var(--md-sys-color-primary),
+//     700: var(--md-sys-color-primary),
+//     800: var(--md-sys-color-primary),
+//     900: var(--md-sys-color-primary),
+//     A100: var(--md-sys-color-primary),
+//     A200: var(--md-sys-color-primary),
+//     A400: var(--md-sys-color-primary),
+//     A700: var(--md-sys-color-primary),
+//     default: var(--md-sys-color-primary),
+//     'default-contrast': var(--md-sys-color-on-primary)
+//   ),
+  blue: (
+    50: var(--mat-sys-primary),
+    100: var(--mat-sys-primary),
+    200: var(--mat-sys-primary),
+    300: var(--mat-sys-primary),
+    400: var(--mat-sys-primary),
+    500: var(--mat-sys-primary),
+    600: var(--mat-sys-primary),
+    700: var(--mat-sys-primary),
+    800: var(--mat-sys-primary),
+    900: var(--mat-sys-primary),
+    A100: var(--mat-sys-primary),
+    A200: var(--mat-sys-primary),
+    A400: var(--mat-sys-primary),
+    A700: var(--mat-sys-primary),
+    default: var(--mat-sys-primary),
+    'default-contrast': var(--mat-sys-on-primary)
+  ),
+//   light-blue: map.get(map.get($matPalettes, blue), 500),
+//   cyan: map.get(map.get($matPalettes, blue), 500),
+  teal: (
+    50: var(--mat-sys-secondary),
+    100: var(--mat-sys-secondary),
+    200: var(--mat-sys-secondary),
+    300: var(--mat-sys-secondary),
+    400: var(--mat-sys-secondary),
+    500: var(--mat-sys-secondary),
+    600: var(--mat-sys-secondary),
+    700: var(--mat-sys-secondary),
+    800: var(--mat-sys-secondary),
+    900: var(--mat-sys-secondary),
+    A100: var(--mat-sys-secondary),
+    A200: var(--mat-sys-secondary),
+    A400: var(--mat-sys-secondary),
+    A700: var(--mat-sys-secondary),
+    default: var(--mat-sys-secondary),
+    'default-contrast': var(--mat-sys-on-secondary)
+  ),
+  green: (
+    50: var(--mat-sys-secondary),
+    100: var(--mat-sys-secondary),
+    200: var(--mat-sys-secondary),
+    300: var(--mat-sys-secondary),
+    400: var(--mat-sys-secondary),
+    500: var(--mat-sys-secondary),
+    600: var(--mat-sys-secondary),
+    700: var(--mat-sys-secondary),
+    800: var(--mat-sys-secondary),
+    900: var(--mat-sys-secondary),
+    A100: var(--mat-sys-secondary),
+    A200: var(--mat-sys-secondary),
+    A400: var(--mat-sys-secondary),
+    A700: var(--mat-sys-secondary),
+    default: var(--mat-sys-secondary),
+    'default-contrast': var(--mat-sys-on-secondary)
+  ),
+//   light-green: map.get(map.get($matPalettes, green), 500),
+//   lime: map.get(map.get($matPalettes, green), 500),
+  yellow: (
+    50: var(--mat-sys-tertiary),
+    100: var(--mat-sys-tertiary),
+    200: var(--mat-sys-tertiary),
+    300: var(--mat-sys-tertiary),
+    400: var(--mat-sys-tertiary),
+    500: var(--mat-sys-tertiary),
+    default: var(--mat-sys-tertiary),
+    'default-contrast': var(--mat-sys-on-tertiary)
+  ),
+//   amber: map.get(map.get($matPalettes, yellow), 500),
+//   orange: map.get(map.get($matPalettes, yellow), 500),
+//   deep-orange: map.get(map.get($matPalettes, red), 500),
+brown: (
+  50: var(--mat-sys-surface-variant),
+  100: var(--mat-sys-surface-variant),
+  200: var(--mat-sys-surface-variant),
+  300: var(--mat-sys-surface-variant),
+  400: var(--mat-sys-surface-variant),
+  500: var(--mat-sys-surface-variant),
+  default: var(--mat-sys-surface-variant),
+  'default-contrast': var(--mat-sys-on-surface)
+),
+
+grey: (
+  50: var(--mat-sys-outline),
+  100: var(--mat-sys-outline),
+  200: var(--mat-sys-outline),
+  300: var(--mat-sys-outline),
+  400: var(--mat-sys-outline),
+  500: var(--mat-sys-outline),
+  default: var(--mat-sys-outline),
+  'default-contrast': var(--mat-sys-on-surface)
+),
+
+blue-grey: m2.$blue-grey-palette
+
+) !default;
+
+
+// -----------------------------------------------------------------------------------------------------
+// @ Helper: expose $mat-<name> variables for backward compatibility
+//   so legacy code using $mat-blue etc continues to work.
+// -----------------------------------------------------------------------------------------------------
+$mat-red: map.get($matPalettes, red);
+$mat-pink: map.get($matPalettes, pink);
+$mat-purple: map.get($matPalettes, purple);
+// $mat-deep-purple: map.get($matPalettes, deep-purple);
+$mat-indigo: map.get($matPalettes, indigo);
+$mat-blue: map.get($matPalettes, blue);
+// $mat-light-blue: map.get($matPalettes, light-blue);
+// $mat-cyan: map.get($matPalettes, cyan);
+$mat-teal: map.get($matPalettes, teal);
+$mat-green: map.get($matPalettes, green);
+// $mat-light-green: map.get($matPalettes, light-green);
+// $mat-lime: map.get($matPalettes, lime);
+$mat-yellow: map.get($matPalettes, yellow);
+// $mat-amber: map.get($matPalettes, amber);
+$mat-orange: map.get($matPalettes, orange);
+// $mat-deep-orange: map.get($matPalettes, deep-orange);
+$mat-brown: map.get($matPalettes, brown);
+$mat-grey: map.get($matPalettes, grey);
+$mat-blue-grey: map.get($matPalettes, blue-grey);
+
+// Material color hues list (keep for loops)
+$matHues: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700;
+
+
+// -----------------------------------------------------------------------------------------------------
+// @ Compatibility function: mat-color($palette, $hue)
+// Accepts either:
+//  - a palette map (e.g. $mat-blue) or
+//  - a palette key (e.g. blue) or
+//  - an entry from $matPalettes map (which may itself be a token string)
+// Returns a CSS token (string) that existing SCSS expects.
+// -----------------------------------------------------------------------------------------------------
+@function mat-color($palette, $hue) {
+  // If palette is a map (legacy), return map.get
+  @if meta.type-of($palette) == 'map' {
+    $val: map.get($palette, $hue);
+    // If the value is itself a map.get result or variable, return it
+    @if $val == null {
+      // fallback to 'default' key
+      $val: map.get($palette, default);
+    }
+    @return $val;
+  }
+
+  // If a string/identifier like blue was passed (rare in old code),
+  // try to resolve in $matPalettes
+  @if map.has-key($matPalettes, $palette) {
+    $pal: map.get($matPalettes, $palette);
+    // if stored as simple token (not a map)
+    @if meta.type-of($pal) != 'map' {
+      @return $pal;
+    }
+    $val: map.get($pal, $hue);
+    @if $val == null {
+      $val: map.get($pal, default);
+    }
+    @return $val;
+  }
+
+  // If palette is a CSS token already (string) return as-is
+  @return $palette;
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming (existing mixins) — kept as-is but now the colors returned from mat-color / $matPalettes
+//   are CSS tokens (var(--md-sys-...)) so classes like .blue-500-bg will receive tokens.
+// -----------------------------------------------------------------------------------------------------
+@mixin colors-theme($theme) {
+
+    $is-dark: map.get($theme, is-dark);
+    $background: map.get($theme, background);
+    $foreground: map.get($theme, foreground);
+
+    & {
+        color: map.get($foreground, text);
+
+        @if ($is-dark) {
+            background: map.get($background, background);
+        } @else {
+            background: #F5F5F5;
+        }
+    }
+
+    .secondary-text {
+        color: map.get($foreground, secondary-text);
+    }
+
+    .icon,
+    i {
+        color: map.get($foreground, icon);
+    }
+
+    .hint-text {
+        color: map.get($foreground, hint-text);
+    }
+
+    .disabled-text {
+        color: map.get($foreground, disabled-text);
+    }
+
+    .fade-text,
+    .divider {
+        color: map.get($foreground, divider);
+    }
+}
+
+
+// -----------------------------------------------------------------------------------------------------
+// Reuse the rest of your original functions/mixins unchanged — they will work because the palette
+// lookups return CSS tokens (strings) instead of raw hex colors.
+// -----------------------------------------------------------------------------------------------------
+
+// Text color levels generator
+@mixin generate-text-color-levels($classes, $contrast) {
+  // Ensure $classes is a list of non-empty strings
+  $filtered-classes: ();
+
+  @each $cls in $classes {
+    @if $cls != null and $cls != '' and $cls != () {
+      $filtered-classes: list.append($filtered-classes, $cls, comma);
+    }
+  }
+
+  // Only generate if we have valid classes
+  @if list.length($filtered-classes) > 0 {
+
+    @each $cls in $filtered-classes {
+      #{$cls} {
+        @if ($contrast == 'dark') {
+          i,
+          .icon {
+            color: rgba(0, 0, 0, 0.54);
+          }
+
+          &.secondary-text,
+          .secondary-text {
+            color: rgba(0, 0, 0, 0.54) !important;
+          }
+
+          &.hint-text,
+          .hint-text,
+          &.disabled-text,
+          .disabled-text {
+            color: rgba(0, 0, 0, 0.38) !important;
+          }
+
+          &.divider,
+          .divider {
+            color: rgba(0, 0, 0, 0.12) !important;
+          }
+
+          .mat-ripple-element {
+            background: rgba(0, 0, 0, 0.1);
+          }
+
+          .adaptive-border-color {
+            border-color: rgba(0, 0, 0, 0.12);
+          }
+
+        } @else {
+          i,
+          .icon {
+            color: rgba(255, 255, 255, 1);
+          }
+
+          &.secondary-text,
+          .secondary-text {
+            color: rgba(255, 255, 255, 0.70) !important;
+          }
+
+          &.hint-text,
+          .hint-text,
+          &.disabled-text,
+          .disabled-text {
+            color: rgba(255, 255, 255, 0.50) !important;
+          }
+
+          &.divider,
+          .divider {
+            color: rgba(255, 255, 255, 0.12) !important;
+          }
+
+          .mat-ripple-element {
+            background: rgba(255, 255, 255, 0.1);
+          }
+
+          .adaptive-border-color {
+            border-color: rgba(255, 255, 255, 0.12);
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+// Material element colors generator
+@mixin generate-material-element-colors($classes, $contrast) {
+  // Ensure $classes is a list of non-empty strings
+  $filtered-classes: ();
+
+  @each $cls in $classes {
+    @if $cls != null and $cls != '' and $cls != () {
+      $filtered-classes: list.append($filtered-classes, $cls, comma);
+    }
+  }
+
+  // Only generate if we have valid classes
+  @if list.length($filtered-classes) > 0 {
+
+    $fuseForeground: (
+      base: white,
+      text: white,
+      hint-text: rgba(white, 0.5),
+      divider: rgba(white, 0.12)
+    );
+
+    @if ($contrast == 'dark') {
+      $fuseForeground: (
+        base: black,
+        hint-text: rgba(black, 0.38),
+        divider: rgba(black, 0.12)
+      );
+    }
+
+    @each $cls in $filtered-classes {
+      #{$cls} {
+        input[type="text"] {
+          color: map.get($fuseForeground, base);
+        }
+
+        .mat-form-field-label {
+          color: map.get($fuseForeground, hint-text);
+        }
+
+        .mat-form-field-underline {
+          background-color: map.get($fuseForeground, divider);
+        }
+
+        .mat-select-trigger,
+        .mat-select-arrow {
+          color: map.get($fuseForeground, hint-text);
+        }
+
+        .mat-select-underline {
+          background-color: map.get($fuseForeground, divider);
+        }
+
+        .mat-select-disabled .mat-select-value,
+        .mat-select-arrow,
+        .mat-select-trigger {
+          color: map.get($fuseForeground, hint-text);
+        }
+
+        .mat-select-value {
+          color: map.get($fuseForeground, text);
+        }
+      }
+    }
+  }
+}
+
+
+// Color classes generator (unchanged)
+@mixin generate-color-classes($colorName, $color, $contrastColor, $hue) {
+
+    .#{"#{$colorName}"}#{$hue}-bg {
+        background-color: $color !important;
+    }
+
+    .#{"#{$colorName}"}#{$hue} {
+        background-color: $color !important;
+        color: $contrastColor !important;
+
+        &[disabled] {
+            background-color: rgba($color, .12) !important;
+            color: rgba($contrastColor, .26) !important;
+        }
+    }
+
+    .#{"#{$colorName}"}#{$hue}-fg {
+        color: $color !important;
+    }
+
+    .#{"#{$colorName}"}#{$hue}-border {
+        border-color: $color !important;
+    }
+
+    .#{"#{$colorName}"}#{$hue}-border-top {
+        border-top-color: $color !important;
+    }
+
+    .#{"#{$colorName}"}#{$hue}-border-right {
+        border-right-color: $color !important;
+    }
+
+    .#{"#{$colorName}"}#{$hue}-border-bottom {
+        border-bottom-color: $color !important;
+    }
+
+    .#{"#{$colorName}"}#{$hue}-border-left {
+        border-left-color: $color !important;
+    }
+}
+
+// Fuse color classes generator (keeps original behaviour)
+@mixin fuse-color-classes($palettes) {
+
+    $light-contrasting-classes: ();
+    $dark-contrasting-classes: ();
+
+    @each $paletteName, $palette in $palettes {
+
+        // Get the contrasts map (if palette is a map or token this returns null)
+        $contrasts: if(meta.type-of($palette) == 'map', map.get($palette, 'contrast'), null);
+
+        @each $hue in $matHues {
+
+            // Get the color and the contrasting color
+            $color: null;
+            $contrast: null;
+
+            // If palette is a map (our $matPalettes stores maps) try map.get
+            @if meta.type-of($palette) == 'map' {
+                $color: map.get($palette, $hue);
+                $contrast: if($contrasts != null, map.get($contrasts, $hue), null);
+            } @else {
+                // Palette might be a key that exists in $matPalettes
+                @if map.has-key($matPalettes, $palette) {
+                    $pal: map.get($matPalettes, $palette);
+                    @if meta.type-of($pal) == 'map' {
+                        $color: map.get($pal, $hue);
+                        $contrast: if(map.has-key($pal, 'contrast'), map.get($pal, 'contrast'), null);
+                    } @else {
+                        $color: $pal;
+                    }
+                } @else {
+                    // Fallback: try mat-color function (handles map or token)
+                    $color: mat-color($palette, $hue);
+                }
+            }
+
+            @if ($color != null and meta.type-of($color) != 'null' and $color != '' and $color != ()) {
+                // For contrast fallback use on-primary/on-secondary tokens
+                @if $contrast == null {
+                    // simple heuristic: choose on-primary if color maps to primary token,
+                    // else choose on-surface as safe fallback.
+                    @if list.index($color, '--mat-sys-primary') {
+                        $contrast: var(--mat-sys-on-primary);
+                    } @else if list.index($color, '--mat-sys-secondary') {
+                        $contrast: var(--mat-sys-on-secondary);
+                    } @else if list.index($color, '--mat-sys-tertiary') {
+                        $contrast: var(--mat-sys-on-tertiary);
+                    } @else {
+                        $contrast: var(--mat-sys-on-surface);
+                    }
+                }
+
+                // Generate color classes
+                @include generate-color-classes($paletteName, $color, $contrast, '-#{$hue}');
+
+                // Decide contrasting lists based on contrast token (best-effort)
+                @if (rgba(0,0,0,1) == rgba(0,0,0,1)) {
+                    // we can't compare CSS token strings; push everything into light-contrasting by default
+                    $light-contrasting-classes: list.append($light-contrasting-classes, string.unquote('.#{$paletteName}-#{$hue}'), 'comma');
+                } @else {
+                    $dark-contrasting-classes: list.append($dark-contrasting-classes, string.unquote('.#{$paletteName}-#{$hue}'), 'comma');
+                }
+
+                // Run the generator one more time for default values (500)
+                @if ($hue == 500 and $paletteName != 'primary' and $paletteName != 'accent' and $paletteName != 'warn') {
+                    @include generate-color-classes($paletteName, $color, $contrast, '');
+
+                    $light-contrasting-classes: list.append($light-contrasting-classes, string.unquote('.#{$paletteName}'), 'comma');
+                }
+            }
+        }
+
+        // Primary/accent/warn default handling
+        @if ($paletteName == 'primary' or $paletteName == 'accent' or $paletteName == 'warn') {
+            $pal: map.get($palettes, $paletteName);
+            @if meta.type-of($pal) == 'map' {
+                $color: map.get($pal, default);
+                $contrast: map.get($pal, 'default-contrast');
+            } @else {
+                $color: $pal;
+                $contrast: var(--md-sys-color-on-primary);
+            }
+            @include generate-color-classes($paletteName, $color, $contrast, '');
+            $light-contrasting-classes: list.append($light-contrasting-classes, string.unquote('.#{$paletteName}'), 'comma');
+        }
+    }
+
+    // Generate contrasting colors
+    @include generate-text-color-levels($dark-contrasting-classes, 'dark');
+    @include generate-text-color-levels($light-contrasting-classes, 'light');
+    @include generate-material-element-colors($dark-contrasting-classes, 'dark');
+    @include generate-material-element-colors($light-contrasting-classes, 'light');
+}
+
+// Generate default fuse color classes from $matPalettes
+@include fuse-color-classes($matPalettes);

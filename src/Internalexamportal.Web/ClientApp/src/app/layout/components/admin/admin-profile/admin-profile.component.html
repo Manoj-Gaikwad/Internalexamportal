@@ -1,0 +1,147 @@
+<div class="page-layout simple fullwidth">
+  <div class="content p-20" fxLayout="column">
+    <mat-card>
+      <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>
+          My Profile
+        </mat-card-title>
+      </mat-card-header>
+      <!-- HEADER -->
+
+      <!-- CONTENT -->
+      <mat-card-content>
+        <div class="content pl-20 mt-28" fxLayout="row" fxLayoutAlign="start start">
+
+          <div fxFlex="30%" fxLayout="column" fxLayoutAlign="start none" fxLayoutGap="20px">
+            <div class="w-90-p" fxLayout="row" fxLayoutAlign="center center">
+              @if (!candidateData?.photo) {
+                <img class="user-photo"
+                  src="assets/images/avatars/Velazquez.jpg">
+                }
+                @if (candidateData?.photo) {
+                  <img class="user-photo" src="{{candidateData?.photo}}">
+                }
+              </div>
+              <div class="w-90-p" fxLayout="row" fxLayoutAlign="space-evenly center" fxLayoutGap="10px">
+                @if (candidateData?.photo) {
+                  <button mat-raised-button class="mat-warn submit-button" aria-label="SAVE"
+                    (click)="removePhoto()">
+                    Remove Photo
+                  </button>
+                }
+                <button mat-raised-button class="mat-accent submit-button" aria-label="SAVE"
+                  (click)="openWebCam()">
+                  Take Photo
+                </button>
+              </div>
+            </div>
+
+            <div fxFlex="70%">
+
+              <form fxLayout="column" fxLayoutAlign="start" autocomplete="off" fxFlex="80"
+                name="candidateDetailForm" [formGroup]="candidateDetailForm">
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 1 auto">
+                  <mat-form-field appearance="outline" fxFlex="80">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" readonly>
+                    <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+                    @if (candidateDetailForm.get('email').hasError('required')) {
+                      <mat-error>
+                        Email Id is required
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                  <input matInput formControlName="username" hidden>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+                  <mat-form-field appearance="outline" fxFlex="47">
+                    <mat-label>First Name</mat-label>
+                    <input matInput type="text" formControlName="firstName" maxlength="25">
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    @if (candidateDetailForm.get('firstName').hasError('required')) {
+                      <mat-error>
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (candidateDetailForm.get('firstName').hasError('pattern')) {
+                      <mat-error>
+                        Invalid First Name.
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" fxFlex="47">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput type="text" formControlName="lastName" maxlength="25">
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    @if (candidateDetailForm.get('lastName').hasError('required')) {
+                      <mat-error>
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (candidateDetailForm.get('lastName').hasError('pattern')) {
+                      <mat-error>
+                        Invalid Last Name.
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+
+
+                <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+                  <mat-form-field appearance="outline" fxFlex="47">
+                    <mat-label>Date of Birth</mat-label>
+                    <input matInput [max]="maxDate" [min]="minDate" [matDatepicker]="picker"
+                      placeholder="" formControlName="dateOfBirth">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker startView='multi-year' #picker></mat-datepicker>
+                      <mat-error>Invalid Date.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" fxFlex="47">
+                      <mat-label>Phone Number</mat-label>
+                      <input matInput type="tel" formControlName="phonenumber">
+                      <mat-icon matSuffix class="secondary-text">local_phone</mat-icon>
+                      @if (candidateDetailForm.get('phonenumber').hasError('required')) {
+                        <mat-error>
+                          This field is required.
+                        </mat-error>
+                      }
+                      @if (candidateDetailForm.get('phonenumber').hasError('pattern')) {
+                        <mat-error>
+                          Invalid Phone Number.
+                        </mat-error>
+                      }
+                    </mat-form-field>
+                  </div>
+
+                  <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 1 auto" fxFlex="50">
+                    <mat-radio-group aria-label="Select an option" formControlName="gender" fxLayout="row"
+                      fxLayoutAlign="space-around center" fxFlex="50">
+                      <mat-label>Gender:</mat-label>&nbsp;
+                      <mat-radio-button value="Male">Male</mat-radio-button>
+                      <mat-radio-button value="Female">Female</mat-radio-button>
+                    </mat-radio-group>
+                    @if (candidateDetailForm.get('gender').hasError('required') && candidateDetailForm.get('gender').touched) {
+                      <mat-error
+                        >
+                        Gender is required.
+                      </mat-error>
+                    }
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions align="end" class="m-16">
+            <button mat-raised-button class="mat-warn" aria-label="Cancel" (click)="goBack()"> Cancel </button>
+            <button mat-raised-button class="mat-accent submit-button" aria-label="SAVE" (click)="onSubmit()"
+            [disabled]="!candidateDetailForm.valid"> Save </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>

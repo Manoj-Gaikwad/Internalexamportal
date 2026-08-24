@@ -1,0 +1,29 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  th, td {
+    overflow: hidden;
+    width:auto;
+    text-overflow: ellipsis;
+  }
+  
+  th{
+    font-weight: bold;
+  }
+  
+  .mat-form-field {
+    font-size: 12px;
+    width: 100%;
+    padding: 4px !important;
+  }
+  
+  
+  
+  .back-btn {
+    float: left;
+    color: grey;
+    margin-top: 4px;
+    margin-right: 15px;
+  }  

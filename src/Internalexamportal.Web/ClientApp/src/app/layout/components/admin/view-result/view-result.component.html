@@ -1,0 +1,96 @@
+<mat-toolbar class="modal-header mat-primary m-0" fxLayout="row">
+	<div fxFlex="60">
+		{{result?.testName}} Result
+	</div>
+	<div fxFlex="40" fxLayoutAlign="end end">
+		<button #closeBtn class="ml-180" mat-dialog-close mat-icon-button>
+			<mat-icon>close</mat-icon>
+		</button>
+	</div>
+</mat-toolbar>
+<div class="container">
+	<ep-spinner [isSpinner]='isSpinner'></ep-spinner>
+
+	<div fxLayout="row" fxLayoutAlign="space-between center" class="pr-4 pl-4">
+		<div class="font-size-17 font-weight-600">
+			Roll Number: {{result?.rollNumber}}
+		</div>
+		<div class="font-size-17 font-weight-600">
+			Submit Date: {{result?.submitDate | date:'mediumDate'}}
+		</div>
+	</div>
+	<div fxLayout="row" fxLayoutAlign="space-between center" class="pr-4 pl-4 pb-16">
+		<div class="font-size-17 font-weight-600">
+			Name: {{result?.userName}}
+		</div>
+		<div class="font-size-17 font-weight-600">
+			Time: {{result?.submitDate | date:'shortTime'}}
+		</div>
+	</div>
+	<div class="result-container">
+		<div fxLayout="row" fxLayoutAlign="space-between center">
+
+			<table fxflex="50%">
+				<tr>
+					<th colspan="2">Question Summary</th>
+				</tr>
+				<tr>
+					<td>Attempted Questions</td>
+					<td>{{result?.attemptedQuestion}}</td>
+				</tr>
+				<tr>
+					<td>Skipped Questions</td>
+					<td>{{result?.skippedQuestion}}</td>
+				</tr>
+				<tr>
+					<td>Reviewed Questions</td>
+					<td>{{result?.reviewedQuestion}}</td>
+				</tr>
+				<tr>
+					<td>Correct Answers</td>
+					<td>{{result?.correctQuestion}}</td>
+				</tr>
+				<tr>
+					<td>Wrong Answers</td>
+					<td>{{result?.inCorrectQuestion}}</td>
+				</tr>
+			</table>
+
+
+			<table fxflex="50%">
+				<tr>
+					<th colspan="2">Marks Summary</th>
+				</tr>
+				<tr>
+					<td>Positive Marks</td>
+					<td>{{result?.rightMark}}</td>
+				</tr>
+				<tr>
+					<td>Negative Marks </td>
+					<td>-{{result?.negativeMark}}</td>
+				</tr>
+				<tr>
+					<td>Obtained Marks</td>
+					<td>{{result?.totalMark}}</td>
+				</tr>
+				<tr>
+					<td>Total Marks</td>
+					<td>{{result?.maximumMark}}</td>
+				</tr>
+				<tr>
+					<td>Percentage</td>
+					<td>{{result?.percentage | number:'1.0-2'}}%</td>
+				</tr>
+			</table>
+		</div>
+
+		<div fxLayout="row" fxLayoutAlign="end none" fxLayoutGap="15px" class="mt-20">
+			<button class="action mat-warn" mat-button mat-raised-button mat-dialog-close>Close</button>
+			<button class="action mat-accent" mat-button mat-raised-button (click)="printResult()">
+				<mat-icon>print</mat-icon>
+				Print
+			</button>
+		</div>
+	</div>
+
+</div>

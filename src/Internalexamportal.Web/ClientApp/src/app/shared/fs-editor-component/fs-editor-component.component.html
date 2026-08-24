@@ -1,0 +1,10 @@
+<div class="fs-editor">
+  <quill-editor
+    #editor
+    [formControl]="control"
+    [modules]="config.modules"
+    [placeholder]="placeholder"
+    (onEditorCreated)="onEditorCreated($event)"
+    class="quill-editor">
+  </quill-editor>
+</div>

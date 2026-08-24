@@ -1,0 +1,151 @@
+<h2 mat-dialog-title>{{dialogTitle}}</h2>
+<ep-spinner [isSpinner]='isSpinner'></ep-spinner>
+<mat-dialog-content class="mat-typography content">
+  <form fxLayout="column" [formGroup]="form" name="form" (ngSubmit)="onSubmit()" fxLayoutGap="15px">
+    <div class="header" fxLayout="row" fxLayoutAlign="start">
+      <mat-form-field appearance="outline" class="category-selector">
+        <mat-label>SELECT SUBJECT</mat-label>
+        <mat-select (selectionChange)="getSubjectTopics($event.value)" formControlName="subjectId"
+          disableOptionCentering>
+          @for (subject of subjects; track subject) {
+            <mat-option [value]="subject.id">
+              {{subject.subjectName}}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="category-selector">
+        <mat-label>SELECT TOPIC</mat-label>
+        <mat-select formControlName="subjectTopicId" disableOptionCentering>
+          @for (topic of subjectTopics; track topic) {
+            <mat-option [value]="topic.id">
+              {{topic.topic}}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="category-selector">
+        <mat-label>QUESTION TYPE</mat-label>
+        <mat-select (selectionChange)="setQuestionOptionsFormControl($event.value)"
+          formControlName="questionTypeId" disableOptionCentering>
+          @for (questionType of questionTypes; track questionType) {
+            <mat-option [value]="questionType.id"
+              [disabled]="(question?.questionTypeId && questionType.id != question?.questionTypeId)">
+              {{questionType.type}}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    &nbsp;
+    <div class="mb-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-ld="row">
+      <h5>*Type Your Question
+        <mat-icon class="display-icon font-size-16">info</mat-icon>
+      </h5>
+
+      <fs-editor
+        label="Question Description"
+        [control]="form.controls['description']"
+        [initialValue]="question?.description"
+        [placeholder]="placeholder"
+        (editorCreated)="editorCreated($event)">
+      </fs-editor>
+
+
+      @if (form.get('questionTypeId').value != questionTypeEnum.Subjective) {
+        <div class="containtData">
+          <div fxLayout="row" fxLayoutAlign="start center" class="pt-20 pb-20">
+            <div fxFlex="10" class="text-center text-bold">Answer</div>
+            <div fxFlex="90" class="text-bold">Options</div>
+          </div>
+          @for (option of form.get('questionOption')['controls']; track option; let i = $index) {
+            <div class="question" fxLayout="row" formArrayName="questionOption"
+              >
+              <div [formGroupName]="i" fxFlex="100">
+                <div class="textboxes" fxLayout="row" fxFlex="10" fxLayoutAlign="center center">
+                  <mat-label>
+                    <mat-checkbox id="{{i}}" formControlName="isAnswer"
+                      (change)="changeSelection(i,$event)">
+                      {{getOptionTitle(i)}}
+                    </mat-checkbox>
+                  </mat-label>
+                </div>
+                <div class="textboxesArea" fxFlex="90" fxLayout="column">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Option {{i+1}}</mat-label>
+                    <textarea formControlName="optionText" matInput rows="1"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+
+      @if (form.get('questionTypeId').value == questionTypeEnum.Subjective) {
+        <div class="containtData">
+          <div fxLayout="row" fxLayoutAlign="start center" class="pt-20 pb-20">
+            <div fxFlex class="text-bold">Answer</div>
+          </div>
+          @for (option of form.get('questionOption')['controls']; track option; let i = $index) {
+            <div class="question" fxLayout="row" formArrayName="questionOption"
+              >
+              <div [formGroupName]="i" fxFlex="100">
+                <div class="textboxesArea" fxFlex="100" fxLayout="column">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Answer</mat-label>
+                    <textarea formControlName="optionText" matInput rows="5"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      &nbsp;
+      <div class="accordionAdvance" fxLayout="row" formGroupName="questionMark">
+        <mat-accordion fxFlex="100">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon class="length-icon display-icon">add</mat-icon>
+                Advance Options
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxFlex="100" fxLayout="column">
+              <div class="selectorData" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <mat-form-field appearance="outline" fxFlex="20">
+                  <mat-label>Right Marks</mat-label>
+                  <input formControlName="rightMark" matInput maxlength="2" />
+                </mat-form-field>
+                <mat-form-field appearance="outline" fxFlex="20">
+                  <mat-label>Negative Marks</mat-label>
+                  <input formControlName="negativeMark" matInput maxlength="2" />
+                </mat-form-field>
+                <mat-form-field appearance="outline" fxFlex="20">
+                  <mat-label> DIFFICULTY LEVEL</mat-label>
+                  <mat-select formControlName="difficultLevel">
+                    @for (diffLevel of DifficultLevel; track diffLevel) {
+                      <mat-option [value]="diffLevel.id">
+                        {{diffLevel.level}}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="mat-accent submit-button" aria-label="SAVE" (click)="onSubmit()"
+  [disabled]="!form.valid"> Save </button>
+</mat-dialog-actions>

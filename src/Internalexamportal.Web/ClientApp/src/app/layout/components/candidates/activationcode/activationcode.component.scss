@@ -1,0 +1,69 @@
+@use "@fuse/scss/fuse" as fuse;
+@use '@fuse/scss/partials/breakpoints' as * ;
+
+#container-1 {
+    position: relative;
+    //display: flex;
+    //flex: 1 1 auto;
+    flex-direction: column;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: linear-gradient(to bottom right, #46bae0 6%, #b69f3e 105%) !important;
+
+    #container-2 {
+        position: relative;
+        //display: flex;
+        //flex: 1 0 auto;
+        width: 100%;
+        min-width: 0;
+        padding: 0%;
+        .container {
+            position: relative;
+            //display: flex;
+            flex: 1 0 auto;
+            width: 100%;
+            min-width: 0;
+            form {
+                width: 100%;
+                padding-top: 32px;
+                .activepopup {
+                    margin-left: 25%;
+                    padding: 10%;
+                    .example-card {
+                        align-content: center;
+                        max-width: 50%;
+
+                        mat-form-field {
+                            width: 100%;
+
+                            @include media-breakpoint("xs") {
+                                width: 80%;
+                            }
+                        }
+
+                        .submit-button {
+                            width: 40%;
+                            margin: 16px auto;
+                            display: block;
+
+                            @include media-breakpoint("xs") {
+                                width: 80%;
+                            }
+                        }
+                    }
+
+                    .example-header-image {
+                        //background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+                        background-size: cover;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.container-code{
+    padding: 1%;
+}

@@ -1,0 +1,361 @@
+/* -------------------------------------------------------------
+   Global Styles (Angular 16 + Fuse)
+   ------------------------------------------------------------- */
+
+/* Import Fuse core library */
+@use "@fuse/scss/core";
+
+/* Import app theme */
+@use "app/app.theme";
+
+/* -------------------------------------------------------------
+   Utility Classes
+   ------------------------------------------------------------- */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+.active-icon {
+  border-radius: 50%;
+}
+
+.single-line-text {
+  white-space: nowrap !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.app-no-padding-dialog .mat-dialog-container {
+  display: block;
+  border-radius: 0px;
+  box-sizing: border-box;
+  overflow: hidden;
+  outline: 0;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  max-height: inherit;
+  padding: 0px !important;
+}
+
+.dialog-actions-margin {
+  margin-left: 8px !important;
+  margin-right: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+.error-snackbar {
+  background-color: rgb(206, 43, 43) !important;
+  color: white !important;
+}
+
+.success-snackbar {
+  background-color: #007e34 !important;
+  color: white !important;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.mat-tooltip.custom-tooltip {
+  background-color: white !important;
+  color: black !important;
+  font-size: 14px !important;
+  border: 1px solid grey;
+}
+
+// /* -------------------------------------------------------------
+//    Angular Material 16 (MDC) Button + Icon Fixes
+//    ------------------------------------------------------------- */
+
+// button.mat-mdc-raised-button,
+// button.mat-mdc-outlined-button,
+// button.mat-mdc-unelevated-button,
+// button.mat-mdc-button {
+//   display: inline-flex;
+//   align-items: center;
+//   justify-content: center;
+//   gap: 4px;
+//   font-weight: 500;
+//   text-transform: none;
+//   border-radius: 6px;
+//   height: 34px;
+//   min-height: 34px;
+//   padding: 0 12px;
+//   line-height: normal !important;
+// }
+
+// button.mat-mdc-raised-button.small,
+// button.mat-mdc-outlined-button.small {
+//   padding: 0 10px;
+//   height: 30px;
+//   font-size: 13px;
+// }
+
+// /* Button icons fix */
+// button.mat-mdc-raised-button mat-icon,
+// button.mat-mdc-outlined-button mat-icon,
+// button.mat-mdc-unelevated-button mat-icon,
+// button.mat-mdc-button mat-icon {
+//   font-size: 18px !important;
+//   width: 18px !important;
+//   height: 18px !important;
+//   line-height: 18px !important;
+//   margin-right: 4px;
+//   vertical-align: middle;
+//   position: relative;
+//   top: -1px;
+// }
+
+// /* Add / Import / Export Buttons */
+// .add-todo-button {
+//   background-color: var(--mdc-theme-primary, #0288d1) !important;
+//   color: #fff !important;
+//   font-size: 13px;
+//   font-weight: 500;
+//   padding: 0 14px !important;
+//   height: 34px !important;
+//   border-radius: 6px;
+//   display: inline-flex;
+//   align-items: center;
+//   justify-content: center;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+//   text-transform: none !important;
+// }
+
+// .add-todo-button:hover {
+//   background-color: var(--mdc-theme-primary-light, #0277bd) !important;
+// }
+
+// .length-icon.display-icon {
+//   margin-right: 4px;
+//   position: relative;
+//   top: 1px;
+// }
+
+// /* -------------------------------------------------------------
+//    Compact Material Form Field
+//    ------------------------------------------------------------- */
+
+// mat-form-field.compact {
+//   --mdc-outlined-text-field-container-height: 44px !important;
+//   --mdc-outlined-text-field-input-text-size: 13px !important;
+//   --mdc-outlined-text-field-label-text-size: 13px !important;
+//   --mdc-outlined-text-field-outline-width: 1px;
+//   margin-top: 0 !important;
+
+//   .mat-mdc-text-field-wrapper {
+//     height: 44px !important;
+//     min-height: 44px !important;
+//     padding: 0 !important;
+//     align-items: center !important;
+//   }
+
+//   .mat-mdc-form-field-infix {
+//     min-height: 44px !important;
+//     padding: 12px 10px !important;
+//     display: flex !important;
+//     align-items: center !important;
+//   }
+
+//   input.mat-mdc-input-element {
+//     height: 20px !important;
+//     line-height: 20px !important;
+//     padding: 0 !important;
+//     font-size: 13px !important;
+//     margin-top: 0 !important;
+//   }
+
+//   .mat-mdc-select-value {
+//     font-size: 13px !important;
+//     line-height: 20px !important;
+//   }
+
+//   mat-icon[matSuffix] {
+//     font-size: 18px;
+//     width: 18px;
+//     height: 18px;
+//     line-height: 18px;
+//   }
+
+//   .mat-mdc-form-field-subscript-wrapper {
+//     display: none !important;
+//   }
+
+//   .mat-mdc-text-field-wrapper {
+//     display: flex;
+//     align-items: center;
+//   }
+
+//   .mat-mdc-form-field-label:not(.mat-mdc-floating-label) {
+//     position: relative !important;
+//     top: auto !important;
+//     bottom: auto !important;
+//     transform: none !important;
+//   }
+
+//   .mat-mdc-floating-label {
+//     top: 24px !important;
+//   }
+
+//   .mdc-notched-outline__notch {
+//     padding-top: 4px !important;
+//   }
+// }
+
+// button.mat-mdc-raised-button.mat-accent {
+//   background-color: #0288d1 !important;
+//   color: white !important;
+//   border-radius: 6px;
+//   height: 36px !important;
+//   font-size: 13px;
+//   font-weight: 500;
+//   display: inline-flex;
+//   align-items: center;
+//   justify-content: center;
+//   gap: 6px;
+//   text-transform: none !important;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+//   transition: background-color 0.2s, transform 0.1s;
+// }
+
+// button.mat-mdc-raised-button.mat-accent:hover {
+//   background-color: #0277bd !important;
+//   transform: translateY(-1px);
+// }
+
+// button.mat-mdc-raised-button.mat-accent mat-icon {
+//   font-size: 18px !important;
+//   width: 18px;
+//   height: 18px;
+//   vertical-align: middle;
+//   margin-right: 4px;
+// }
+
+// /* -------------------------------------------------------------
+//    GLOBAL FIX — Search Field + Search Icon Alignment
+//    ------------------------------------------------------------- */
+
+// /* -------------------------------------------------------------
+//    FINAL FIX — Search Field Height + Perfect Alignment
+//    ------------------------------------------------------------- */
+
+// /* -------------------------------------------------------------
+//    PERFECT Search Field Alignment (MDC Angular Material)
+//    ------------------------------------------------------------- */
+
+mat-form-field.compact {
+  --mdc-outlined-text-field-container-height: 36px !important;
+  padding: 0 !important;
+
+  .mat-mdc-text-field-wrapper {
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center !important;
+  }
+
+  .mat-mdc-form-field-flex {
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .mat-mdc-form-field-infix {
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 8px !important;
+    // display: flex !important;
+    // align-items: center !important;
+  }
+
+  input.mat-mdc-input-element {
+    height: 36px !important;
+    line-height: 36px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    font-size: 14px;
+  }
+
+  .mat-mdc-form-field-label:not(.mat-mdc-floating-label) {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  .mdc-floating-label:not(.mdc-floating-label--float-above) {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+
+  mat-icon[matSuffix] {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 18px !important;
+    margin-right: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative;
+    top: 0 !important;
+  }
+}
+/* Material Table font-weight normalization */
+.mat-mdc-table .mat-mdc-cell,
+.mat-table .mat-cell,
+table.mat-mdc-table td,
+table.mat-table td {
+  font-weight: 400 !important;
+}
+
+.mat-mdc-table .mat-mdc-header-cell,
+.mat-table .mat-header-cell,
+table.mat-mdc-table th,
+table.mat-table th {
+  font-weight: 600 !important;
+}
+
+/* Mat-card header/content spacing */
+.mat-mdc-card-header + .mat-mdc-card-content,
+.mat-card-header + .mat-card-content {
+  margin-top: 12px !important;
+}
+
+/* Unify form suffix icon color to match datepicker toggle */
+.mat-form-field mat-icon[matSuffix],
+.mat-form-field .mat-datepicker-toggle {
+  color: var(--mat-sys-outline, rgba(0,0,0,0.54)) !important;
+}
+
+/* Ensure icons with .secondary-text inside form fields render as secondary tone */
+.mat-form-field .secondary-text {
+  color: var(--mat-sys-outline, rgba(0,0,0,0.54)) !important;
+}
+
+.mat-mdc-form-field .mat-mdc-form-field-icon-suffix .mat-icon,
+.mat-mdc-form-field mat-icon[matSuffix] {
+  color: var(--mat-sys-outline, rgba(0,0,0,0.54)) !important;
+}
+
+.test-setting-card {
+  min-height: 140px !important;
+  height: 100%;
+}
+
+.mat-mdc-cell a.primary-color-text {
+  color: var(--mat-sys-primary) !important;
+}
+

@@ -1,0 +1,20 @@
+[ {
+    "ID": "001",
+   "SubjectName": "Java"
+    
+},
+{
+    "ID": "002",
+    "SubjectName": "C++"
+    
+},
+{
+    "ID": "003",
+    "SubjectName": "c#"
+   
+},
+{
+      "ID": "004",
+      "SubjectName":"javascripst"
+      
+}]

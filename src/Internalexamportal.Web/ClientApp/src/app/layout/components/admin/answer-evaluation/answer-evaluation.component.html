@@ -1,0 +1,211 @@
+<div class="page-layout simple fullwidth">
+  <div class="content p-20" fxLayout="column">
+    <mat-card>
+      <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+      <!-- HEADER -->
+      <mat-card-header fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-card-title fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon class="length-icon display-icon back-btn cursor-pointer mr-8" (click)="_location.back()">
+          arrow_back</mat-icon>
+          <span>Evaluate ({{testDetails?.userName}})</span>
+        </mat-card-title>
+
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+          <div>Objective Marks: {{objectiveMarks}}</div>
+          <div>Subjective Marks: {{subjectiveMarks}}</div>
+          <div class="font-weight-600 font-size-16">Total Obtained: {{obtainedMarks}}</div>
+          <button mat-button mat-raised-button color="accent" (click)="submitEvaluation()">Submit
+          Evaluation</button>
+        </div>
+
+      </mat-card-header>
+      <!-- HEADER -->
+
+      <!-- CONTENT -->
+      <mat-card-content>
+        <div class="content">
+
+          <mat-tab-group dynamicHeight color="primary">
+
+            @if (objectiveQuestions?.length > 0) {
+              <mat-tab label="Objective">
+                @for (question of objectiveQuestions; track question; let i = $index) {
+                  <div fxLayout="column" fxLayoutAlign="start none" fxLayoutGap="1px"
+                    class="mt-20 ml-20 mr-20">
+                    <!-- <b>Question {{i+1}}</b> -->
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                      <div fxFlex="2" class="text-bold">[{{i+1}}]</div>
+                      <div fxFlex="90" class="font-weight-700 " [innerHTML]="question.question"></div>
+                      <div fxFlex="8" class="text-bold text-right pr-16">
+                        @if (checkAnswer(question) && question.selectedOptions.length > 0) {
+                          <div
+                            class="green-800-fg">
+                            +{{question.positiveMarks}}
+                          </div>
+                        }
+                        @if (!checkAnswer(question)  && question.selectedOptions.length > 0) {
+                          <div
+                            class="red-600-fg">
+                            -{{question.negativeMarks}}
+                          </div>
+                        }
+                        @if (question.selectedOptions.length == 0) {
+                          <div class="grey-700-fg">
+                            NA
+                          </div>
+                        }
+                      </div>
+                    </div>
+                    @for (option of question.questionOptions; track option; let j = $index) {
+                      <div class="row" fxLayoutAlign="start center"
+                        >
+                        <div fxFlex="2">{{mcqArray[j]}})</div>
+                        <div fxFlex="98" class="p-4" fxLayout="row" fxLayoutAlign="start center">
+                          {{option.optionText}}
+                          @if (option.isAnswer && isUserSelectedAnswer(question,option.id)) {
+                            <mat-icon
+                              class="green-500-fg">
+                              check
+                            </mat-icon>
+                          }
+                          @if (!option.isAnswer && isUserSelectedAnswer(question,option.id)) {
+                            <mat-icon
+                              class="red-500-fg">
+                              close
+                            </mat-icon>
+                          }
+                        </div>
+                      </div>
+                    }
+                    <div class="row" fxLayoutAlign="start center"
+                      class="grey-200-bg mt-12 p-8 border-radius-8">
+                      Answer: &nbsp;
+                      @for (option of question.questionOptions; track option; let k = $index) {
+                        <div>
+                          @if (option.isAnswer) {
+                            <div class="font-weight-600">{{mcqArray[k]}}&nbsp;</div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+              </mat-tab>
+            }
+
+            @if (subjectiveQuestions?.length > 0) {
+              <mat-tab label="Subjective" [formGroup]="form">
+                @for (question of subjectiveQuestions; track question; let i = $index) {
+                  <div fxLayout="column" fxLayoutAlign="start" class="mt-20 ml-20 mr-20"
+                    formArrayName="submittedAnswers">
+                    <div fxLayout="column" fxLayoutAlign="start" [formGroupName]="i">
+                      <div fxFlex="100">
+                        <div fxFlex="90" fxLayout="column" fxLayoutAlign="start none" fxLayoutGap="1px"
+                          class="p-4">
+                          <div fxLayout="row" fxLayoutAlign="start start">
+                            <div fxFlex="2" class="text-bold">[{{i+1}}] </div>
+                            <div fxFlex="98" class="font-weight-700 "
+                              [innerHTML]="question.question">
+                            </div>
+                          </div>
+                          @if (question.submittedAnswer) {
+                            <div fxLayout="column" fxLayoutAlign="start none" class="ml-12"
+                              >
+                              <div class="font-weight-600 pt-8">Submitted Answer:</div>
+                              <div class="pt-8 preserve-white-space">
+                                {{question.submittedAnswer}}
+                              </div>
+                            </div>
+                          }
+                          @if (!question.submittedAnswer) {
+                            <div fxLayout="column" fxLayoutAlign="start none" class="ml-12"
+                              >
+                              <div class="font-weight-600 pt-8">Not Answered</div>
+                            </div>
+                          }
+                        </div>
+                        <div fxFlex="10" class="text-bold text-right pr-16" fxLayout="column"
+                          fxLayoutAlign="start start">
+                          @if (question.submittedAnswer) {
+                            <div fxLayout="column"
+                              fxLayoutAlign="start stretch">
+                              <div class="font-weight-600 green-500-fg">
+                                Max Marks: +{{question.positiveMarks}}
+                              </div>
+                              <div class="red-500-fg font-weight-600">
+                                Min Marks: -{{question.negativeMarks}}
+                              </div>
+                            </div>
+                          }
+                          @if (!question.submittedAnswer) {
+                            <div class="grey-700-fg">
+                              NA
+                            </div>
+                          }
+                        </div>
+                      </div>
+                      @if (question.submittedAnswer) {
+                        <div fxLayout="row" fxLayoutAlign="start start" class="mt-12" fxLayoutGap="10px"
+                          >
+                          <mat-form-field appearance="outline" fxFlex="80">
+                            <mat-label>Comment</mat-label>
+                            <textarea type="text" matInput formControlName="comment" rows="1"
+                              placeholder="Enter comment.." maxlength="200">
+                            </textarea>
+                          </mat-form-field>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Marks</mat-label>
+                            <input type="number" matInput max="{{question.positiveMarks}}"
+                              formControlName="marks" min="{{-question.negativeMarks}}"
+                              (input)="calucalteSubjectiveMarks()" placeholder="Enter marks.."
+                              required />
+                              <mat-error>Invalid Marks</mat-error>
+                            </mat-form-field>
+                            <button mat-raised-button color="accent" class="mt-8"
+                            (click)="saveQuestionEvaluation(i)">Save</button>
+                            <button mat-raised-button class="mt-8" matTooltip="View Answer"
+                              (click)="viewAnswer(question,viewAnswerDialog)">
+                              <mat-icon matSuffix class="cursor-pointer mat-accent">visibility
+                              </mat-icon>
+                            </button>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  }
+                </mat-tab>
+              }
+
+            </mat-tab-group>
+
+          </div>
+        </mat-card-content>
+        <!-- CONTENT -->
+      </mat-card>
+    </div>
+  </div>
+
+
+
+  <ng-template #viewAnswerDialog>
+    <mat-toolbar class="modal-header mat-accent m-0" fxLayout="row">
+      <div fxFlex="60">
+        Answer
+      </div>
+      <div fxFlex="40" fxLayoutAlign="end end">
+        <button #closeBtn class="ml-180" mat-dialog-close mat-icon-button>
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div class="page-layout mat-typography simple fullwidth p-8">
+      <mat-dialog-content fxLayout="column">
+        <div class="content custom-padding p-12" align="center" fxLayout="column">
+          <h3 class="d-flex justify-center">
+            <span> {{answer}}
+            </span>
+          </h3>
+        </div>
+      </mat-dialog-content>
+    </div>
+  </ng-template>

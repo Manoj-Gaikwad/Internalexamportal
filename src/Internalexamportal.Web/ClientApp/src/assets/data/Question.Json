@@ -1,0 +1,11 @@
+
+ [
+     {"SrNo": "1", "QuestionDetails":"what is c#?", "Topic": "validation","Subject":"c#"},
+  {"SrNo": "2", "QuestionDetails":"explain four pillar of oops?", "Topic": "array","Subject": "c++"},
+  {"SrNo": "3","QuestionDetails": "what is array?",  "Topic": "mvc","Subject": "java"},
+
+    {"SrNo": "4","QuestionDetails": "what is c?",  "Topic": "cocept","Subject": "c"},
+     {"SrNo": "5","QuestionDetails": "what is function pointer?",  "Topic": "cocept","Subject": "c"},
+      {"SrNo": "6","QuestionDetails": "what is inheritance ?",  "Topic": "cocept","Subject": "c++"}
+  
+  ]

@@ -1,0 +1,66 @@
+<div id="login" fxLayout="column">
+
+  <div id="login-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+
+    <div id="login-form" class="" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+
+      <!-- <div class="logo">
+      <img src="assets/images/logos/fuse.svg">
+    </div> -->
+
+    <div class="title">LOGIN</div>
+
+    <form name="candidateloginForm" [formGroup]="candidateloginForm" novalidate (ngSubmit)="onSubmit()">
+      <mat-error>{{errorMsg}}</mat-error>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" maxlength="50">
+        <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+        @if (candidateloginForm.get('email').hasError('required')) {
+          <mat-error>
+            Email Id is required
+          </mat-error>
+        }
+        @if (candidateloginForm.get('email').hasError('pattern')) {
+          <mat-error>
+            Invalid Email
+          </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password"
+          maxlength="50">
+          <mat-icon matSuffix class="secondary-text" style="cursor: pointer;"
+            (click)="showPassword = !showPassword">
+            {{showPassword ? 'visibility_off': 'visibility'}}
+          </mat-icon>
+          @if (candidateloginForm.get('password').hasError('required')) {
+            <mat-error>
+              Password is required.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <div class="remember-forgot-password" fxLayout="row" fxLayoutAlign="space-between center">
+          <mat-checkbox class="remember-me" aria-label="Remember Me" formControlName="rememberMe">
+            Remember Me
+          </mat-checkbox>
+          <a class="forgot-password" [routerLink]="'/forgot-password'">
+            Forgot Password?
+          </a>
+        </div>
+
+        <button mat-raised-button color="accent" class="submit-button" aria-label="SIGN IN">
+          SIGN IN
+        </button>
+        <div class="register" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
+          <a class="Register Here" aria-label="Register Here" [routerLink]="'./register'"
+            href="javascript:void(0);" (click)="registerHere();">
+            Register Here!
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,117 @@
+<div class="page-layout simple fullwidth">
+    <div class="content p-20" fxLayout="column">
+        <mat-card style="height: 100%;">
+            <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+            <!-- HEADER -->
+            <mat-card-header>
+                <mat-card-title>
+                    Dashboard
+                </mat-card-title>
+            </mat-card-header>
+            <!-- HEADER -->
+
+            <!-- CONTENT -->
+            <mat-card-content id="academy-courses">
+                <div class="content" permission-based-access permissionKey="{{permissionEnum.ViewDashboard}}">
+
+                    <div fxLayout="column" fxLayoutAlign="center">
+                        <div class="filters" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+                            fxLayoutAlign.gt-xs="space-between center">
+                            <!--First CONTENT-->
+                            <div class="courses" fxLayout="row wrap" fxLayoutAlign="center">
+
+                                <div class="course" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="100">
+
+                                    <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+
+                                        <div class="header" fxLayout="row" fxLayoutAlign=" center">
+                                            <mat-label style="color:#fff;">Candidate</mat-label>
+                                            <div class="length" fxLayout="row" fxLayoutAlign="center center">
+                                                <!-- <mat-icon class="length-icon icon-left">access_time</mat-icon> -->
+                                            </div>
+                                        </div>
+                                        <div class="content" fxLayout="column" fxLayoutAlign="" fxFlex="1 1 auto">
+                                            <mat-icon class="length-icon display-icon">people</mat-icon>
+                                            <div class="h3"> Total Candidate : {{candidateCount}}</div>
+                                        </div>
+                                        <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+                                            <button mat-button color="accent" (click)="AddCandidate()">
+                                                VIEW ALL CANDIDATES
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!--Second CONTENT-->
+                            <div class="courses" fxLayout="row wrap" fxLayoutAlign="center">
+
+                                <div class="course" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="100">
+
+                                    <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+
+                                        <div class="header" fxLayout="row" fxLayoutAlign=" center">
+                                            <mat-label style="color:#fff;">Question</mat-label>
+                                            <div class="length" fxLayout="row" fxLayoutAlign="center center"
+                                                style="margin-left:6%">
+                                                <!-- <mat-icon class="length-icon icon-left">access_time</mat-icon> -->
+                                            </div>
+
+                                        </div>
+
+                                        <div class="content" fxLayout="column" fxLayoutAlign="" fxFlex="1 1 auto">
+                                            <mat-icon class="length-icon display-icon">subject</mat-icon>
+                                            <div class="h3"> Questions : {{questionCount}}</div>
+                                        </div>
+
+                                        <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+                                            <button mat-button color="accent" (click)="ViewQuestions()">
+                                                VIEW ALL QUESTIONS
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--Third CONTENT-->
+                            <div class="courses" fxLayout="row wrap" fxLayoutAlign="center">
+
+                                <div class="course" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="100">
+
+                                    <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+
+                                        <div class="header" fxLayout="row" fxLayoutAlign=" center">
+                                            <mat-label style="color:#fff;">Test Manager</mat-label>
+                                            <div class="length" fxLayout="row" fxLayoutAlign="center center">
+                                                <!-- <mat-icon class="length-icon" style="margin-left:718%">access_time</mat-icon> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="content" fxLayout="column" fxLayoutAlign="" fxFlex="1 1 auto">
+                                            <mat-icon class="length-icon display-icon">subject</mat-icon>
+                                            <div class="h3"> Test : {{testCount}}</div>
+                                        </div>
+
+                                        <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+                                            <button mat-button color="accent" (click)="AddTest()">
+                                                VIEW ALL TESTS
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- / CONTENT -->
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

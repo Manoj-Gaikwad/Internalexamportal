@@ -1,0 +1,19 @@
+<div class="w-100-p h-100-p  gradient-bg" fxLayout="row" fxLayoutAlign="center center" (contextmenu)="onRightClick()">
+	<div fxLayout="row" fxLayoutAlign="center none" class=" mat-card mat-elevation-z3 p-80">
+		<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+			<div fxLayout="row">
+				<mat-label>
+					<span class="mat-headline">Your Test Submitted Successfully.</span>
+				</mat-label>
+			</div>
+			<div fxLayout="row">
+				<mat-label>
+					<span class="mat-body-2">Thank you for submitting your test. You can now close the window.</span>
+				</mat-label>
+			</div>
+			<div fxLayout="row" fxLayoutAlign="center center">
+				<button mat-raised-button color="warn" (click)="closeWindow()">Close Window</button>
+			</div>
+		</div>
+	</div>
+</div>

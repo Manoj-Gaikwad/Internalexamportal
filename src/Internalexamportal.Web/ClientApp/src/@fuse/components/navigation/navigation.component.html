@@ -1,0 +1,37 @@
+<div class="nav" [ngClass]="{'horizontal':layout === 'horizontal', 'vertical':layout === 'vertical'}">
+
+  <!-- Vertical Navigation Layout -->
+  @if (layout === 'vertical') {
+    @for (item of navigation; track item) {
+      @if (item.type=='group') {
+        <fuse-nav-vertical-group [item]="item"></fuse-nav-vertical-group>
+      }
+      @if (item.type=='collapsable') {
+        <fuse-nav-vertical-collapsable
+        [item]="item"></fuse-nav-vertical-collapsable>
+      }
+      @if (item.type=='item') {
+        <fuse-nav-vertical-item [item]="item"></fuse-nav-vertical-item>
+      }
+    }
+  }
+  <!-- / Vertical Navigation Layout -->
+
+  <!-- Horizontal Navigation Layout -->
+  @if (layout === 'horizontal') {
+    @for (item of navigation; track item) {
+      @if (item.type=='group') {
+        <fuse-nav-horizontal-collapsable [item]="item"></fuse-nav-horizontal-collapsable>
+      }
+      @if (item.type=='collapsable') {
+        <fuse-nav-horizontal-collapsable
+        [item]="item"></fuse-nav-horizontal-collapsable>
+      }
+      @if (item.type=='item') {
+        <fuse-nav-horizontal-item [item]="item"></fuse-nav-horizontal-item>
+      }
+    }
+  }
+  <!-- / Horizontal Navigation Layout -->
+
+</div>

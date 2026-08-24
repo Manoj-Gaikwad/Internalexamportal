@@ -1,0 +1,105 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net10.0</TargetFramework>
+    <Configurations>Debug;Release;Staging</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Entities\CandidateCheckQuestion.cs" />
+    <Compile Remove="Entities\CandidateSkipped.cs" />
+    <Compile Remove="Entities\CandidateTestDetail.cs" />
+    <Compile Remove="Entities\ExamStatus.cs" />
+    <Compile Remove="Entities\Option.cs" />
+    <Compile Remove="Entities\Status.cs" />
+    <Compile Remove="Extension\ChangeTrackerExtensions.cs" />
+    <Compile Remove="Extension\PrincipleIdentityExtensions.cs" />
+    <Compile Remove="Migrations\20190513072659_updatecolumninuser.cs" />
+    <Compile Remove="Migrations\20190513072659_updatecolumninuser.Designer.cs" />
+    <Compile Remove="Migrations\20190603155051_Db-design.cs" />
+    <Compile Remove="Migrations\20190604094739_ShadowPropety.cs" />
+    <Compile Remove="Migrations\20190604110752_Seeded-QuestionType-DifficultLevel.cs" />
+    <Compile Remove="Migrations\20190604121300_Seeded-QuestionType-DifficultLevel.cs" />
+    <Compile Remove="Migrations\20190604153718_Modified-ShadowProperty.cs" />
+    <Compile Remove="Migrations\20190613132511_Seeder-CorrectOption.cs" />
+    <Compile Remove="Migrations\20190614131202_remove-queationAnswerId.cs" />
+    <Compile Remove="Migrations\20190614144200_remove-qustionAnswerId.cs" />
+    <Compile Remove="Migrations\20190614152803_Renamed_ForeignKey_Columns.cs" />
+    <Compile Remove="Migrations\20190614154100_Renamed_ForeignKey_Columns.cs" />
+    <Compile Remove="Migrations\20190614155031_cdccd.cs" />
+    <Compile Remove="Migrations\20190615075535_remove-QuestionAnswerId.cs" />
+    <Compile Remove="Migrations\20190615092525_seeder-entry.cs" />
+    <Compile Remove="Migrations\20190615092525_seeder-entry.Designer.cs" />
+    <Compile Remove="Migrations\20190615094201_shadowProperty-table.cs" />
+    <Compile Remove="Migrations\20190615095208_shadow-property-Table.cs" />
+    <Compile Remove="Migrations\20190617083418_shadow-property.cs" />
+    <Compile Remove="Migrations\20190617084135_shadow-property.cs" />
+    <Compile Remove="Migrations\20190619144158_Add-subjectToipcId-QuestionTable.cs" />
+    <Compile Remove="Migrations\20190619155255_shadow-property.cs" />
+    <Compile Remove="Migrations\20190620052900_shadow-property.cs" />
+    <Compile Remove="Migrations\20190620053735_shadow-property.cs" />
+    <Compile Remove="Migrations\20190620053735_shadow-property.Designer.cs" />
+    <Compile Remove="Migrations\20190620073742_test-manager.cs" />
+    <Compile Remove="Migrations\20190620073742_test-manager.Designer.cs" />
+    <Compile Remove="Migrations\20190621081626_Updated_UserDetailstable.cs" />
+    <Compile Remove="Migrations\20190621081626_Updated_UserDetailstable.Designer.cs" />
+    <Compile Remove="Migrations\20190621085806_instruction-table-add column.cs" />
+    <Compile Remove="Migrations\20190621085806_instruction-table-add column.Designer.cs" />
+    <Compile Remove="Migrations\20190622111423_Added IsDelete column to user table.cs" />
+    <Compile Remove="Migrations\20190622111423_Added IsDelete column to user table.Designer.cs" />
+    <Compile Remove="Migrations\20190624140339_seeder-entry-ActvationType.cs" />
+    <Compile Remove="Migrations\20190624141500_seeder-entry-ActvationType.cs" />
+    <Compile Remove="Migrations\20190624145644_seeder-entry-ActvationType.cs" />
+    <Compile Remove="Migrations\20190624150518_seeder-entry-ActvationType.cs" />
+    <Compile Remove="Migrations\20190624150518_seeder-entry-ActvationType.Designer.cs" />
+    <Compile Remove="Migrations\20190624151257_add-activaionCodeType.cs" />
+    <Compile Remove="Migrations\20190624151617_add-activaionCodeType.cs" />
+    <Compile Remove="Migrations\20190624154826_add-activaionCodeType.cs" />
+    <Compile Remove="Migrations\20190624154935_add-activaionCodeType.cs" />
+    <Compile Remove="Migrations\20190625055426_added-activationType-activationTable.cs" />
+    <Compile Remove="Migrations\20190625060345_added-activationType-activationTable.cs" />
+    <Compile Remove="Migrations\20190625060345_added-activationType-activationTable.Designer.cs" />
+    <Compile Remove="Migrations\20190625080242_add-autoGenrate-Guid-TestTable.cs" />
+    <Compile Remove="Migrations\20190625080242_add-autoGenrate-Guid-TestTable.Designer.cs" />
+    <Compile Remove="Migrations\20190625093824_linkId.cs" />
+    <Compile Remove="Migrations\20190625093824_linkId.Designer.cs" />
+    <Compile Remove="Migrations\20190625104406_seeder-entry-TestSettingType.cs" />
+    <Compile Remove="Migrations\20190625104406_seeder-entry-TestSettingType.Designer.cs" />
+    <Compile Remove="Migrations\20190626064525_add-details-Table.cs" />
+    <Compile Remove="Migrations\20190626065121_add-details-Table.cs" />
+    <Compile Remove="Migrations\20190626065316_add-details-Table.cs" />
+    <Compile Remove="Migrations\20190626072648_add-details-Table.cs" />
+    <Compile Remove="Migrations\20190626073616_add-details-Table.cs" />
+    <Compile Remove="Migrations\20190626073616_add-details-Table.Designer.cs" />
+    <Compile Remove="Migrations\20190626094058_Candidate-Result-Table.cs" />
+    <Compile Remove="Migrations\20190626094058_Candidate-Result-Table.Designer.cs" />
+    <Compile Remove="Migrations\20190703060126_add-relation.cs" />
+    <Compile Remove="Migrations\20190703063743_remove-questionId.cs" />
+    <Compile Remove="Migrations\20190706120519_collection-question.cs" />
+    <Compile Remove="Migrations\20190706125519_add-relation.cs" />
+    <Compile Remove="Migrations\20190706132410_online-exam-portal.cs" />
+    <Compile Remove="Migrations\20200710061855_Added_New_Test_Settings_Lookup.cs" />
+    <Compile Remove="Migrations\20200710061855_Added_New_Test_Settings_Lookup.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.2" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.20">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Internalexamportal.Common\Internalexamportal.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Internalexamportal\DataAccessLayer\Migrations\" />
+  </ItemGroup>
+
+</Project>

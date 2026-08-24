@@ -1,0 +1,79 @@
+<div class="page-layout simple fullwidth">
+  <div class="content p-20" fxLayout="column">
+    <mat-card>
+      <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>
+          Upcoming Tests
+        </mat-card-title>
+      </mat-card-header>
+      <!-- HEADER -->
+
+      <!-- CONTENT -->
+      <mat-card-content>
+        <div class="content w-100-p p-28">
+          <table class="w-100-p mat-elevation-z3" mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> SrNo</th>
+              <td mat-cell *matCellDef="let row"> {{dataSource.filteredData.indexOf(row)+1}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="testName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Test Name </th>
+              <td mat-cell *matCellDef="let row"> {{row.testName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="duration">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
+              <td mat-cell *matCellDef="let row"> {{row.duration}} Minutes</td>
+            </ng-container>
+
+            <ng-container matColumnDef="totalMark">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Marks </th>
+              <td mat-cell *matCellDef="let row">{{row.totalMark}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="totalQuestion">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Questions </th>
+              <td mat-cell *matCellDef="let row"> {{row.totalQuestion}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="startDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+              <td mat-cell *matCellDef="let row">{{row.testPublish?.startDate | date:'short'}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="endDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
+              <td mat-cell *matCellDef="let row">{{row.testPublish?.endDate | date:'short'}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Action">
+              <th mat-header-cell *matHeaderCellDef> Action </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-icon class="length-icon display-icon mat-accent cursor-pointer" (click)="openActivationWindow()">
+                  launch
+                </mat-icon>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          @if (dataSource?.data?.length === 0) {
+            <div style="background-color: white;">
+              <h3 class="w-100-p m-0 p-12" style="text-align: center;">
+                No Records Found!
+              </h3>
+            </div>
+          }
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+        </div>
+      </mat-card-content>
+      <!-- CONTENT -->
+    </mat-card>
+  </div>
+</div>

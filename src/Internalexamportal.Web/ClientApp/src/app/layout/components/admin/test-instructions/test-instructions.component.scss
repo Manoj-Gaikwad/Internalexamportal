@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+th,
+td {
+    overflow: hidden;
+    width: auto;
+    text-overflow: ellipsis;
+}
+
+th {
+    font-weight: bold;
+}
+
+
+::ng-deep quill-editor .ql-container.ql-snow {
+  flex: 1;
+  height: 200px !important;  /* Adjust height here */
+  max-height: 500px;
+}

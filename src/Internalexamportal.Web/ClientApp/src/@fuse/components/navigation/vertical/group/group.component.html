@@ -1,0 +1,19 @@
+@if (!item.hidden) {
+  <div class="group-title" [ngClass]="item.classes">
+    <span class="hint-text" [translate]="item.translate">{{ item.title }}</span>
+  </div>
+  <div class="group-items">
+    @for (item of item.children; track item) {
+      @if (item.type=='group') {
+        <fuse-nav-vertical-group [item]="item"></fuse-nav-vertical-group>
+      }
+      @if (item.type=='collapsable') {
+        <fuse-nav-vertical-collapsable
+        [item]="item"></fuse-nav-vertical-collapsable>
+      }
+      @if (item.type=='item') {
+        <fuse-nav-vertical-item [item]="item"></fuse-nav-vertical-item>
+      }
+    }
+  </div>
+}

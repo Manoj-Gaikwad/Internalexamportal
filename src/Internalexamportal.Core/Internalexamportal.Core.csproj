@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net10.0</TargetFramework>
+    <StartupObject />
+    <Configurations>Debug;Release;Staging</Configurations>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aspose.Cells" Version="25.9.0" />
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+		<PackageReference Include="MailKit" Version="2.15.0" />
+		<PackageReference Include="MediatR" Version="12.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.20" />
+		<PackageReference Include="NETCore.MailKit" Version="2.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
+		<PackageReference Include="Twilio" Version="5.13.3" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+    <ProjectReference Include="..\Internalexamportal.DataAccessLayer\InternalExamportal.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\Internalexamportal.DocumentManager\Internalexamportal.DocumentManager.csproj" />
+  </ItemGroup>
+
+</Project>

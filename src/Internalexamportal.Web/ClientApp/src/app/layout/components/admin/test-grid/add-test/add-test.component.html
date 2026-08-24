@@ -1,0 +1,343 @@
+<div class="page-layout simple fullwidth">
+  <div class="content p-20" fxLayout="column">
+    <mat-card>
+      <ep-spinner [isSpinner]='isSpinner'></ep-spinner>
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>
+          {{title}}
+        </mat-card-title>
+      </mat-card-header>
+      <!-- HEADER -->
+
+      <!-- CONTENT -->
+      <mat-card-content class="mat-typography">
+        <div class="content">
+          <form [formGroup]="form" autocomplete="off">
+            <mat-horizontal-stepper [linear]="!isEdit" #stepper>
+
+              <ng-template matStepperIcon="edit" let-index="index">
+                {{(index+1)}}
+              </ng-template>
+
+              <mat-step [stepControl]="form.get('testDetails')">
+                <div fxLayout="column" fxLayoutAlign="start" fxFlex="1 1 auto" class="mt-40"
+                  formGroupName="testDetails">
+
+                  <ng-template matStepLabel>Details</ng-template>
+
+                  <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+
+                    <mat-form-field appearance="outline" fxFlex="100">
+                      <mat-label>Test Name</mat-label>
+                      <input matInput type="text" formControlName="testName" required
+                        maxlength="50" NoWhiteSpace>
+                        @if (form.get('testDetails.testName').hasError('required')) {
+                          <mat-error>
+                          Test Name is required.</mat-error>
+                        }
+                        @if (form.get('testDetails.testName').hasError('isUnique')) {
+                          <mat-error>
+                            Test already exists.
+                          </mat-error>
+                        }
+                      </mat-form-field>
+
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+
+                      <mat-form-field appearance="outline" fxFlex="47">
+                        <mat-label> Select Category</mat-label>
+                        <mat-select formControlName="testTypeId" required disableOptionCentering>
+                          @for (type of testTypes; track type) {
+                            <mat-option [value]="type.id"
+                              [disabled]="(test?.testDetails?.testTypeId && type.id != test?.testDetails?.testTypeId)">
+                              {{type.type}}
+                            </mat-option>
+                          }
+                        </mat-select>
+                        <mat-error>Category is required.</mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" fxFlex="47">
+                        <mat-label> Test Instructions</mat-label>
+                        <mat-select formControlName="testInstructionId" required
+                          disableOptionCentering>
+                          @for (item of instructions; track item) {
+                            <mat-option [value]="item.id">
+                              {{item.instruction}}
+                            </mat-option>
+                          }
+                          <mat-option>
+                            <a (click)="openAddInstructionDialog()">
+                              Add Instructions
+                            </a>
+                          </mat-option>
+                        </mat-select>
+                        <mat-error>Instruction is required.</mat-error>
+                      </mat-form-field>
+
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+
+                      <mat-form-field appearance="outline" fxFlex="47">
+                        <mat-label>Test Duration (Minutes)</mat-label>
+                        <input matInput type="number" formControlName="duration" required max="999">
+                        <mat-error>Invalid Test Duration (1 - 600).</mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" fxFlex="47">
+                        <mat-label> Difficulty Level</mat-label>
+                        <mat-select formControlName="difficultLevelId" required
+                          disableOptionCentering>
+                          @for (item of difficultyLevels; track item) {
+                            <mat-option [value]="item.id">
+                              {{item.level}}
+                            </mat-option>
+                          }
+                        </mat-select>
+                        <mat-error>Level is required.</mat-error>
+                      </mat-form-field>
+
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+
+                      <mat-form-field appearance="outline" fxFlex="32">
+                        <mat-label>Total Questions</mat-label>
+                        <input matInput type="number" formControlName="totalQuestion" required
+                          max="999" min="0">
+                          <mat-error>Invalid Total Questions (1 - 250).</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="32">
+                          <mat-label>Total Marks</mat-label>
+                          <input matInput type="number" formControlName="totalMark" required max="999"
+                            min="0">
+                            <mat-error>Invalid Total Marks (1 - 5000).</mat-error>
+                          </mat-form-field>
+
+                          <mat-form-field appearance="outline" fxFlex="32">
+                            <mat-label>Passing Percentage</mat-label>
+                            <input matInput type="number" formControlName="percentage" required
+                              max="100" min="0">
+                              <mat-error>Invalid Percentage (1 - 100).</mat-error>
+                            </mat-form-field>
+                          </div>
+                        </div>
+
+                      </mat-step>
+
+                      <mat-step [stepControl]="form.get('testPublish')">
+                        <div fxLayout="column" fxLayoutAlign="start" fxFlex="1 1 auto" class="mt-40"
+                          formGroupName="testPublish">
+
+                          <ng-template matStepLabel>Timing</ng-template>
+
+                          <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+
+                            <mat-form-field appearance="outline" fxFlex="47">
+                              <mat-label>Start Date</mat-label>
+                              <input matInput [min]="minDate" [matDatepicker]="startPicker"
+                                formControlName="startDate">
+                                <mat-datepicker-toggle matSuffix [for]="startPicker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #startPicker></mat-datepicker>
+                                <mat-error>
+                                  Invalid Date.
+                                </mat-error>
+                              </mat-form-field>
+
+                              <mat-form-field appearance="outline" fxFlex="47">
+                                <mat-label>Start Time</mat-label>
+                                <input matInput [ngxTimepicker]="startTimePicker"
+                                  formControlName="startTime" readonly>
+                                  <ngx-material-timepicker-toggle [for]="startTimePicker" matSuffix>
+                                  </ngx-material-timepicker-toggle>
+                                  <mat-error>This field is required.</mat-error>
+                                </mat-form-field>
+                                <ngx-material-timepicker #startTimePicker>
+                                </ngx-material-timepicker>
+
+                              </div>
+
+                              <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+
+                                <mat-form-field appearance="outline" fxFlex="47">
+                                  <mat-label>End Date</mat-label>
+                                  <input matInput [min]="form.get('testPublish.startDate').value"
+                                    [matDatepicker]="endPicker" formControlName="endDate">
+                                    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #endPicker></mat-datepicker>
+                                    <mat-error>
+                                      Invalid Date.
+                                    </mat-error>
+                                  </mat-form-field>
+
+                                  <mat-form-field appearance="outline" fxFlex="47">
+                                    <mat-label>End Time</mat-label>
+                                    <input matInput [ngxTimepicker]="endTimePicker" formControlName="endTime"
+                                      [min]="minTime" readonly>
+                                      <ngx-material-timepicker-toggle [for]="endTimePicker" matSuffix>
+                                      </ngx-material-timepicker-toggle>
+                                      <mat-error>This field is required.</mat-error>
+                                    </mat-form-field>
+                                    <ngx-material-timepicker #endTimePicker>
+                                    </ngx-material-timepicker>
+
+                                  </div>
+                                </div>
+
+                              </mat-step>
+
+                              <mat-step [stepControl]="form.get('testSettings')">
+                                <div fxLayout="row" fxLayoutAlign="start" fxFlex="1 1 auto" class="mt-40">
+
+                                  <ng-template matStepLabel>Setting</ng-template>
+
+                                  <mat-card-content fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="2px">
+
+                                    <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="15px grid">
+
+                                      @for (setting of testSettings; track setting; let i = $index) {
+                                        <div fxFlex="25%" formArrayName="testSettings" class="test-setting-card-wrapper">
+                                          <mat-card fxFill [formGroupName]="i" class="test-setting-card">
+                                            <div class="setting-header pt-8 pr-8 pl-8 pb-4">
+                                              <mat-card-title [style.fontSize.px]='16'>
+                                                <mat-label>
+                                                  <mat-checkbox id="{{setting.type}}"
+                                                    formControlName="isChecked">
+                                                    {{setting.type}}
+                                                  </mat-checkbox>
+                                                </mat-label>
+                                              </mat-card-title>
+                                            </div>
+                                            <mat-card-content fxLayout="column" fxLayoutAlign="start start"
+                                              fxLayoutGap="2px" class="p-8">
+                                              <mat-label [class.showmore]="setting?.show"
+                                                class="description-container">
+                                                {{getTestSettingDescription(i)}}
+                                              </mat-label>
+                                              @if (setting.showBtn) {
+                                                <a href="javascript:;"
+                                                  (click)="setting.show = !setting?.show">{{ setting?.show ? 'Show less': 'Show More' }}
+                                                </a>
+                                              }
+                                              </mat-card-content>
+                                          </mat-card>
+                                          </div>
+                                        }
+                                      </div>
+
+                                    </mat-card-content>
+
+                                  </div>
+                                </mat-step>
+
+                                <mat-step>
+                                  <ng-template matStepLabel>Questions</ng-template>
+
+                                  <div fxLayout="column" fxFlex="100">
+                                    @if (testId != 0) {
+                                      <test-questions [testId]="testId" [testDetails]="testDetails()">
+                                      </test-questions>
+                                    }
+                                  </div>
+
+                                </mat-step>
+
+                                <mat-step [stepControl]="form.get('testActivation')">
+
+                                  <div fxLayout="column" fxLayoutAlign="start" fxFlex="40" formGroupName="testActivation"
+                                    class="mt-40">
+
+                                    <ng-template matStepLabel>Pubish</ng-template>
+
+                                    <div fxFlex>
+                                      <mat-form-field appearance="outline" fxFlexFill>
+                                        <mat-label> Select Activation Type</mat-label>
+                                        <mat-select formControlName="activationTypeId" required>
+                                          @for (type of activationTypes; track type) {
+                                            <mat-option [value]="type.id">
+                                              {{type.type}}
+                                            </mat-option>
+                                          }
+                                        </mat-select>
+                                        <mat-error>Activation Type is required.</mat-error>
+                                      </mat-form-field>
+                                    </div>
+
+                                    @if ((form.get('testActivation.activationTypeId').value == 1)) {
+                                      <div formGroupName="commonCode" fxFlex
+                                        >
+                                        <mat-form-field appearance="outline" fxFlexFill>
+                                          <mat-label>Common Test Code</mat-label>
+                                          <input matInput type="text" formControlName="commonTestCode" required
+                                            max="999">
+                                            <mat-error>This field is required.</mat-error>
+                                          </mat-form-field>
+                                        </div>
+                                      }
+
+                                      @if ((form.get('testActivation.activationTypeId').value == 2)) {
+                                        <div formGroupName="accessCode" fxFlex
+                                          >
+                                          <mat-form-field appearance="outline" fxFlexFill>
+                                            <mat-label>Email</mat-label>
+                                            <input matInput type="text" formControlName="email" required max="999">
+                                            <mat-error>This field is required.</mat-error>
+                                          </mat-form-field>
+                                        </div>
+                                      }
+
+                                    </div>
+
+                                    <div fxLayout="column" fxFlex="100">
+                                      @if (isEdit) {
+                                        <cg-email-track [testId]="testId"
+                                          [activationType]="this.form.get('testActivation.activationTypeId').value">
+                                        </cg-email-track>
+                                      }
+                                    </div>
+                                  </mat-step>
+                                </mat-horizontal-stepper>
+                              </form>
+                            </div>
+
+                          </mat-card-content>
+                          <!-- CONTENT -->
+
+                          <mat-card-actions align="end" class="m-12">
+
+                            <!-- ADD -->
+                            @if (stepper?.selectedIndex != 0 && !isEdit) {
+                              <button mat-raised-button aria-label="Back" class="mr-12" (click)="stepper?.previous()"
+                              > Back </button>
+                            }
+                            @if (stepper?.selectedIndex != 4 && !isEdit) {
+                              <button mat-raised-button color="primary" class="mr-12" aria-label="Next" (click)="nextStep()"
+                              > Next </button>
+                            }
+
+                            <!-- EDIT -->
+                            @if (stepper?.selectedIndex != 0 && isEdit) {
+                              <button mat-raised-button aria-label="Back" class="mr-12" (click)="stepper?.previous()"
+                              > Back </button>
+                            }
+                            @if (stepper?.selectedIndex != 4 && isEdit) {
+                              <button mat-raised-button color="primary" class="mr-12" aria-label="Next" (click)="stepper?.next()"
+                              > Next </button>
+                            }
+
+                            <!-- SAVE -->
+                            @if ((isEdit || stepper?.selectedIndex == 4) && stepper?.selectedIndex != 3) {
+                              <button mat-raised-button class="mat-accent" aria-label="SAVE" (click)="onSubmit()"
+                                [disabled]="!form.valid"
+                              > Save </button>
+                            }
+                          </mat-card-actions>
+                        </mat-card>
+                      </div>
+                    </div>

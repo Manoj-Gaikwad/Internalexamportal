@@ -1,0 +1,77 @@
+<div id="academy-courses" class="page-layout simple">
+    <ep-spinner [isSpinner]='isSpinner'></ep-spinner>
+    <!-- CONTENT -->
+    <div class="content p-24">
+
+        <div fxLayout="column" fxLayoutAlign="center">
+            <div class="filters" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row"
+                fxLayoutAlign.gt-xs="space-between stretch">
+                <!--First CONTENT-->
+                <div class="courses" fxLayout="row wrap" fxLayoutAlign="center">
+
+                    <div class="course" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="100">
+
+                        <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+
+                            <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
+                                <mat-label style="color:#fff;">Total Tests</mat-label>
+                                <div>
+                                    <mat-icon class="length-icon icon-left">subject</mat-icon>
+                                </div>
+                            </div>
+                            <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
+                                <h1>Total Tests: {{testCount}}</h1>
+                            </div>
+                            <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+                                <button mat-button color="accent" routerLink="/layout/candidates/report">
+                                    VIEW ALL TESTS
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--Second CONTENT-->
+                <div class="courses" fxLayout="row wrap" fxLayoutAlign="center">
+
+                    <div class="course" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="100">
+
+                        <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+
+                            <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
+                                <mat-label style="color:#fff;">Start New Test</mat-label>
+                                <div>
+                                    <mat-icon class="length-icon icon-left">access_time</mat-icon>
+                                </div>
+
+                            </div>
+
+                            <div class="content" fxLayout="column" fxLayoutAlign="" fxFlex="1 1 auto">
+                                <ul>
+                                    <li class="h5">Start a new test by clicking start button below.</li>
+                                    <li class="h5">A new window will open where you can enter your activation code.
+                                    </li>
+                                    <li class="h5">Do not close window before submitting the test.</li>
+                                </ul>
+                            </div>
+
+                            <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+                                <button mat-button color="accent" (click)="currentexam()">
+                                    START
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

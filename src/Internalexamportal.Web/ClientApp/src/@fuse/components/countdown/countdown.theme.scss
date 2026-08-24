@@ -1,0 +1,18 @@
+@use 'sass:map';
+@mixin fuse-countdown-theme($theme) {
+
+    $foreground: map.get($theme, foreground);
+
+    fuse-countdown {
+
+        .fuse-countdown {
+
+            .time {
+
+                .title {
+                    color: map.get($foreground, secondary-text);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,181 @@
+<div class="container-1" id="container-1" appNoRightClick (contextmenu)="onRightClick()">
+
+  <ep-spinner [isSpinner]='isSpinner'></ep-spinner>
+
+  <mat-toolbar #toolbar class="modal-header mat-primary m-0 mat-elevation-z1" fxLayout="row" [style.height.%]="7">
+    <div fxFlex="60">
+      {{clientName}}
+    </div>
+    <div fxFlex="40" fxLayoutAlign="end end">
+      <div fxLayout="row" fxLayoutAlign="center center" class="primary-700-bg p-4 pl-12" mat-ripple>
+        @if (!userPhoto) {
+          <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg">
+        }
+        @if (userPhoto) {
+          <img class="avatar mr-0 mr-sm-16" src="{{userPhoto}}">
+        }
+        <span class="mr-12 font-size-16" fxHide fxShow.gt-sm>{{user.name}}</span>
+      </div>
+    </div>
+  </mat-toolbar>
+  <div class="container-2  m1-0" id="container-2">
+    <div class="page-layout simple" id="question-set" fxLayout="row" fxLayoutAlign="start">
+      <div class="container container-code">
+
+        <div class="card1 mat-elevation-z3" id="paperset">
+          <div class="header">
+            <h1 class="font-weight-bold">{{testName}}</h1>
+          </div>
+          @if (currentIndex) {
+            <div class="heading">
+              <!--<input formControlName="Id">Question No:-->
+              <mat-label style="font-size: 19px;">Question No: {{currentIndex.id}}</mat-label>
+            </div>
+          }
+
+          @if (currentIndex) {
+            <div class="main-content-body">
+              <div class="question-render">
+                <mat-label style="font-size: 15px;" [innerHtml]='currentIndex?.question.description'>
+                </mat-label>
+              </div>
+              <mat-divider></mat-divider>
+              @if (!Subjective) {
+                <div class="options">
+                  @for (option of currentIndex.question.questionOption; track option; let i = $index) {
+                    <div class="option" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                      <div fxFlex="none">
+                        <mat-checkbox id="{{i}}" (change)="changeSelection(i,$event)"
+                          [(ngModel)]="option.isChecked" [ngModelOptions]="{standalone: true}">
+                        </mat-checkbox>
+                      </div>
+                      <div fxFlex="auto" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                        @if (currentIndex.question.questionTypeId == questionTypeEnum.MultipleChoice) {
+                          <b class="option-label">{{ multipleChoice[i]}}</b>
+                        }
+                        @if (currentIndex.question.questionTypeId == questionTypeEnum.TrueFalse) {
+                          <b class="option-label">{{ trueFalseType[i]}}</b>
+                        }
+                        <mat-label [innerHtml]='currentIndex.question.questionOption[i].optionText'>
+                        </mat-label>
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+              @if (Subjective) {
+                <div class="row">
+                  <div class="textboxesArea" fxFlex="100" fxLayout="column">
+                    <mat-form-field appearance="outline" class="category-selector">
+                      <mat-label>Answer</mat-label>
+                      <textarea [(ngModel)]="subjectiveUserAnswer" rows="7" blockCopyPaste matInput
+                        placeholder="Please Write Your Answer Here"
+                      (keydown.Tab)="onTabPress($event)"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+          <footer class="footer-block">
+            @if ((index != 0)) {
+              <button mat-raised-button color="primary" class="position-left" (click)="previous()">
+                <mat-icon class="s-16">arrow_back_ios</mat-icon>
+                Previous
+              </button>
+            }
+            <button mat-raised-button color="primary" class="position-right" (click)="finishExam()">
+              Finish
+            </button>
+            <button mat-raised-button color="warn" class="position-right" (click)="review()">
+              Review
+            </button>
+            @if ((index < totalLength - 1)) {
+              <button mat-raised-button color="accent" class="position-right" (click)="skip()">
+                Skip
+              </button>
+            }
+            <button mat-raised-button class="green-600-bg white-fg position-right" (click)="saveAndNext()">
+              @if ((index < (totalLength - 1))) {
+                Save & Next
+              }
+              @if ((index == (totalLength - 1))) {
+                Save
+              }
+              <mat-icon class="s-16">arrow_forward_ios</mat-icon>
+            </button>
+          </footer>
+
+        </div>
+        <div class="card2 mat-elevation-z3">
+          <div class="right-header">
+            <table>
+              <tr>
+                <td>Exam</td>
+                <td class="single-line-text exam-name-td">{{testName}}</td>
+              </tr>
+              <tr>
+                <td>Duration</td>
+                <td>{{totalTime}}</td>
+              </tr>
+              <tr>
+                <td class="single-line-text">Time Left</td>
+                <td [ngStyle]="{'color':timerWarn? 'red' : 'green' }">{{subscribeTimer}}</td>
+              </tr>
+              <tr>
+                <td class="single-line-text">Positive Mark</td>
+                <td>+ {{currentIndex?.positiveMark}}</td>
+              </tr>
+              <tr>
+                <td class="single-line-text">Negative Mark</td>
+                <td>- {{currentIndex?.negativeMark}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="main-body-content mat-elevation-z1" fxLayout="column" fxLayoutAlign="start none">
+            <div class="modal-header" fxLayout="row" fxLayoutAlign="start center" fxFlex="13%">
+              <h4 class="m-0 pl-20 font-size-18">
+                Question Palette
+              </h4>
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px grid" fxFlex="87%"
+              class="m-0 scroll-vertical p-8 pl-20">
+              @for (question of questionSet; track question) {
+                <div fxFlex="none">
+                  <button mat-mini-fab class="default" (click)="goToQuestion(question.id - 1)"
+                    [ngClass]="{'answered' : question.answered == true,'skipped' : question.NotAnswered == true,'marked' : question.Marked == true,'currentquestion' : question.id==index+1}">
+                    {{question.id}}
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+          <footer class="footer-block">
+            <mat-label class="legend font-size-16 font-weight-700">Legend :</mat-label><br>
+            <div fxLayout="row" class="rowblock font-size-14 font-weight-600">
+              <div fxLayout="column" fxFlex="50">
+                <mat-label fxLayout="row">
+                  <div class="answered round-legend"></div>&nbsp; Answered
+                </mat-label>
+                &nbsp;&nbsp;
+                <mat-label fxLayout="row">
+                  <div class="marked round-legend"></div>&nbsp; Reviewed
+                </mat-label>
+
+              </div>
+              <div fxLayout="column" fxFlex="50">
+                <mat-label fxLayout="row">
+                  <div class="skipped round-legend"></div>&nbsp; Skipped
+                </mat-label>
+                &nbsp;&nbsp;
+                <mat-label fxLayout="row">
+                  <div class="notanswered round-legend"></div>&nbsp; Not Answered
+                </mat-label>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

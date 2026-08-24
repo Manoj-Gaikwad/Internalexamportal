@@ -1,0 +1,73 @@
+  [{
+   "ID":"1",
+   "Question":"Which property of the session object is used to set the local identifier?",
+   "Option1":"LCID",
+   "Option2":"SessionId",
+   "Option3":"Key",
+   "Option4":"Item",
+   "Answered":"false",
+   "NotAnswered":"false",
+   "Marked":"false",
+   "NotVisited":"false"
+},{
+   "ID":"2",
+   "Question":"The ‘ref’ keyword can be used with which among the following?",
+   "Option1":"Static function/subroutine",
+   "Option2":"Static data",
+   "Option3":"Instance function/subroutine",
+   "Option4":"All of the mentioned",
+   "Answered":"false",
+   "NotAnswered":"false",
+   "Marked":"false",
+   "NotVisited":"false"
+},
+{
+   "ID":"3",
+   "Question":"To implement delegates, the necessary condition is?",
+   "Option1":"class declaration",
+   "Option2":"inheritance",
+   "Option3":"runtime polymorphism",
+   "Option4":"Exceptions",
+   "Answered":"false",
+   "NotAnswered":"false",
+   "Marked":"false",
+   "NotVisited":"false"
+},
+{
+   "ID":"4",
+   "Question":"To generate a simple notification for an object in runtime, the programming construct to be used for implementing this idea?",
+   "Option1":"namespace",
+   "Option2":"Delegate",
+   "Option3":"Interface",
+   "Option4":"Attribute",
+   "Answered":"false",
+   "NotAnswered":"false",
+   "Marked":"false",
+   "NotVisited":"false"
+},
+{
+   "ID":"5",
+   "Question":"Which among the following differentiates a delegate in C#.NET from a conventional function pointer in other languages?",
+    "Option1":"delegates in C#.NET represent a new type in the Common Type System",
+   "Option2":"delegates allows static as well as instance methods to be invoked",
+   "Option3":"delegates are type safe and secure",
+   "Option4":"none of the mentioned",
+   "Answered":"false",
+   "NotAnswered":"false",
+   "Marked":"false",
+   "NotVisited":"false"
+},
+{
+   "ID":"6",
+   "Question":"Which among the following differentiates a delegate in C#.NET from a conventional function pointer in other languages?",
+    "Option1":"delegates in C#.NET represent a new type in the Common Type System",
+   "Option2":"delegates allows static as well as instance methods to be invoked",
+   "Option3":"delegates are type safe and secure",
+   "Option4":"none of the mentioned",
+   "Answered":"false",
+   "NotAnswered":"false",
+   "Marked":"false",
+   "NotVisited":"false"
+}
+]
+ 

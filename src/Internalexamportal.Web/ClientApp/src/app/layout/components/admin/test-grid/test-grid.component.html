@@ -1,0 +1,137 @@
+<div class="page-layout simple fullwidth">
+  <div class="content p-20" fxLayout="column">
+    <mat-card>
+      <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>
+          Manage Tests
+        </mat-card-title>
+      </mat-card-header>
+      <!-- HEADER -->
+
+      <!-- CONTENT -->
+      <mat-card-content>
+        <div class="content">
+
+          <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <mat-form-field fxFlex="20" appearance="outline" class="compact "
+               permission-based-access permissionKey="{{permissionEnum.ViewTest}}">
+              <mat-label>Search</mat-label>
+              <input matInput (ngModelChange)="this.searchTests.next($event);" [(ngModel)]="searchText"
+                placeholder="Type to Search...">
+                <mat-icon matSuffix class="secondary-text"
+                  [ngStyle]="{'cursor':isSearchText?'pointer':'auto' }"
+                  (click)="isSearchText ? clearSearch():''">
+                  {{isSearchText ?'close': 'search'}}
+                </mat-icon>
+              </mat-form-field>
+
+              <button type="button" mat-raised-button class=" add-todo-button mat-accent mb-20"
+                permission-based-access permissionKey="{{permissionEnum.AddEditTest}}" aria-label="ADD"
+                routerLink="/layout/admin/add-test">
+                <mat-icon class="length-icon display-icon">add</mat-icon>
+                New Test
+              </button>
+            </div>
+
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
+              permission-based-access permissionKey="{{permissionEnum.ViewTest}}">
+              <ng-container matColumnDef="SrNo">
+                <th mat-header-cell *matHeaderCellDef> SrNo</th>
+                <td mat-cell *matCellDef="let row;let i = index"> {{i+1}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="testName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Test Name </th>
+                <td mat-cell *matCellDef="let row"> {{row.testName}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="duration">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
+                <td mat-cell *matCellDef="let row"> {{row.duration}} Minutes</td>
+              </ng-container>
+
+              <ng-container matColumnDef="totalQuestion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Question </th>
+                <td mat-cell *matCellDef="let row"> {{row.totalQuestion}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="totalMark">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Mark </th>
+                <td mat-cell *matCellDef="let row"> {{row.totalMark}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="testUserCount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Attempted Users </th>
+                <td mat-cell *matCellDef="let row">
+                  <a class="cursor-pointer primary-color-text" (click)="viewTestResults(row.id)"> {{row.testUserCount}}</a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="isResultPublished">
+                <th mat-header-cell *matHeaderCellDef> Result Status </th>
+                <td mat-cell *matCellDef="let row">
+                  @if (row.isResultPublished) {
+                    <mat-label>Declared</mat-label>
+                  }
+                  @if (!row.isResultPublished) {
+                    <mat-label>Not Declared</mat-label>
+                  }
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let row">
+                  <div class="action-icons">
+                    <mat-icon
+                      class="length-icon display-icon mat-accent cursor-pointer"
+                      permission-based-access
+                      permissionKey="{{permissionEnum.AddEditTest}}"
+                      (click)="EditTest(row)">
+                      edit
+                    </mat-icon>
+                    <mat-icon
+                      class="length-icon display-icon mat-accent cursor-pointer"
+                      permission-based-access
+                      permissionKey="{{permissionEnum.AddEditTest}}"
+                      (click)="duplicateTest(row)">
+                      content_copy
+                    </mat-icon>
+                    <mat-icon
+                      class="length-icon display-icon mat-accent cursor-pointer"
+                      color="warn"
+                      permission-based-access
+                      permissionKey="{{permissionEnum.DeleteTest}}"
+                      (click)="openDialog(row)">
+                      delete
+                    </mat-icon>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+
+            @if (dataSource?.data?.length === 0) {
+              <div>
+                <h3 class="w-100-p m-0 p-12" style="text-align: center;">
+                  No Tests Found!
+                </h3>
+              </div>
+            }
+
+            <mat-paginator [length]="paginate.totalRecords" [pageSize]="paginate.pageSize"
+              [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons (page)="nextOrPreviousPage($event)"
+              permission-based-access permissionKey="{{permissionEnum.ViewTest}}">
+            </mat-paginator>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

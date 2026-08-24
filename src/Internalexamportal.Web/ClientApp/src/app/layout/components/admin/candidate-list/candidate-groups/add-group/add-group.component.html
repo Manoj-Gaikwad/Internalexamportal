@@ -1,0 +1,48 @@
+<mat-toolbar class="modal-header mat-accent m-0" fxLayout="row">
+  <div fxFlex="60">
+    {{title}}
+  </div>
+  <div fxFlex="40" fxLayoutAlign="end end">
+    <button #closeBtn class="ml-180" mat-dialog-close mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<mat-card-content class="m-8">
+  <ep-spinner [isSpinner]="isSpinner"></ep-spinner>
+  <div fxLayout="column" fxLayoutAlign="start" class="p-8">
+    <form [formGroup]="form" name="form" (ngSubmit)="onSubmit()">
+      <div fxLayout="column" fxLayoutAlign="center stretch">
+        <!-- <mat-form-field appearance="outline">
+        <input type="text" placeholder="Enter Group Name" matInput NoWhiteSpace formControlName="name" />
+      </mat-form-field> -->
+
+      <mat-form-field appearance="outline" fxFlex="80">
+        <mat-label>Add Group</mat-label>
+        <input matInput type="text" placeholder="Enter Group Name" formControlName="name" required maxlength="25">
+        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+        @if (form.get('name').hasError('required')) {
+          <mat-error>
+            Group Name is required.
+          </mat-error>
+        }
+        @if (form.get('name').hasError('pattern')) {
+          <mat-error>
+            Group Name is not valid!
+          </mat-error>
+        }
+
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+</mat-card-content>
+<mat-dialog-actions align="end" class="dialog-actions-margin">
+  <button mat-button mat-raised-button color="warn" mat-dialog-close>
+    Cancel
+  </button>
+  <button mat-raised-button class="mat-accent submit-button" aria-label="SAVE" (click)="onSubmit()"
+    [disabled]="!form.valid">
+    Save
+  </button>
+</mat-dialog-actions>

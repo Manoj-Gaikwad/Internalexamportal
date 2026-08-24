@@ -1,0 +1,47 @@
+
+ [{
+    "Id": "1",
+   "Instrunction": "Exam contains 30 Multiple Choice Question."
+    
+},
+{
+    "Id": "2",
+    "Instrunction": "Every Question Should have one mark each."
+    
+},
+{
+    "Id": "3",
+    "Instrunction": "There is 1/4th negative marking for each wrong question."
+   
+},{
+    "Id": "4",
+    "Instrunction": "If you select the option and mark it as review then at the time of finish exam the mark of that question is consider."
+    
+},
+{
+    "Id": "5",
+    "Instrunction": " The exam is started when you click on start Button."
+   
+},
+{
+    "Id": "6",
+    "Instrunction": "The time interval for the exam is of 30 minutes."
+    
+},
+{
+    "Id": "7",
+    "Instrunction": "Ones you started with exam Please do not open any another browser."
+   
+},
+{
+    "Id": "8",
+    "Instrunction": "You must not communicate with any other person by any means."
+   
+},
+{
+    "Id": "9",
+    "Instrunction": " You must not use a phone for any reason."
+   
+}
+
+]

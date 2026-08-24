@@ -1,0 +1,54 @@
+#container-1 {
+    position: relative;
+    flex: 1 1 auto;
+    background: linear-gradient(to bottom right, #46bae0 6%, #b69f3e 105%) !important;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    #container-2 {
+        position: relative;
+        display: flex;
+        flex: 0 0 auto;
+        width: 90%;
+        height: 80%;
+        min-width: 0;
+        padding: 0%;
+        margin-top: 3%;
+
+        .container {
+            padding: 2%;
+            width: 100%;
+            overflow: auto;
+            .card {
+                margin: 2px;
+                padding: 1%;
+
+                width: 100%;
+                min-width: 0;
+                max-width: none;
+            }
+        }
+    }
+}
+
+.gradient-bg {
+    background: linear-gradient(to bottom right, #46bae0 6%, #b69f3e 105%) !important;
+}
+
+.instructions-title {
+    background-color: #446fb7;
+    color: white;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 25px;
+    position: absolute;
+    top: 0;
+    margin-top: -25px !important;
+    margin-left: 0px;
+    border: 1px solid white;
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 1px 1px 2px 0px black;
+}

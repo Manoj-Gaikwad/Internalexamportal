@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>Edit Marks</h1>
+<mat-dialog-content class="mat-typography content">
+  <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+  <form fxLayout="column" fxLayoutAlign="start" autocomplete="off" fxFlex="1 1 auto" name="editMarkForm"
+    [formGroup]="editMarkForm">
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+      <mat-form-field appearance="outline" fxFlex="47">
+        <mat-label>Positive Mark</mat-label>
+        <input matInput type="text" formControlName="positiveMark" required maxlength="2">
+        <mat-icon matSuffix class="secondary-text">add</mat-icon>
+        @if (editMarkForm.get('positiveMark').hasError('required')) {
+          <mat-error>
+            Positive Marks are required.
+          </mat-error>
+        }
+        @if (editMarkForm.get('positiveMark').hasError('pattern')) {
+          <mat-error>
+            Invalid Marks.
+          </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" fxFlex="47">
+        <mat-label>Negative Mark</mat-label>
+        <input matInput type="text" formControlName="negativeMark" required maxlength="2">
+        <mat-icon matSuffix class="secondary-text">remove</mat-icon>
+        @if (editMarkForm.get('negativeMark').hasError('required')) {
+          <mat-error>
+            Negative Marks are required.
+          </mat-error>
+        }
+        @if (editMarkForm.get('negativeMark').hasError('pattern')) {
+          <mat-error>
+            Invalid Marks.
+          </mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="mat-accent submit-button" aria-label="SAVE" (click)="onSubmit()"
+  [disabled]="!editMarkForm.valid"> Save </button>
+</mat-dialog-actions>

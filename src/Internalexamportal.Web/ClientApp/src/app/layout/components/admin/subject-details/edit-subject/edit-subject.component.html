@@ -1,0 +1,96 @@
+<div class="page-layout simple fullwidth">
+  <div class="content p-20" fxLayout="column">
+    <mat-card>
+      <ep-spinner [isSpinner]='isSpinner'></ep-spinner>
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon class="length-icon display-icon back-btn cursor-pointer " (click)="goBack()">arrow_back
+          </mat-icon>
+          Manage Subject Topics ({{subjectName}})
+        </mat-card-title>
+      </mat-card-header>
+      <!-- HEADER -->
+
+      <!-- CONTENT -->
+      <mat-card-content>
+        <div class="content">
+
+          <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <mat-form-field fxFlex="20" appearance="outline" permission-based-access class="compact"
+              permissionKey="{{permissionEnum.ViewSubject}}">
+              <mat-label>Search</mat-label>
+              <input matInput (ngModelChange)="this.searchTerm.next($event);" [(ngModel)]="searchText"
+                placeholder="Type to Search...">
+                <mat-icon matSuffix class="secondary-text"
+                  [ngStyle]="{'cursor':isSearchText?'pointer':'auto' }"
+                  (click)="isSearchText ? clearSearch():''">
+                  {{isSearchText ?'close': 'search'}}
+                </mat-icon>
+              </mat-form-field>
+
+              <button type="button" mat-raised-button class=" add-todo-button mat-accent mb-20"
+                permission-based-access permissionKey="{{permissionEnum.AddEditSubject}}"
+                aria-label="ADD TASK" (click)="openAddTopicDialog()">
+                <mat-icon class="length-icon display-icon">add</mat-icon>
+                Add Topic
+              </button>
+            </div>
+
+
+            <table mat-table [dataSource]="dataSource" matSort class="content" permission-based-access
+              permissionKey="{{permissionEnum.ViewSubject}}">
+
+              <ng-container matColumnDef="SrNo">
+                <th mat-header-cell *matHeaderCellDef> SrNo</th>
+                <td mat-cell *matCellDef="let row;let i = index;"> {{getRowIndex(i)}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="topic">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Topic </th>
+                <td mat-cell *matCellDef="let row"> {{row.topic}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="questions">
+                <th mat-header-cell *matHeaderCellDef> Questions </th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.questionsData?.length || 0 }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-icon class="length-icon display-icon mat-accent cursor-pointer"
+                    permission-based-access permissionKey="{{permissionEnum.AddEditSubject}}"
+                    (click)="editTopic(row)">edit
+                  </mat-icon>
+                  <!-- &nbsp;
+                  <mat-icon class="length-icon display-icon cursor-pointer" color="warn" (click)="deleteTopic(row)">delete
+                  </mat-icon> -->
+                </td>
+              </ng-container>
+
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+              </table>
+
+
+              @if (dataSource?.data?.length === 0) {
+                <div>
+                  <h3 class="w-100-p m-0 p-12" style="text-align: center;">
+                    No Topics Found!
+                  </h3>
+                </div>
+              }
+
+              <mat-paginator [pageSizeOptions]="[10, 25, 100]" permission-based-access
+              permissionKey="{{permissionEnum.ViewSubject}}"></mat-paginator>
+
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>

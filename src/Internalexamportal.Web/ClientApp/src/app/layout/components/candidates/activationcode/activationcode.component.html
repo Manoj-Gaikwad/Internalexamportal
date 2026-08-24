@@ -1,0 +1,34 @@
+<div class="container-1" id="container-1" (contextmenu)="onRightClick()">
+    <div class="container-2  m1-0" id="container-2">
+        <div class="container">
+            <ep-spinner [isSpinner]='isSpinner'></ep-spinner>
+            <form name="activationForm" [formGroup]="activationForm" (ngSubmit)="ActivateExam()">
+                <div class="activepopup" layout-align="center">
+                    <div flex="10" layout-align="center">
+                        <mat-card class="example-card">
+                            <mat-card-header fxLayout="row" fxLayoutAlign="center center">
+                                <mat-card-title>Enter Activation Code</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <mat-form-field appearance="outline" class="mt-16">
+                                    <mat-label>Activation Code</mat-label>
+                                    <input matInput type="activationcode" formControlName="activation">
+                                    <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                                    <mat-error>
+                                        Activation Code is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <button mat-raised-button mat-button color="accent" class="submit-button"
+                                    aria-label="Submit">
+                                    SUBMIT
+                                </button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

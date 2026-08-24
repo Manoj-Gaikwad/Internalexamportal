@@ -1,0 +1,53 @@
+<div class="instruction-background w-100-p noselect" fxLayout="column" fxLayoutAlign="center none" appNoRightClick
+    (contextmenu)="false">
+
+    <ep-spinner [isSpinner]='isSpinner'></ep-spinner>
+
+    <div fxLayout="row" fxLayoutAlign="center center" fxFlex="10%">
+        <div class="font-size-22 font-weight-600">Welcome {{user?.name}}</div>
+        <div class="test-time">(Exam Time: 25:00)</div>
+    </div>
+
+    <mat-card fxFlex="80%" class="ml-48 mr-48 mat-elevation-z3">
+
+        <div class="instructions-title">
+            Instructions
+        </div>
+
+        <mat-card-content fxLayoutAlign="start start">
+            <div class="w-100-p h-100-p scroll-y mt-8" [innerHtml]='instructionSet | safeHtml'></div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card-actions fxLayoutAlign="center center" fxFlex="10%">
+        <button mat-raised-button mat-button color="accent" class="submit-button" aria-label="Submit"
+            (click)="examrule()">
+            START
+        </button>
+    </mat-card-actions>
+
+</div>
+
+
+
+<ng-template #continueDialog>
+    <mat-toolbar class="modal-header mat-accent m-0" fxLayout="row">
+        <div fxFlex="60">
+            Resume Test
+        </div>
+    </mat-toolbar>
+    <div class="page-layout mat-typography simple fullwidth p-8">
+        <mat-card-content fxLayout="column">
+            <div class="content custom-padding p-1em" align="center" fxLayout="column">
+                <h3 class="d-flex justify-center">
+                    <span> Your test will continue from where you left off. All the saved answers will be restored and
+                        you can continue the test.
+                    </span>
+                </h3>
+            </div>
+        </mat-card-content>
+        <mat-dialog-actions class="pr-20 p-12 m-0" align="end">
+            <button class="accent" mat-button mat-dialog-close="true" mat-raised-button>Resume</button>
+        </mat-dialog-actions>
+    </div>
+</ng-template>

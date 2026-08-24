@@ -1,0 +1,70 @@
+<div class="finish-exam-dialog">
+  <mat-toolbar class="modal-header mat-primary m-0 noselect" fxLayout="row" appNoRightClick (contextmenu)="false">
+    <div fxFlex fxLayoutAlign="start center">
+      <h2 class="dialog-title">Finish Exam</h2>
+    </div>
+    <div fxFlex="none">
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <mat-dialog-content class="dialog-content noselect" appNoRightClick (contextmenu)="false">
+    <div class="content-wrapper">
+      <div class="message-section">
+        <p class="warning-message">
+          Do you wish to submit and close the Exam?
+        </p>
+        <p class="info-message">
+          Once you submit, you will not be able to review the exam.
+        </p>
+      </div>
+
+      <div class="summary-section">
+        <h3 class="summary-title">Summary of Your Attempts:</h3>
+        
+        <div class="summary-items">
+          <div class="summary-item">
+            <div class="item-label">
+              <mat-icon class="item-icon answered-icon">check_circle</mat-icon>
+              <span>Answered</span>
+            </div>
+            <div class="item-value answered-badge">
+              {{examData?.attemptedQuestion || 0}}
+            </div>
+          </div>
+
+          <div class="summary-item">
+            <div class="item-label">
+              <mat-icon class="item-icon skipped-icon">radio_button_unchecked</mat-icon>
+              <span>Not Answered</span>
+            </div>
+            <div class="item-value skipped-badge">
+              {{examData?.skippedQuestion || 0}}
+            </div>
+          </div>
+
+          <div class="summary-item">
+            <div class="item-label">
+              <mat-icon class="item-icon reviewed-icon">rate_review</mat-icon>
+              <span>Reviewed</span>
+            </div>
+            <div class="item-value reviewed-badge">
+              {{examData?.reviewedQuestion || 0}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions" align="end">
+    <button mat-raised-button color="warn" mat-dialog-close>
+      CANCEL
+    </button>
+    <button mat-raised-button color="accent" mat-dialog-close="true">
+      FINISH
+    </button>
+  </mat-dialog-actions>
+</div>

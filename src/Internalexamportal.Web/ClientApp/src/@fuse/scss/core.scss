@@ -1,0 +1,32 @@
+
+
+// Fuse
+@use "fuse";
+
+// Theme
+@use "theme";
+
+// Include core Angular Material styles
+// @include mat.core();
+
+// Partials
+@use "partials/normalize";
+@use "partials/scrollbars";
+@use "partials/helpers";
+@use "partials/general";
+@use "partials/icons";
+@use "partials/colors";
+@use "partials/material";
+@use "partials/angular-material-fix";
+@use "partials/typography";
+@use "partials/docs";
+@use "partials/page-layouts";
+@use "partials/cards";
+@use "partials/navigation";
+@use "partials/forms";
+@use "partials/print";
+
+// Plugins
+@use "partials/plugins/plugins";
+
+@use 'perfect-scrollbar/css/perfect-scrollbar';

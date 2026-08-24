@@ -1,0 +1,108 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<UserSecretsId>3b898bec-e685-4643-b491-7c2a408932e6</UserSecretsId>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+		<IsPackable>false</IsPackable>
+		<SpaRoot>ClientApp\</SpaRoot>
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+
+		<!-- Set this to true if you enable server-side prerendering -->
+		<BuildServerSideRenderer>false</BuildServerSideRenderer>
+		<Configurations>Debug;Release;Staging</Configurations>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Don't publish the SPA source files, but do show them in the project files list -->
+		<Content Remove="$(SpaRoot)**" />
+		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="ClientApp\src\assets\images\fusionstak-logo-animation.gif" />
+		<None Remove="ClientApp\src\assets\images\swagger.png" />
+		<None Remove="ClientApp\src\favicon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="ClientApp\src\assets\images\fusionstak-logo-animation.gif">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Include="ClientApp\src\assets\images\swagger.png">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Include="ClientApp\src\favicon.ico">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MediatR" Version="12.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.20" />
+		<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="8.0.20" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.20" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Internalexamportal.Core\Internalexamportal.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Templates\ExamResult.docx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Templates\ExamCertificate.docx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Templates\ExamResultEmail.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Templates\MessageEmail.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Templates\ExamReport.docx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="update_database.bat">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+		<!-- Ensure Node.js is installed -->
+		<Exec Command="node --version" ContinueOnError="true">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+		</Exec>
+		<Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+		<Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+	</Target>
+
+	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+		<!-- Run Angular build for different environments -->
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build-staging" Condition="'$(Configuration)' == 'Staging'" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build-prod" Condition="'$(Configuration)' == 'Release'" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+
+		<!-- Copy Angular dist/* directly into ClientApp folder during publish -->
+		<ItemGroup>
+			<DistFiles Include="$(SpaRoot)dist\**" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(DistFiles)"
+			  DestinationFolder="$(PublishDir)ClientApp\%(RecursiveDir)"
+			  SkipUnchangedFiles="true" />
+	</Target>
+
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties appsettings_1json__JSONSchema="http://json.schemastore.org/contribute" />
+		</VisualStudio>
+	</ProjectExtensions>
+
+</Project>

@@ -1,0 +1,25 @@
+<mat-toolbar class="modal-header mat-accent m-0" fxLayout="row">
+  <div fxFlex="60">
+    {{dialogTitle}}
+  </div>
+  <div fxFlex="40" fxLayoutAlign="end end">
+    <button #closeBtn class="ml-180" mat-dialog-close mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography content m-8 p-8 mt-16">
+  <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+  <form class="w-100-p" fxLayout="column" [formGroup]="SubjectForm" name="SubjectForm" (ngSubmit)="onSubmit()">
+    <div class="header" fxLayout="column" fxLayoutAlign="center stretch">
+      <mat-form-field class="textarea" appearance="outline">
+        <input formControlName="SubjectName" NoWhiteSpace matInput placeholder="Enter Subject Name" maxlength="50" />
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="dialog-actions-margin">
+  <button mat-button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="mat-accent submit-button" aria-label="SAVE" (click)="onSubmit()"
+    [disabled]="!SubjectForm.valid"> Save </button>
+</mat-dialog-actions>

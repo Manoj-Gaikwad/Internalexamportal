@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>{{title}}</h2>
+<mat-dialog-content class="mat-typography">
+
+  <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+
+  <form [formGroup]="instructionForm" name="instructionForm" (ngSubmit)="onSubmit()">
+    <div class="textboxesArea" fxLayout="column">
+      <div class="" fxLayout="row" fxFlexFill>
+        <mat-form-field class="textarea" appearance="outline">
+          <mat-label>Instruction Name</mat-label>
+          <input matInput placeholder="" formControlName="instruction" NoWhiteSpace required maxlength="25">
+          @if (instructionForm.get('instruction').hasError('required')) {
+            <mat-error>
+              Instruction name is required.
+            </mat-error>
+          }
+          @if (instructionForm.get('instruction').hasError('pattern')) {
+            <mat-error>
+              Instruction name is not valid!
+            </mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="" fxLayout="row" fxFlexFill>
+        <fs-editor
+          label="Instruction Description"
+          [control]="instructionForm.controls['instructionDescripiton']"
+          [initialValue]="parentData?.instructionDescripiton"
+          [placeholder]="placeholder"
+          (editorCreated)="editorCreated($event)">
+        </fs-editor>
+      </div>
+    </div>
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="mat-accent submit-button" aria-label="SAVE" [disabled]="!instructionForm.valid"
+  (click)="onSubmit()"> Save </button>
+</mat-dialog-actions>

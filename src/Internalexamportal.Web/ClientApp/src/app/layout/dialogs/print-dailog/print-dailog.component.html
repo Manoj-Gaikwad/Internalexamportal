@@ -1,0 +1,39 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar class="mat-accent m-0">
+    <mat-toolbar-row fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{fileName}}</span>
+      <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0">
+    @if (templatePdfUrl!=null) {
+      <iframe id="docFrame"
+        name="docFrame"
+        [src]="templatePdfUrl"
+        [height]="600"
+        [width]="900">
+      </iframe>
+    }
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16 mr-2" fxLayout="row" fxLayoutAlign="space-between center">
+    <div></div>
+    <div>
+      <button mat-button mat-dialog-close mat-raised-button>
+        CANCEL
+      </button>
+      <button mat-raised-button color="accent" (click)="download()" class="save-button">
+        <mat-icon>get_app</mat-icon>
+        Download
+      </button>
+      <button mat-raised-button color="primary" (click)="print()" class="save-button">
+        <mat-icon>print</mat-icon>
+        PRINT
+      </button>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,56 @@
+<div id="forgot-password" class="inner-scroll" fxLayout="row" fxLayoutAlign="start">
+
+  <div id="forgot-password-intro" fxFlex fxHide fxShow.gt-xs [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
+  </div>
+
+  <div id="forgot-password-form-wrapper" fusePerfectScrollbar
+    [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
+
+    <div id="forgot-password-form">
+
+      <div class="logo" fxHide.gt-xs>
+        <img src="assets/images/logos/fuse.svg">
+      </div>
+
+      <div class="title">VERIFY CODE</div>
+
+      <form name="forgoPasswordForm" [formGroup]="twoFactorAuthForm" (ngSubmit)="authenticate()">
+        @if (errorMsg) {
+          <mat-error>{{errorMsg}}</mat-error>
+        }
+        <mat-form-field appearance="outline" [ngClass]="{'field-margin': errorMsg}">
+          <mat-label>Email</mat-label>
+          <input matInput NoWhiteSpace formControlName="code" maxlength="6">
+          <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+          @if (twoFactorAuthForm.get('code').hasError('required')) {
+            <mat-error>
+              Code is required
+            </mat-error>
+          }
+          @if ((twoFactorAuthForm.get('code').hasError('maxlength') || twoFactorAuthForm.get('code').hasError('minlength')) && !twoFactorAuthForm.get('code').hasError('pattern')) {
+            <mat-error
+              >
+              Code must be of 6 digits.
+            </mat-error>
+          }
+          @if (twoFactorAuthForm.get('code').hasError('pattern')) {
+            <mat-error>
+              Code must be valid number.
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-raised-button class="submit-button" color="accent" aria-label="SEND RESET LINK"
+          [disabled]="twoFactorAuthForm.invalid">
+          SEND RESET LINK
+        </button>
+
+      </form>
+
+      <div class="login" fxLayout="row" fxLayoutAlign="center center">
+        <a class="link" [routerLink]="''">Go back to login</a>
+      </div>
+
+    </div>
+  </div>
+</div>

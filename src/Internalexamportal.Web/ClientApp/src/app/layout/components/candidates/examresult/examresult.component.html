@@ -1,0 +1,127 @@
+<div class="container-1 noselect" id="container-1" fxLayout="column" fxLayoutAlign="center center" appNoRightClick
+  (contextmenu)="onRightClick()">
+  <ep-spinner [isSpinner]='isSpinner'></ep-spinner>
+  <div class="container-2 mat-card mat-elevation-z3" id="container-2">
+    <div class="container">
+      <div class="instructions-title">
+        Exam Summary
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-label>
+          <span class="mat-subheader">Thank you for submitting your exam. The Summary of the exam given below</span>
+        </mat-label>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-evenly center">
+        <div fxLayout="column">
+          <div class="card1 p-20">
+            <div class="mb-2">
+              <div class="fuse-card">
+                <div class="p-16 text-center">
+                  <mat-label class="h1 font-weight-50">Marks Obtained</mat-label>
+                </div>
+                <div class="h-70" fxLayout="row" fxLayoutAlign="center start">
+                  <h2 class="m-0 m-auto mat-display-1 pb-28 grey-700-fg">{{testReport.totalMark}} /
+                    {{testReport.maximumMark}}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="column">
+          <div class="card1 p-20">
+            <div class="mb-2">
+              <div class="fuse-card">
+                <div class="p-16 text-center">
+                  <mat-label class="h1 font-weight-50">Questions Attempted</mat-label>
+                </div>
+                <div class="h-70" fxLayout="row" fxLayoutAlign="center start">
+                  <h2 class="m-0 m-auto mat-display-1 pb-28 grey-700-fg">{{testReport.attemptedQuestion}} /
+                    {{testReport.attemptedQuestion+testReport.skippedQuestion}}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxLayout="column">
+          <div class="card1 p-20">
+            <div class="mb-2">
+              <div class="fuse-card">
+                <div class="p-16 text-center">
+                  <mat-label class="h1 font-weight-50">Time Taken</mat-label>
+                </div>
+                <div class="h-70" fxLayout="row" fxLayoutAlign="center start">
+                  <h2 class="m-0 m-auto mat-display-1 pb-28 grey-700-fg">{{timeTaken}}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="row">
+        <mat-label>
+          <h3 class="mat-title mb-8">Subject</h3>
+        </mat-label>
+      </div>
+      <mat-divider></mat-divider>
+      <div  class="card" fxLayout="column">
+        <mat-label class="mat-subheading-2">{{testReport.subjects}}</mat-label>
+      </div>
+
+      <div fxLayout="row">
+        <mat-label>
+          <h3 class="mat-title mb-8">Question Analysis</h3>
+        </mat-label>
+      </div>
+      <mat-divider></mat-divider>
+      <div fxLayout="row">
+        <div class="card" fxLayout="column">
+          <mat-label class="mat-subheading-2">Total Question:
+            {{testReport.attemptedQuestion+testReport.skippedQuestion}}</mat-label>
+        </div>
+        <div class="card" fxLayout="column">
+          <mat-label class="mat-subheading-2">Total Attempted: {{testReport.attemptedQuestion}}</mat-label>
+        </div>
+        <div class="card" fxLayout="column">
+          <mat-label class="mat-subheading-2">Skipped Question: {{testReport.skippedQuestion}}</mat-label>
+        </div>
+        <div class="card" fxLayout="column">
+          <mat-label class="mat-subheading-2">Correct Answers: {{testReport.correctQuestion}}</mat-label>
+        </div>
+        <div class="card" fxLayout="column">
+          <mat-label class="mat-subheading-2">Wrong Answers: {{testReport.inCorrectQuestion}}</mat-label>
+        </div>
+      </div>
+
+
+      <div fxLayout="row">
+        <mat-label>
+          <h3 class="mat-title mb-8">Marks Analysis</h3>
+        </mat-label>
+      </div>
+      <mat-divider></mat-divider>
+      <div fxLayout="row">
+        <div class="card" fxLayout="column">
+          <mat-label class="mat-subheading-2">Obtained Marks: {{testReport.totalMark}}</mat-label>
+        </div>
+        <div class="card" fxLayout="column">
+          <mat-label class="mat-subheading-2">Total Marks: {{testReport.maximumMark}}</mat-label>
+        </div>
+        <div class="card" fxLayout="column">
+          <mat-label class="mat-subheading-2">Positive Marks: {{testReport.rightMark}}</mat-label>
+        </div>
+        <div class="card" fxLayout="column">
+          <mat-label class="mat-subheading-2">Negative Marks: {{testReport.negativeMark}}</mat-label>
+        </div>
+        <div class="card" fxLayout="column">
+          <mat-label class="mat-subheading-2"></mat-label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center" class="w-90-p h-10-p">
+    <button mat-raised-button color="warn" (click)="closeWindow()">Close Window</button>
+  </div>
+</div>

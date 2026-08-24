@@ -1,0 +1,55 @@
+@if (!item.hidden) {
+  <!-- item.url -->
+  @if (item.url && !item.externalUrl && !item.function) {
+    <a class="nav-link" [ngClass]="item.classes"
+      [routerLink]="[item.url]" [routerLinkActive]="['active', 'accent']"
+      [routerLinkActiveOptions]="{exact: item.exactMatch || false}"
+      [target]="item.openInNewTab ? '_blank' : '_self'">
+      <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+    </a>
+  }
+  <!-- item.externalUrl -->
+  @if (item.url && item.externalUrl && !item.function) {
+    <a class="nav-link" [ngClass]="item.classes"
+      [href]="item.url" [target]="item.openInNewTab ? '_blank' : '_self'">
+      <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+    </a>
+  }
+  <!-- item.function -->
+  @if (!item.url && item.function) {
+    <span class="nav-link" [ngClass]="item.classes"
+      (click)="item.function()">
+      <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+    </span>
+  }
+  <!-- item.url && item.function -->
+  @if (item.url && !item.externalUrl && item.function) {
+    <a class="nav-link" [ngClass]="item.classes"
+      (click)="item.function()"
+      [routerLink]="[item.url]" [routerLinkActive]="['active', 'accent']"
+      [routerLinkActiveOptions]="{exact: item.exactMatch || false}"
+      [target]="item.openInNewTab ? '_blank' : '_self'">
+      <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+    </a>
+  }
+  <!-- item.externalUrl && item.function -->
+  @if (item.url && item.externalUrl && item.function) {
+    <a class="nav-link" [ngClass]="item.classes"
+      (click)="item.function()"
+      [href]="item.url" [target]="item.openInNewTab ? '_blank' : '_self'">
+      <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+    </a>
+  }
+  <ng-template #itemContent>
+    @if (item.icon) {
+      <mat-icon class="nav-link-icon">{{item.icon}}</mat-icon>
+    }
+    <span class="nav-link-title" [translate]="item.translate">{{item.title}}</span>
+    @if (item.badge) {
+      <span class="nav-link-badge" [translate]="item.badge.translate"
+        [ngStyle]="{'background-color': item.badge.bg,'color': item.badge.fg}">
+        {{item.badge.title}}
+      </span>
+    }
+  </ng-template>
+}

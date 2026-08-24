@@ -1,0 +1,97 @@
+<mat-toolbar class="modal-header mat-accent m-0" fxLayout="row">
+  <div fxFlex="60">
+    {{title}}
+  </div>
+  <div fxFlex="40" fxLayoutAlign="end end">
+    <button #closeBtn class="ml-180" mat-dialog-close mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography content m-8 p-8 mt-16">
+  <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+  <form fxLayout="column" fxLayoutAlign="start" autocomplete="off" fxFlex="1 1 auto" name="form" [formGroup]="form">
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 1 auto">
+
+      <mat-form-field appearance="outline" fxFlex="100">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name" required maxlength="50">
+        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+        @if (form.get('name').hasError('required')) {
+          <mat-error>
+            Name is required.
+          </mat-error>
+        }
+        @if (form.get('name').hasError('pattern')) {
+          <mat-error>
+            Name is not valid!
+          </mat-error>
+        }
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 1 auto">
+
+      <mat-form-field appearance="outline" fxFlex="100">
+        <mat-label>Email</mat-label>
+        <input NoWhiteSpace matInput formControlName="email" required>
+        <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+        @if (form.get('email').hasError('required')) {
+          <mat-error>
+            Email Id is required
+          </mat-error>
+        }
+        @if (form.get('email').hasError('pattern')) {
+          <mat-error>
+            Invalid Email
+          </mat-error>
+        }
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 1 auto">
+
+      <mat-form-field appearance="outline" fxFlex="100">
+        <mat-label>Phone Number</mat-label>
+        <input NoWhiteSpace matInput type="tel" maxlength="10" formControlName="phone" required>
+        <mat-icon matSuffix class="secondary-text">local_phone</mat-icon>
+        @if (form.get('phone').hasError('required')) {
+          <mat-error>
+            This field is required.
+          </mat-error>
+        }
+        @if (form.get('phone').hasError('pattern')) {
+          <mat-error>
+            Phone Number is not valid!
+          </mat-error>
+        }
+      </mat-form-field>
+
+    </div>
+
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+      <mat-form-field appearance="outline" fxFlex="100">
+        <mat-label>Address</mat-label>
+        <textarea NoWhiteSpace matInput formControlName="address" required rows="2" maxlength="100">
+        </textarea>
+        <mat-icon matSuffix class="secondary-text">business</mat-icon>
+        @if (form.get('address').hasError('required')) {
+          <mat-error>
+            Address is required
+          </mat-error>
+        }
+      </mat-form-field>
+
+    </div>
+
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="dialog-actions-margin">
+  <button mat-button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="mat-accent submit-button" aria-label="SAVE" (click)="onSubmit()"
+  [disabled]="!form.valid"> Save </button>
+</mat-dialog-actions>

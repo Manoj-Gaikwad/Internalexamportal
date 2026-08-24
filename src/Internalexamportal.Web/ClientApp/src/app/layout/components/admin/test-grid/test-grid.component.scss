@@ -1,0 +1,25 @@
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+th, td {
+  overflow: hidden;
+  width:auto;
+  text-overflow: ellipsis;
+}
+
+th{
+  font-weight: bold;
+}
+
+.mat-form-field {
+  font-size: 12px;
+  width: 100%;
+  padding: 4px !important;
+}
+
+a.primary-color-text {
+  color: var(--mat-sys-primary) !important;
+}
+

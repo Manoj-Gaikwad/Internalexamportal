@@ -1,0 +1,27 @@
+::ng-deep .mat-card-header-text {
+    margin: 0px !important;
+}
+
+::ng-deep .mat-card-header {
+    padding: 10px 16px !important;
+}
+
+::ng-deep .mat-card {
+    padding: 0 !important;
+}
+
+::ng-deep .mat-card-content {
+    padding: 16px !important;
+}
+
+::ng-deep .mat-card-actions {
+    padding: 16px !important;
+}
+
+::ng-deep .mat-card-title {
+    margin-bottom: 0px !important;
+}
+
+.permission-header {
+    background: linear-gradient(to right, #d4d7dd 0%, #d3e0ed 100%);
+}

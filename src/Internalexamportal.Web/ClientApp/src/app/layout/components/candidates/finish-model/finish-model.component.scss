@@ -1,0 +1,157 @@
+.cdk-global-scrollblock {
+    overflow-y: hidden !important;
+}
+
+.finish-exam-dialog {
+    width: 100%;
+    
+    .modal-header {
+        padding: 0 16px;
+        min-height: 56px;
+
+        .dialog-title {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 500;
+            color: white;
+        }
+
+        button {
+            color: white;
+        }
+    }
+
+    .dialog-content {
+        padding: 0 !important;
+        overflow: visible;
+    }
+
+    .content-wrapper {
+        padding: 24px 32px;
+    }
+
+    .message-section {
+        margin-bottom: 32px;
+        text-align: center;
+
+        .warning-message {
+            font-size: 18px;
+            font-weight: 600;
+            color: #424242;
+            margin: 0 0 8px 0;
+        }
+
+        .info-message {
+            font-size: 14px;
+            color: #757575;
+            margin: 0;
+        }
+    }
+
+    .summary-section {
+        background-color: #f5f5f5;
+        border-radius: 8px;
+        padding: 20px;
+
+        .summary-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #424242;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        .summary-items {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+            .item-label {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                font-size: 16px;
+                font-weight: 500;
+                color: #424242;
+                flex: 1;
+
+                .item-icon {
+                    font-size: 24px;
+                    width: 24px;
+                    height: 24px;
+                }
+
+                .answered-icon {
+                    color: #43a047;
+                }
+
+                .skipped-icon {
+                    color: #f9a825;
+                }
+
+                .reviewed-icon {
+                    color: #e53935;
+                }
+            }
+
+            .item-value {
+                font-size: 20px;
+                font-weight: 700;
+                color: white;
+                padding: 8px 20px;
+                border-radius: 20px;
+                min-width: 60px;
+                text-align: center;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .answered-badge {
+                background-color: #43a047;
+            }
+
+            .skipped-badge {
+                background-color: #f9a825;
+            }
+
+            .reviewed-badge {
+                background-color: #e53935;
+            }
+        }
+    }
+
+    .dialog-actions {
+        padding: 16px 24px;
+        border-top: 1px solid #e0e0e0;
+
+        button {
+            margin-left: 8px;
+            min-width: 100px;
+            font-weight: 500;
+        }
+    }
+}
+
+// Global Dialog Styles
+::ng-deep {
+    .mat-mdc-dialog-surface {
+        overflow: visible;
+    }
+
+    .mat-mdc-dialog-container {
+        .mdc-dialog__surface {
+            overflow: visible;
+        }
+    }
+}

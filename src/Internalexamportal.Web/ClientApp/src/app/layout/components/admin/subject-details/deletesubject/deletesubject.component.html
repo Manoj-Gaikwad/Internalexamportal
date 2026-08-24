@@ -1,0 +1,20 @@
+<mat-toolbar class="modal-header mat-accent m-0" fxLayout="row">
+  <div fxFlex="60">
+    Confirm
+  </div>
+  <div fxFlex="40" fxLayoutAlign="end end">
+    <button #closeBtn class="ml-180" mat-dialog-close mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography content m-8 p-8 mt-16">
+  <p class="mat-subheading-1">
+    Are you sure you want to delete subject?
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="dialog-actions-margin">
+  <button mat-button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="accent" (click)="deleterow()">Delete</button>
+
+</mat-dialog-actions>

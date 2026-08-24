@@ -1,0 +1,70 @@
+<div class="page-layout simple fullwidth">
+  <div class="content p-8" fxLayout="column">
+    <mat-card>
+      <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+
+      <!-- CONTENT -->
+      <mat-card-content>
+        <div class="content">
+          <table class="w-100-p" mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> SrNo</th>
+              <td mat-cell *matCellDef="let row"> {{dataSource.filteredData.indexOf(row)+1}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="testName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Test Name </th>
+              <td mat-cell *matCellDef="let row"> {{row.test.testName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="submitDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Submitted Date </th>
+              <td mat-cell *matCellDef="let row"> {{row.submitDate | date:'short'}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="totalMark">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Marks </th>
+              <td mat-cell *matCellDef="let row">{{row.totalMark}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="maximumMark">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Maximum Marks </th>
+              <td mat-cell *matCellDef="let row"> {{row.maximumMark}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="rightMark">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Positive Marks </th>
+              <td mat-cell *matCellDef="let row">{{row.rightMark}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="negativeMark">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Negative Marks </th>
+              <td mat-cell *matCellDef="let row">{{row.negativeMark}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-icon class="length-icon display-icon mat-accent cursor-pointer" (click)="viewResult(row)">
+                visibility</mat-icon>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          @if (dataSource?.data?.length === 0) {
+            <div style="background-color: white;">
+              <h3 class="w-100-p m-0 p-12" style="text-align: center;">
+                No Records Found!
+              </h3>
+            </div>
+          }
+          <mat-paginator [pageSizeOptions]="[5,10, 15]"></mat-paginator>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

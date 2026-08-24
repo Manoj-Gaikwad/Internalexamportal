@@ -1,0 +1,5 @@
+.page-layout.simple.fullwidth > .header,
+.page-layout.simple.inner-sidebar > .header {
+  min-height: 20px !important;
+  max-height: 66px !important;
+}

@@ -1,0 +1,169 @@
+<mat-toolbar class="modal-header mat-accent m-0" fxLayout="row">
+  <div fxFlex="60">
+    {{title}}
+  </div>
+  <div fxFlex="40" fxLayoutAlign="end end">
+    <button #closeBtn class="ml-180" mat-dialog-close mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography content m-8 p-8 mt-16">
+  <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+  <form fxLayout="column" fxLayoutAlign="start" autocomplete="off" fxFlex="1 1 auto" name="addUserForm"
+    [formGroup]="addUserForm">
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 1 auto">
+      <mat-form-field appearance="outline" fxFlex="80">
+        <mat-label>Email</mat-label>
+        <input NoWhiteSpace matInput formControlName="email" required>
+        <mat-icon matSuffix class="secondary-text">mail</mat-icon>
+        @if (addUserForm.get('email').hasError('required')) {
+          <mat-error>
+            Email Id is required
+          </mat-error>
+        }
+        @if (addUserForm.get('email').hasError('pattern')) {
+          <mat-error>
+            Invalid Email
+          </mat-error>
+        }
+      </mat-form-field>
+      <input matInput formControlName="username" hidden>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+      <mat-form-field appearance="outline" fxFlex="47">
+        <mat-label>First Name</mat-label>
+        <input matInput type="text" formControlName="firstname" required maxlength="25">
+        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+        @if (addUserForm.get('firstname').hasError('required')) {
+          <mat-error>
+            First Name is required.
+          </mat-error>
+        }
+        @if (addUserForm.get('firstname').hasError('pattern')) {
+          <mat-error >
+            First Name is not valid!
+          </mat-error>
+        }
+        @if (addUserForm.get('firstname').hasError('maxlength')) {
+          <mat-error>
+            First Name should be 25 characters only!
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" fxFlex="47">
+        <mat-label>Last Name</mat-label>
+        <input matInput type="text" formControlName="lastname" required maxlength="25">
+        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+        @if (addUserForm.get('lastname').hasError('required')) {
+          <mat-error>
+            Last Name is required.
+          </mat-error>
+        }
+        @if (addUserForm.get('lastname').hasError('pattern')) {
+          <mat-error>
+            Last Name is not valid!
+          </mat-error>
+        }
+        @if (addUserForm.get('lastname').hasError('maxlength')) {
+          <mat-error>
+            Last Name should be 25 characters only!
+          </mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+      <mat-form-field appearance="outline" fxFlex="47">
+        <mat-label>Date Of Birth</mat-label>
+        <input matInput [max]="maxDate" [min]="minDate" [matDatepicker]="picker" placeholder="" formControlName="dob">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker startView='multi-year' #picker></mat-datepicker>
+        <mat-error>
+          Invalid Date.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" fxFlex="47">
+        <mat-label>Phone Number</mat-label>
+        <input NoWhiteSpace matInput type="tel" maxlength="10" formControlName="phonenumber" required>
+        <mat-icon matSuffix class="secondary-text">local_phone</mat-icon>
+        @if (addUserForm.get('phonenumber').hasError('required')) {
+          <mat-error>
+            This field is required.
+          </mat-error>
+        }
+        @if (addUserForm.get('phonenumber').hasError('pattern')) {
+          <mat-error>
+            Phone Number is not valid!
+          </mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+
+      <mat-form-field appearance="outline" fxFlex="47">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender" required>
+          <mat-option value="Male">Male</mat-option>
+          <mat-option value="Female">Female</mat-option>
+        </mat-select>
+        @if (addUserForm.get('gender').hasError('required')) {
+          <mat-error>
+            Gender is required!
+          </mat-error>
+        }
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline" fxFlex="47">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role" required>
+          @for (item of roles; track item) {
+            <mat-option [value]="item.name">
+              {{item.name}}
+            </mat-option>
+          }
+        </mat-select>
+        @if (addUserForm.get('role').hasError('required')) {
+          <mat-error>
+            Role is required!
+          </mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex="1 1 auto">
+
+      @if (isSuperAdmin) {
+        <mat-form-field appearance="outline" fxFlex="47">
+          <mat-label>Client</mat-label>
+          <mat-select formControlName="clientId" required>
+            @for (item of clients; track item) {
+              <mat-option [value]="item.id">
+                {{item.name}}
+              </mat-option>
+            }
+          </mat-select>
+          @if (addUserForm.get('clientId').hasError('required')) {
+            <mat-error>
+              Client is required!
+            </mat-error>
+          }
+        </mat-form-field>
+      }
+
+    </div>
+
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="dialog-actions-margin">
+  <button mat-button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="mat-accent submit-button" aria-label="SAVE" (click)="onSubmit()"
+  [disabled]="!addUserForm.valid"> Save </button>
+</mat-dialog-actions>

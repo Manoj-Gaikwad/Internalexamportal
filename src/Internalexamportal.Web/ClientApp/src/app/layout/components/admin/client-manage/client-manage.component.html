@@ -1,0 +1,102 @@
+<div class="page-layout simple fullwidth">
+  <div class="content p-20" fxLayout="column">
+    <mat-card>
+      <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>
+          Manage Clients
+        </mat-card-title>
+      </mat-card-header>
+      <!-- HEADER -->
+
+      <!-- CONTENT -->
+      <mat-card-content>
+        <div class="content">
+
+          <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <mat-form-field fxFlex="20" appearance="outline" class="compact">
+              <mat-label>Search</mat-label>
+              <input matInput (ngModelChange)="this.searchTerm.next($event);" [(ngModel)]="searchText"
+                placeholder="Type to Search...">
+                <mat-icon matSuffix class="secondary-text" [ngStyle]="{'cursor':isSearchText?'pointer':'auto' }"
+                  (click)="isSearchText ? clearSearch():''">
+                  {{isSearchText ?'close': 'search'}}
+                </mat-icon>
+              </mat-form-field>
+
+              <button type="button" mat-raised-button class=" add-todo-button mat-accent mb-20" aria-label="ADD"
+                (click)='openAddClientDialog()'>
+                <mat-icon class="length-icon display-icon">add</mat-icon>
+                Add Client
+              </button>
+            </div>
+
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)">
+
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>Sr.No.</th>
+                <td mat-cell *matCellDef="let row;">{{row.id}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                <td mat-cell *matCellDef="let row">{{row.name}}</td>
+              </ng-container>
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                <td mat-cell *matCellDef="let row">{{row.email}}</td>
+              </ng-container>
+              <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone No. </th>
+                <td mat-cell *matCellDef="let row">{{row.phone}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let row">
+
+                  <button mat-icon-button [matMenuTriggerFor]="actionMenu" aria-label="more">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+
+                  <mat-menu #actionMenu="matMenu">
+
+                    <button mat-menu-item (click)="openEditClientDialog(row)">
+                      <mat-icon>edit</mat-icon>
+                      <span>Edit</span>
+                    </button>
+
+                    <button mat-menu-item (click)="deleteClientDialog(row)">
+                      <mat-icon>delete</mat-icon>
+                      <span>Delete</span>
+                    </button>
+
+
+                  </mat-menu>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+
+            @if (dataSource?.data?.length === 0) {
+              <div>
+                <h3 class="w-100-p m-0 p-12" style="text-align: center;">
+                  No Records Found!
+                </h3>
+              </div>
+            }
+
+            <mat-paginator [length]="paginate.totalRecords" [pageSize]="paginate.pageSize"
+              [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons (page)="nextOrPreviousPage($event)">
+            </mat-paginator>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

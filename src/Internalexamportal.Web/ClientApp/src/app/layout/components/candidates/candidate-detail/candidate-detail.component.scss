@@ -1,0 +1,16 @@
+@use "@fuse/scss/fuse" as fuse;
+
+form{
+        mat-form-field{
+            margin-right: 6%;
+        }
+       .gender{
+          // margin-left: 10%;
+           .female{
+                margin-left: 350%;
+           }
+       }
+}
+ .mat-radio-button ~ .mat-radio-button {
+        margin-left: 16px;
+        }

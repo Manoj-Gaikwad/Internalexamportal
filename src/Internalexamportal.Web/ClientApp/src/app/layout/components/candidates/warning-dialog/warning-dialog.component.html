@@ -1,0 +1,39 @@
+<mat-toolbar class="modal-header mat-warn m-0" fxLayout="row">
+  <div fxFlex="60">
+    Warning / Alert No. {{count}}
+  </div>
+  <div fxFlex="40" fxLayoutAlign="end end">
+    <!-- <button #closeBtn class="ml-180" mat-dialog-close="true" mat-icon-button>
+    <mat-icon>close</mat-icon>
+  </button> -->
+</div>
+</mat-toolbar>
+<div class="page-layout mat-typography simple fullwidth p-8">
+  <mat-card-content fxLayout="column">
+    <div class="content custom-padding p-16" fxLayout="column">
+      <h3 class="d-flex">
+        <span> You have moved out of the current exam window.</span>
+        <br>
+          <span>You are not allowed to move out from exam page.</span>
+          <br>
+            <span>If you continue to do like this your exam will be terminated.</span>
+            @if (count >= maxCount) {
+              <hr>
+                <span>Maximum number of warnings reached. Exam will be terminated.</span>
+              }
+            </h3>
+          </div>
+        </mat-card-content>
+        <mat-dialog-actions class="pr-20 p-12 m-0" align="center">
+          @if (count < maxCount) {
+            <button class="cancel" color="warn" mat-button mat-dialog-close="true" mat-raised-button>
+              CONTINUE
+            </button>
+          }
+          @if (count >= maxCount) {
+            <button class="cancel" color="warn" mat-button mat-dialog-close="true" mat-raised-button>
+              OK
+            </button>
+          }
+        </mat-dialog-actions>
+      </div>

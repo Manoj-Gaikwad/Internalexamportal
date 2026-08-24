@@ -1,0 +1,37 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar class="mat-accent m-0">
+        <mat-toolbar-row fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button mat-dialog-close aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+        <div class="content custom-padding" fxLayout="column">
+            <br/>
+            <div fxLayout="row wrap" fxLayoutAlign="center center" fxFlex="0 0 auto">
+                <!--  Use standard opening and closing tag -->
+                <webcam 
+                    [height]="400" 
+                    [width]="400" 
+                    [trigger]="triggerObservable" 
+                    (imageCapture)="handleImage($event)"
+                    (initError)="handleInitError($event)" 
+                    [videoOptions]="videoOptions" 
+                    [imageQuality]="0.5">
+                </webcam>
+            </div>
+        </div>
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="center center">
+        <div>
+            <button mat-raised-button color="accent" class="save-button" aria-label="SAVE"
+                    (click)="triggerSnapshot();">
+                Take A Snapshot
+            </button>
+        </div>
+    </div>
+</div>

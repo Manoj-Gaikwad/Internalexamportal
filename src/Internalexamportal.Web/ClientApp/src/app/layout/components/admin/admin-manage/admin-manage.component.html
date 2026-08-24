@@ -1,0 +1,140 @@
+<div class="page-layout simple fullwidth">
+  <div class="content p-20" fxLayout="column">
+    <mat-card>
+      <ep-spinner [isSpinner]=isSpinner></ep-spinner>
+      <!-- HEADER -->
+      <mat-card-header>
+        <mat-card-title>
+          Manage Users
+        </mat-card-title>
+      </mat-card-header>
+      <!-- HEADER -->
+
+      <!-- CONTENT -->
+      <mat-card-content>
+        <div class="content">
+
+          <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <mat-form-field fxFlex="20" appearance="outline" permission-based-access class="compact"
+              permissionKey="{{permissionEnum.ViewAdmin}}">
+              <mat-label>Search</mat-label>
+              <input matInput (ngModelChange)="this.searchTerm.next($event);" [(ngModel)]="searchText"
+                placeholder="Type to Search...">
+                <mat-icon matSuffix class="secondary-text" [ngStyle]="{'cursor':isSearchText?'pointer':'auto' }"
+                  (click)="isSearchText ? clearSearch():''">
+                  {{isSearchText ?'close': 'search'}}
+                </mat-icon>
+              </mat-form-field>
+
+              <button type="button" mat-raised-button class=" add-todo-button mat-accent mb-20" aria-label="ADD"
+                permission-based-access permissionKey="{{permissionEnum.AddEditAdmin}}" (click)='openAddAdminDialog()'>
+                <mat-icon class="length-icon display-icon">add</mat-icon>
+                Add User
+              </button>
+            </div>
+
+            <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)"
+              permission-based-access permissionKey="{{permissionEnum.ViewAdmin}}">
+
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>Sr.No.</th>
+                <td mat-cell *matCellDef="let i=index;">{{getRowIndex(i)}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                <td mat-cell *matCellDef="let row">{{row.firstName}} {{row.lastName}}</td>
+              </ng-container>
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                <td mat-cell *matCellDef="let row">{{row.email}}</td>
+              </ng-container>
+              <ng-container matColumnDef="phoneNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile No. </th>
+                <td mat-cell *matCellDef="let row">{{row.phoneNumber}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+                <td mat-cell *matCellDef="let row">{{row.role}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                <td mat-cell *matCellDef="let row">
+                  @if (row.isActive) {
+                    <mat-icon class="active-icon green-600 s-16">check</mat-icon>
+                  }
+                  @if (!row.isActive) {
+                    <mat-icon class="active-icon red-500 s-16">close</mat-icon>
+                  }
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let row">
+
+                  <button mat-icon-button [matMenuTriggerFor]="actionMenu" aria-label="more">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+
+                  <mat-menu #actionMenu="matMenu">
+
+                    <button mat-menu-item (click)="EditAdmin(row)" permission-based-access
+                      permissionKey="{{permissionEnum.AddEditAdmin}}">
+                      <mat-icon>edit</mat-icon>
+                      <span>Edit</span>
+                    </button>
+
+                    <button mat-menu-item (click)="toggleActiveStatus(row)" permission-based-access
+                      permissionKey="{{permissionEnum.AddEditAdmin}}">
+                      @if (row.isActive) {
+                        <mat-icon class="active-icon red-500 s-16">close</mat-icon>
+                      }
+                      @if (!row.isActive) {
+                        <mat-icon class="active-icon green-600 s-16">done
+                        </mat-icon>
+                      }
+                      @if (!row.isActive) {
+                        <span>Make Active</span>
+                      }
+                      @if (row.isActive) {
+                        <span>Make Inactive</span>
+                      }
+                    </button>
+
+                    <button mat-menu-item (click)="DeleteAdmin(row)" permission-based-access
+                      permissionKey="{{permissionEnum.DeleteAdmin}}">
+                      <mat-icon>delete</mat-icon>
+                      <span>Delete</span>
+                    </button>
+
+                  </mat-menu>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+
+            @if (dataSource?.data?.length === 0) {
+              <div>
+                <h3 class="w-100-p m-0 p-12" style="text-align: center;">
+                  No Records Found!
+                </h3>
+              </div>
+            }
+
+            <mat-paginator [length]="paginate.totalRecords" [pageSize]="paginate.pageSize"
+              [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons (page)="nextOrPreviousPage($event)"
+              permission-based-access permissionKey="{{permissionEnum.ViewAdmin}}">
+            </mat-paginator>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

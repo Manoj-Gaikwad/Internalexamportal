@@ -1,0 +1,132 @@
+<!-- HEADER -->
+<div class="header" fxLayout="row" fxLayoutAlign="space-between center">
+
+  <h2 mat-dialog-title>Import Candidates</h2>
+
+  <div [formGroup]="form" fxLayout="row" fxFlex="35" fxLayoutAlign="end center" fxLayoutGap="10px">
+
+    <mat-form-field appearance="outline" fxFlex="50">
+      <mat-label>Select Group</mat-label>
+      <mat-select required formControlName="groupId" (selectionChange)="onGroupSelectionChange($event)">
+        @for (group of groups; track group) {
+          <mat-option [value]="group.id">
+            {{group.name}}
+          </mat-option>
+        }
+      </mat-select>
+      <mat-error>Group is required!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" fxFlex="50" class="compact">
+      <mat-label>Search</mat-label>
+      <input matInput (ngModelChange)="this.searchTerm.next($event);" [(ngModel)]="searchText"
+        placeholder="Type to Search...">
+        <mat-icon matSuffix class="secondary-text" [ngStyle]="{'cursor':isSearchText?'pointer':'auto' }"
+          (click)="isSearchText ? clearSearch():''">
+          {{isSearchText ?'close': 'search'}}
+        </mat-icon>
+      </mat-form-field>
+
+    </div>
+
+  </div>
+
+  <!-- HEADER -->
+
+  <!-- CONTENT -->
+  <mat-dialog-content class="mat-typography">
+    <ep-spinner [isSpinner]='isSpinner'></ep-spinner>
+
+    <div class="content">
+
+      <table mat-table [dataSource]="dataSource" matSort class="content">
+
+        <ng-container matColumnDef="Select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null;" [checked]="selection.hasValue()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation();" (change)="$event ? selection.toggle(row) : null;"
+              [checked]="selection.isSelected(row)" [disabled]="!row.isValid">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="FirstName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name</th>
+          <td mat-cell *matCellDef="let row;"> {{row.FirstName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="LastName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+          <td mat-cell *matCellDef="let row"> {{row.LastName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email</th>
+          <td mat-cell *matCellDef="let row"> {{row.Email}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Phone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+          <td mat-cell *matCellDef="let row"> {{row.Phone}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="DateOfBirth">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Of Birth</th>
+          <td mat-cell *matCellDef="let row;"> {{row.DateOfBirth}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Gender">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
+          <td mat-cell *matCellDef="let row"> {{row.Gender}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+          <td mat-cell *matCellDef="let row; let i = index;">
+            <mat-icon class="length-icon display-icon mat-accent cursor-pointer" (click)="editCandidate(row)">
+              edit
+            </mat-icon>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'invalid-row': !row.isValid}">
+        </table>
+
+
+        @if (dataSource?.data?.length === 0) {
+          <div>
+            <h3 class="w-100-p m-0 p-12" style="text-align: center;">
+              No Candidates Found!
+            </h3>
+          </div>
+        }
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+
+        <div class="full-width" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
+          <div>
+            <h2 class="font-weight-700 mt-0 mb-0">Summary:</h2>
+          </div>
+          <div>
+            <h3 class="font-weight-600 mt-0 mb-0"> Total No. of Records: {{dataSource?.data?.length}}</h3>
+          </div>
+          <b>|</b>
+          <div>
+            <!-- [ngClass]="{'red-500-fg': (validationErrorCount > 0),'green-500-fg':(validationErrorCount == 0)}" -->
+            <h3 class="font-weight-600 mt-0 mb-0">Total
+              No. of Validation Error:
+            {{validationErrorCount}}</h3>
+          </div>
+        </div>
+
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-raised-button color="warn" mat-dialog-close>Cancel</button>
+      <button mat-raised-button class="mat-accent submit-button" aria-label="SAVE"
+      [disabled]='!selection.hasValue() || !selectedGroupId' (click)="onSubmit()"> Import </button>
+    </mat-dialog-actions>

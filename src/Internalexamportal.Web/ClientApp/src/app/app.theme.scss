@@ -1,0 +1,256 @@
+@use '@angular/material' as mat;
+@use '../@fuse/scss/partials/colors' as fuseColors;
+@use '../@fuse/scss/core';
+@use "app/layout/components/chat-panel/chat-panel.theme" as chat-panel;
+@use "app/layout/components/toolbar/toolbar.theme" as toolbar;
+
+// -----------------------------------------------------------------------------------------------------
+// @ Custom color maps for Fuse
+// -----------------------------------------------------------------------------------------------------
+$dark-primary-text: rgba(0, 0, 0, 0.87);
+$light-primary-text: rgba(255, 255, 255, 1);
+
+// Custom palettes as SCSS maps (no contrast)
+$fuse-white: (
+  500: white
+);
+
+$fuse-black: (
+  500: black
+);
+
+$fuse-navy: (
+  50: #ECECEE,
+  100: #C5C6CB,
+  200: #9EA1A9,
+  300: #7D818C,
+  400: #5C616F,
+  500: #3C4252,
+  600: #353A48,
+  700: #2D323E,
+  800: #262933,
+  900: #1E2129,
+  A100: #C5C6CB,
+  A200: #9EA1A9,
+  A400: #5C616F,
+  A700: #2D323E
+);
+
+// Generate Fuse color classes
+$custom-palettes: (
+  fuse-white: $fuse-white,
+  fuse-black: $fuse-black,
+  fuse-navy: $fuse-navy
+);
+@include fuseColors.fuse-color-classes($custom-palettes);
+
+// -----------------------------------------------------------------------------------------------------
+// @ Typography
+// -----------------------------------------------------------------------------------------------------
+$typography: (
+  font-family: 'Muli, Helvetica Neue, Arial, sans-serif',
+  headline-1: (font-size: 96px, line-height: 112px, font-weight: 300),
+  headline-2: (font-size: 60px, line-height: 72px, font-weight: 300),
+  headline-3: (font-size: 48px, line-height: 56px, font-weight: 400),
+  headline-4: (font-size: 34px, line-height: 40px, font-weight: 400),
+  headline-5: (font-size: 24px, line-height: 32px, font-weight: 400),
+  headline-6: (font-size: 20px, line-height: 32px, font-weight: 600),
+  subtitle-1: (font-size: 16px, line-height: 24px, font-weight: 400),
+  subtitle-2: (font-size: 14px, line-height: 24px, font-weight: 500),
+  body-1: (font-size: 16px, line-height: 24px, font-weight: 400),
+  body-2: (font-size: 14px, line-height: 24px, font-weight: 600),
+  button: (font-size: 14px, line-height: 14px, font-weight: 600),
+  caption: (font-size: 12px, line-height: 16px, font-weight: 400),
+  overline: (font-size: 10px, line-height: 16px, font-weight: 400),
+  input: (font-size: 16px, line-height: 18px, font-weight: 400)
+);
+
+@include mat.all-component-typographies($typography);
+
+// -----------------------------------------------------------------------------------------------------
+// @ Component theming
+// -----------------------------------------------------------------------------------------------------
+@mixin components-theme($theme) {
+  @include chat-panel.chat-panel-theme($theme);
+  @include toolbar.toolbar-theme($theme);
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Define themes
+// -----------------------------------------------------------------------------------------------------
+
+// Default theme (M2)
+$default-primary-palette: mat.m2-define-palette(mat.$m2-blue-gray-palette, 500);
+$default-accent-palette: mat.m2-define-palette(mat.$m2-light-blue-palette, 600, 400, 700);
+$default-warn-palette: mat.m2-define-palette(mat.$m2-red-palette);
+
+$theme: mat.m2-define-light-theme((
+  color: (
+    primary: $default-primary-palette,
+    accent: $default-accent-palette,
+    warn: $default-warn-palette
+  )
+));
+
+body.theme-default {
+  @include mat.all-component-themes($theme);
+  @include components-theme($theme);
+
+  $palettes: (
+    primary: $default-primary-palette,
+    accent: $default-accent-palette,
+    warn: $default-warn-palette
+  );
+  
+
+  --mat-elevation-level-1: var(--mat-app-elevation-shadow-level-1);
+  --mat-elevation-level-2: var(--mat-app-elevation-shadow-level-2);
+  --mat-elevation-level-3: var(--mat-app-elevation-shadow-level-3);
+  --mat-elevation-level-4: var(--mat-app-elevation-shadow-level-4);
+  --mat-elevation-level-7: var(--mat-app-elevation-shadow-level-7);
+  --mat-elevation-level-8: var(--mat-app-elevation-shadow-level-8);
+  --mat-elevation-level-12: var(--mat-app-elevation-shadow-level-12);
+  --mat-elevation-level-16: var(--mat-app-elevation-shadow-level-16);
+
+  /* Aliases for legacy variable names (without hyphens) used across Fuse styles */
+  --mat-elevation-level1: var(--mat-elevation-level-1);
+  --mat-elevation-level2: var(--mat-elevation-level-2);
+  --mat-elevation-level3: var(--mat-elevation-level-3);
+  --mat-elevation-level4: var(--mat-elevation-level-4);
+  --mat-elevation-level7: var(--mat-elevation-level-7);
+  --mat-elevation-level8: var(--mat-elevation-level-8);
+  --mat-elevation-level12: var(--mat-elevation-level-12);
+  --mat-elevation-level16: var(--mat-elevation-level-16);
+}
+
+// Yellow Light theme (M2)
+$yellow-light-theme-primary-palette: mat.m2-define-palette(mat.$m2-blue-gray-palette, 600, 400, 700);
+$yellow-light-theme-accent-palette: mat.m2-define-palette(mat.$m2-yellow-palette, 600, 400, 700);
+$yellow-light-theme-warn-palette: mat.m2-define-palette(mat.$m2-red-palette);
+
+$yellow-light-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $yellow-light-theme-primary-palette,
+    accent: $yellow-light-theme-accent-palette,
+    warn: $yellow-light-theme-warn-palette
+  )
+));
+
+body.theme-yellow-light {
+  @include mat.all-component-themes($yellow-light-theme);
+  @include components-theme($yellow-light-theme);
+
+  $palettes: (
+    primary: $yellow-light-theme-primary-palette,
+    accent: $yellow-light-theme-accent-palette,
+    warn: $yellow-light-theme-warn-palette
+  );
+  
+
+  --mat-elevation-level-1: var(--mat-app-elevation-shadow-level-1);
+  --mat-elevation-level-2: var(--mat-app-elevation-shadow-level-2);
+  --mat-elevation-level-3: var(--mat-app-elevation-shadow-level-3);
+  --mat-elevation-level-4: var(--mat-app-elevation-shadow-level-4);
+  --mat-elevation-level-7: var(--mat-app-elevation-shadow-level-7);
+  --mat-elevation-level-8: var(--mat-app-elevation-shadow-level-8);
+  --mat-elevation-level-12: var(--mat-app-elevation-shadow-level-12);
+  --mat-elevation-level-16: var(--mat-app-elevation-shadow-level-16);
+
+  /* Aliases for legacy variable names (without hyphens) used across Fuse styles */
+  --mat-elevation-level1: var(--mat-elevation-level-1);
+  --mat-elevation-level2: var(--mat-elevation-level-2);
+  --mat-elevation-level3: var(--mat-elevation-level-3);
+  --mat-elevation-level4: var(--mat-elevation-level-4);
+  --mat-elevation-level7: var(--mat-elevation-level-7);
+  --mat-elevation-level8: var(--mat-elevation-level-8);
+  --mat-elevation-level12: var(--mat-elevation-level-12);
+  --mat-elevation-level16: var(--mat-elevation-level-16);
+}
+
+// Blue-Gray Dark theme (M2)
+$blue-gray-dark-theme-primary-palette: mat.m2-define-palette(mat.$m2-blue-palette);
+$blue-gray-dark-theme-accent-palette: mat.m2-define-palette(mat.$m2-blue-gray-palette);
+$blue-gray-dark-theme-warn-palette: mat.m2-define-palette(mat.$m2-red-palette);
+
+$blue-gray-dark-theme: mat.m2-define-dark-theme((
+  color: (
+    primary: $blue-gray-dark-theme-primary-palette,
+    accent: $blue-gray-dark-theme-accent-palette,
+    warn: $blue-gray-dark-theme-warn-palette
+  )
+));
+
+body.theme-blue-gray-dark {
+  @include mat.all-component-themes($blue-gray-dark-theme);
+  @include components-theme($blue-gray-dark-theme);
+
+  $palettes: (
+    primary: $blue-gray-dark-theme-primary-palette,
+    accent: $blue-gray-dark-theme-accent-palette,
+    warn: $blue-gray-dark-theme-warn-palette
+  );
+  
+
+  --mat-elevation-level-1: var(--mat-app-elevation-shadow-level-1);
+  --mat-elevation-level-2: var(--mat-app-elevation-shadow-level-2);
+  --mat-elevation-level-3: var(--mat-app-elevation-shadow-level-3);
+  --mat-elevation-level-4: var(--mat-app-elevation-shadow-level-4);
+  --mat-elevation-level-7: var(--mat-app-elevation-shadow-level-7);
+  --mat-elevation-level-8: var(--mat-app-elevation-shadow-level-8);
+  --mat-elevation-level-12: var(--mat-app-elevation-shadow-level-12);
+  --mat-elevation-level-16: var(--mat-app-elevation-shadow-level-16);
+
+  /* Aliases for legacy variable names (without hyphens) used across Fuse styles */
+  --mat-elevation-level1: var(--mat-elevation-level-1);
+  --mat-elevation-level2: var(--mat-elevation-level-2);
+  --mat-elevation-level3: var(--mat-elevation-level-3);
+  --mat-elevation-level4: var(--mat-elevation-level-4);
+  --mat-elevation-level7: var(--mat-elevation-level-7);
+  --mat-elevation-level8: var(--mat-elevation-level-8);
+  --mat-elevation-level12: var(--mat-elevation-level-12);
+  --mat-elevation-level16: var(--mat-elevation-level-16);
+}
+
+// Pink Dark theme (M2)
+$pink-dark-theme-primary-palette: mat.m2-define-palette(mat.$m2-pink-palette);
+$pink-dark-theme-accent-palette: mat.m2-define-palette(mat.$m2-pink-palette);
+$pink-dark-theme-warn-palette: mat.m2-define-palette(mat.$m2-red-palette);
+
+$pink-dark-theme: mat.m2-define-dark-theme((
+  color: (
+    primary: $pink-dark-theme-primary-palette,
+    accent: $pink-dark-theme-accent-palette,
+    warn: $pink-dark-theme-warn-palette
+  )
+));
+
+body.theme-pink-dark {
+  @include mat.all-component-themes($pink-dark-theme);
+  @include components-theme($pink-dark-theme);
+
+  $palettes: (
+    primary: $pink-dark-theme-primary-palette,
+    accent: $pink-dark-theme-accent-palette,
+    warn: $pink-dark-theme-warn-palette
+  );
+  
+
+  --mat-elevation-level-1: var(--mat-app-elevation-shadow-level-1);
+  --mat-elevation-level-2: var(--mat-app-elevation-shadow-level-2);
+  --mat-elevation-level-3: var(--mat-app-elevation-shadow-level-3);
+  --mat-elevation-level-4: var(--mat-app-elevation-shadow-level-4);
+  --mat-elevation-level-7: var(--mat-app-elevation-shadow-level-7);
+  --mat-elevation-level-8: var(--mat-app-elevation-shadow-level-8);
+  --mat-elevation-level-12: var(--mat-app-elevation-shadow-level-12);
+  --mat-elevation-level-16: var(--mat-app-elevation-shadow-level-16);
+
+  /* Aliases for legacy variable names (without hyphens) used across Fuse styles */
+  --mat-elevation-level1: var(--mat-elevation-level-1);
+  --mat-elevation-level2: var(--mat-elevation-level-2);
+  --mat-elevation-level3: var(--mat-elevation-level-3);
+  --mat-elevation-level4: var(--mat-elevation-level-4);
+  --mat-elevation-level7: var(--mat-elevation-level-7);
+  --mat-elevation-level8: var(--mat-elevation-level-8);
+  --mat-elevation-level12: var(--mat-elevation-level-12);
+  --mat-elevation-level16: var(--mat-elevation-level-16);
+}
