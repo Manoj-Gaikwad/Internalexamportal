@@ -8,58 +8,52 @@ namespace Internalexamportal.DataAccessLayer.Migrations
         {
             // Client (Admin) - use a new ID to avoid conflict with existing data
             migrationBuilder.InsertData(
-                "Client", "Id", new[] { 1000 },
+                "Client", "Id", "integer", new int[] { 1000 },
                 new[] { "Admin" });
 
             // Role (SuperAdmin)
             migrationBuilder.InsertData(
-                "Role", "Id", new[] { 1001 },
+                "Role", "Id", "integer", new int[] { 1001 },
                 new[] { "SuperAdmin" });
 
             // Role (Regular)
             migrationBuilder.InsertData(
-                "Role", "Id", new[] { 1002 },
+                "Role", "Id", "integer", new int[] { 1002 },
                 new[] { "Regular" });
 
             // Permission (Read)
             migrationBuilder.InsertData(
-                "Permission", "Id", new[] { 1003 },
-                new[] { "Read" });
+                "Permission", "Id", "string", new string[] { "Read" });
 
             // Permission (Write)
             migrationBuilder.InsertData(
-                "Permission", "Id", new[] { 1004 },
-                new[] { "Write" });
+                "Permission", "Id", "string", new string[] { "Write" });
 
             // RolePermission (SuperAdmin -> Read)
             migrationBuilder.InsertData(
-                "RolePermission", "Id", new[] { 1001 },
+                "RolePermission", "Id", "integer", new int[] { 1001 },
                 new[] { 1, 1 }); // PrincipalId=1, RoleId=1, PermissionId=1
 
             // RolePermission (SuperAdmin -> Write)
             migrationBuilder.InsertData(
-                "RolePermission", "Id", new[] { 1001 },
+                "RolePermission", "Id", "integer", new int[] { 1001 },
                 new[] { 1, 2 }); // PrincipalId=1, RoleId=1, PermissionId=2
 
             // TestStatus
             migrationBuilder.InsertData(
-                "TestStatus", "Id", new[] { 1005 },
-                new[] { "Pass" });
+                "TestStatus", "Id", "string", new string[] { "Pass" });
 
             // Question
             migrationBuilder.InsertData(
-                "Question", "Id", new[] { 1006 },
-                new[] { "Sample Question" });
+                "Question", "Id", "string", new string[] { "Sample Question" });
 
             // TestInstruction
             migrationBuilder.InsertData(
-                "TestInstruction", "Id", new[] { 1007 },
-                new[] { "Sample Instruction" });
+                "TestInstruction", "Id", "string", new string[] { "Sample Instruction" });
 
             // SubmittedTest
             migrationBuilder.InsertData(
-                "SubmittedTest", "Id", new[] { 1008 },
-                new[] { "Submitted Test" });
+                "SubmittedTest", "Id", "string", new string[] { "Submitted Test" });
         }
     }
 }
