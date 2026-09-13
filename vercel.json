@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rootDirectory": "src/Internalexamportal.Web/ClientApp",
+  "installCommand": "npm install --legacy-peer-deps",
+  "buildCommand": "npm run build-prod",
+  "outputDirectory": "dist/browser",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
