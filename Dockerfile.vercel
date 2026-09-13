@@ -36,7 +36,7 @@ RUN npm install --legacy-peer-deps
 # Publish. The existing PublishRunWebpack target runs `npm run build-prod`
 # (ng build --configuration production) and copies the Angular dist into the
 # publish output, exactly like the local flow.
-WORKDIR /src/Internalexamportal.Web
+WORKDIR /src/src/Internalexamportal.Web
 RUN dotnet publish Internalexamportal.Web.csproj \
     -c Release \
     -o /app/publish \
