@@ -7,8 +7,13 @@ using Internalexamportal.DataAccessLayer.Contracts;
 using InternalExamportal.DataAccessLayer;
 using InternalExamportal.DataAccessLayer.Contracts;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Internalexamportal.Web.StartupExtensions
 {
@@ -16,7 +21,21 @@ namespace Internalexamportal.Web.StartupExtensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            var configurationTypes = typeof(EntityConfigurator).Assembly.GetTypes()
+                .Where(t => t.IsClass && !t.IsAbstract && t.GetInterfaces()
+                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)))
+                .ToArray();
+
+            var configurations = new List<object>();
+            foreach (var type in configurationTypes)
+            {
+                var ctor = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, Type.EmptyTypes, null);
+                if (ctor != null) configurations.Add(ctor.Invoke(null));
+            }
+
             return services
+                 .AddSingleton<IEnumerable<object>>(configurations)
+                 .AddTransient<IEntityConfigurator, EntityConfigurator>()
                  .AddTransient<IExceptionEmailSenderService, ExceptionErrorEmailService>()
                  .AddTransient<IEmailSenderService, EmailSenderService>()
                  .AddTransient<IGenerateEmailConfirmationUrlService, GenerateEmailConfirmationUrlService>()

@@ -63,6 +63,12 @@ namespace Internalexamportal.Core.Commons
                 // map model to entity.
                 user = _mapper.Map<User>(createUserModel);
 
+                // default user belongs to the default seeded client.
+                if (user.ClientId == 0)
+                {
+                    user.ClientId = 1;
+                }
+
                 //Set email confirmed property to true. By Default. 
                 user.EmailConfirmed = true;
 
