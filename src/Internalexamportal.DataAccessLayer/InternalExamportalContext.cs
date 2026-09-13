@@ -305,7 +305,7 @@ namespace Internalexamportal.DataAccessLayer
               .HasKey(id => id.Id);
 
             modelBuilder.Entity<Test>()
-              .Property(p => p.LinkId).HasDefaultValueSql("NEWID()");
+              .Property(p => p.LinkId).HasDefaultValueSql("gen_random_uuid()");
 
             modelBuilder
               .Entity<TestSetting>()

@@ -36,7 +36,7 @@ namespace Internalexamportal.Core.Commons
             // https://stackoverflow.com/questions/35947598/register-usermanager-with-autofac-in-asp-net-core
 
             services.AddDbContext<InternalExamportalContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseNpgsql(connectionString));
 
             // see http://pioneercode.com/post/authentication-in-a-asp-dot-net-core-api-part-1-identity-access-denied
             // to learn about authentication setup with identity

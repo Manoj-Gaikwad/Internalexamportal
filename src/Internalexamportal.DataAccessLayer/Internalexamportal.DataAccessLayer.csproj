@@ -88,6 +88,7 @@
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.20" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.20">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -96,10 +97,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Internalexamportal.Common\Internalexamportal.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Internalexamportal\DataAccessLayer\Migrations\" />
   </ItemGroup>
 
 </Project>

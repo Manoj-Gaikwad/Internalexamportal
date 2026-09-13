@@ -49,8 +49,8 @@ namespace InternalExamportal.DataAccessLayer.Extension
         public static void SetAuditingShadowProperties<T>(ModelBuilder builder) where T : class, IAudited
         {
             // define shadow properties
-            builder.Entity<T>().Property<DateTime>("CreatedOn").HasDefaultValueSql("GetUtcDate()");
-            builder.Entity<T>().Property<DateTime>("ModifiedOn").HasDefaultValueSql("GetUtcDate()");
+            builder.Entity<T>().Property<DateTime>("CreatedOn").HasDefaultValueSql("now()");
+            builder.Entity<T>().Property<DateTime>("ModifiedOn").HasDefaultValueSql("now()");
             builder.Entity<T>().Property<string>("CreatedById");
             builder.Entity<T>().Property<string>("ModifiedById");
             // define FKs to User

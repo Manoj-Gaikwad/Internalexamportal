@@ -7,6 +7,9 @@
 *.userosscache
 *.sln.docstates
 
+# Local secrets (contains real Supabase database password)
+**/appsettings.Development.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

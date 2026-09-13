@@ -10,7 +10,7 @@ namespace Internalexamportal.Web.StartupExtensions
         public static IServiceCollection AddEntityFramework(this IServiceCollection services, IConfiguration configuration)
         {
             return services.AddDbContext<InternalExamportalContext>(options =>
-                         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
+                         options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
                          .AddScoped<DbContext, InternalExamportalContext>();
             //.AddDatabaseDeveloperPageExceptionFilter();
         }
