@@ -22,7 +22,7 @@
 
 
 	<ItemGroup>
-    <ProjectReference Include="..\Internalexamportal.DataAccessLayer\InternalExamportal.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\Internalexamportal.DataAccessLayer\Internalexamportal.DataAccessLayer.csproj" />
     <ProjectReference Include="..\Internalexamportal.DocumentManager\Internalexamportal.DocumentManager.csproj" />
   </ItemGroup>
 
