@@ -1,0 +1,76 @@
+# syntax=docker/dockerfile:1
+
+# ===========================================================================
+# Stage 1 - Build
+#   .NET 10 SDK + Node.js 24. The project targets net10.0 and its
+#   PublishRunWebpack MSBuild target runs `npm run build-prod` during
+#   `dotnet publish -c Release`, so this stage needs Node/npm to build
+#   the Angular application inside the publish.
+# ===========================================================================
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+# Node.js 24.17.0 - same version the repo is built with locally.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl ca-certificates xz-utils \
+    && curl -fsSL https://nodejs.org/dist/v24.17.0/node-v24.17.0-linux-x64.tar.xz -o /tmp/node.tar.xz \
+    && mkdir -p /usr/local/lib/nodejs \
+    && tar -xJf /tmp/node.tar.xz -C /usr/local/lib/nodejs --strip-components=1 \
+    && rm /tmp/node.tar.xz \
+    && ln -s /usr/local/lib/nodejs/bin/node /usr/local/bin/node \
+    && ln -s /usr/local/lib/nodejs/bin/npm  /usr/local/bin/npm \
+    && ln -s /usr/local/lib/nodejs/bin/npx  /usr/local/bin/npx \
+    && rm -rf /var/lib/apt/lists/* \
+    && node --version && npm --version
+
+# Copy the whole solution (Web, Core, Common, DataAccessLayer, DocumentManager)
+COPY . .
+
+# Install Angular dependencies.
+# --legacy-peer-deps is REQUIRED: package.json pins @angular/flex-layout@14
+# (peer: @angular/cdk@^14) next to Angular 20 packages, so plain `npm install`
+# fails with ERESOLVE.
+WORKDIR /src/src/Internalexamportal.Web/ClientApp
+RUN npm install --legacy-peer-deps
+
+# Publish. The existing PublishRunWebpack target runs `npm run build-prod`
+# (ng build --configuration production) and copies the Angular dist into the
+# publish output, exactly like the local flow.
+WORKDIR /src/Internalexamportal.Web
+RUN dotnet publish Internalexamportal.Web.csproj \
+    -c Release \
+    -o /app/publish \
+    /p:UseAppHost=false
+
+# The Angular application builder emits dist/browser, which the csproj copies
+# to ClientApp/browser. The SPA middleware serves from RootPath "ClientApp",
+# so normalize so ClientApp/index.html exists (verified: "/" returns 200).
+RUN mv /app/publish/ClientApp/browser /app/publish/_angular \
+    && rm -rf /app/publish/ClientApp \
+    && mv /app/publish/_angular /app/publish/ClientApp
+
+# ===========================================================================
+# Stage 2 - Runtime
+#   ASP.NET Core 10 runtime. This is the image Vercel actually runs.
+# ===========================================================================
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
+WORKDIR /app
+
+# libgdiplus is required for Aspose.Words / Aspose.PDF / System.Drawing-based
+# document generation on Linux.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgdiplus \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=build /app/publish ./
+
+# Vercel container Functions route HTTP traffic to $PORT (default 80).
+# The ASP.NET base image defaults ASPNETCORE_HTTP_PORTS to 8080, so pin it to
+# 80 to match Vercel's default. If you change PORT in Vercel project settings,
+# set ASPNETCORE_HTTP_PORTS to the same value.
+ENV ASPNETCORE_HTTP_PORTS=80 \
+    PORT=80 \
+    ASPNETCORE_ENVIRONMENT=Production \
+    DOTNET_EnableDiagnostics=0
+
+ENTRYPOINT ["dotnet", "Internalexamportal.Web.dll"]

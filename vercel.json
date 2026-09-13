@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "examportal": {
+      "root": ".",
+      "entrypoint": "Dockerfile.vercel",
+      "runtime": "container"
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": { "service": "examportal" } },
+    { "source": "/(.*)", "destination": { "service": "examportal" } }
+  ]
+}

@@ -1,0 +1,25 @@
+# VCS / tooling
+.git
+.gitattributes
+.gitignore
+.vs
+.idea
+.vercel
+
+# Never ship secrets or local artifacts
+Database
+Documents
+*.pdb
+*.user
+*.suo
+
+# Node / Angular
+**/node_modules
+**/dist
+ClientApp/node_modules
+ClientApp/dist
+
+# .NET build output
+**/bin
+**/obj
+publish
