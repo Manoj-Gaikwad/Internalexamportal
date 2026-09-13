@@ -6,9 +6,10 @@ using Internalexamportal.Core.FileSystem;
 using Internalexamportal.Core.Services;
 using Internalexamportal.DocumentManager.Core;
 using Internalexamportal.Web.StartupExtensions;
-using InternalExamportal.DataAccessLayer;
+using Internalexamportal.DataAccessLayer;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -59,6 +60,22 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
+
+// ===== Database initialize (apply pending migrations + create default admin) =====
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var context = scope.ServiceProvider.GetRequiredService<InternalExamportalContext>();
+        context.Database.Migrate();
+        scope.ServiceProvider.GetRequiredService<IDefaultUserCreatorService>().CreateUser();
+        Console.WriteLine("Database migrated and default user ensured.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Database initialization failed: {ex.Message}");
+    }
+}
 
 // ===== Middleware pipeline =====
 if (app.Environment.IsDevelopment())
