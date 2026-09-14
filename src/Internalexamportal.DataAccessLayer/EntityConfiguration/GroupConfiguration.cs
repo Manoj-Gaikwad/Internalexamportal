@@ -13,9 +13,9 @@ namespace InternalExamportal.DataAccessLayer.EntityConfiguration
         {
             builder.HasData(
              
-              new Group { Id = 1, Name = "General" },
+              new Group { Id = 1, Name = "General", ClientId = 1 },
 
-              new Group { Id = 2, Name = "Others" }
+              new Group { Id = 2, Name = "Others", ClientId = 1 }
 
  
               );

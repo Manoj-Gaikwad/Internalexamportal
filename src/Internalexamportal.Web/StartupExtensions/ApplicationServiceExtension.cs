@@ -45,7 +45,6 @@ namespace Internalexamportal.Web.StartupExtensions
                  .AddTransient<ISmsNotificationService, SmsNotificationService>()
                  .AddTransient<IPasswordChangeLogService, PasswordChangeLogService>()
                  .AddTransient<IDefaultUserCreatorService, DefaultUserCreatorService>()
-                 .AddTransient<IEntityConfigurator, EntityConfigurator>()
                  .AddTransient<IExceptionLogService, DatabaseExceptionLogService>()
                  .AddTransient<IFluentLocal, FluentLocal>()
                  .AddTransient<IFileSystem, LocalFileSystem>()
@@ -60,7 +59,7 @@ namespace Internalexamportal.Web.StartupExtensions
                  .AddScoped(typeof(IDeleteRepository<>), typeof(DeleteRepository<>));
 
             
-            //.AddTransient<ITokenFactory, TokenFactory>()
+             //.AddTransient<ITokenFactory, TokenFactory>()
             // .AddTransient<IPrivilegeservice, Privilegeservice>()
             //.Configure<RefreshTokenHasherOptions>(options => { })
             //.AddTransient<IRefreshTokenHasher, RefreshTokenHasher>()
