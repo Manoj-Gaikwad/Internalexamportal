@@ -206,7 +206,7 @@ const appRoutes: Routes = [
     RouterModule.forChild(appRoutes),
        NgxMatSelectSearchModule,
   ],
-  providers: [Papa],
+  providers: [{ provide: Papa, useFactory: () => new Papa() }],
 
 })
 export class AdminModule { }
