@@ -63,9 +63,40 @@ namespace Internalexamportal.DataAccessLayer
             principal = _principal;
         }
 
+        private void NormalizeUtcDateTimes()
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                foreach (var property in entry.Properties)
+                {
+                    Type propertyType = Nullable.GetUnderlyingType(property.Metadata.ClrType) ?? property.Metadata.ClrType;
+                    if (propertyType != typeof(DateTime)) continue;
+
+                    object value = property.CurrentValue;
+                    if (value is null) continue;
+
+                    DateTime dateTime = (DateTime)value;
+                    switch (dateTime.Kind)
+                    {
+                        case DateTimeKind.Utc:
+                            break;
+                        case DateTimeKind.Unspecified:
+                            // PostgreSQL 'timestamp with time zone' (Npgsql) only accepts Kind=Utc.
+                            // Preserve the wall-clock value (matches how migrated SQL Server data is stored).
+                            property.CurrentValue = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
+                            break;
+                        default:
+                            property.CurrentValue = dateTime.ToUniversalTime();
+                            break;
+                    }
+                }
+            }
+        }
+
         public override int SaveChanges()
         {
             ChangeTracker.DetectChanges();
+            NormalizeUtcDateTimes();
             var user = principal.Identity.GetUserId();
 
             foreach (var entry in ChangeTracker.Entries())
@@ -99,6 +130,7 @@ namespace Internalexamportal.DataAccessLayer
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             ChangeTracker.DetectChanges();
+            NormalizeUtcDateTimes();
             var user = principal.Identity.GetUserId();
 
             foreach (var entry in ChangeTracker.Entries())
