@@ -104,9 +104,9 @@ namespace Internalexamportal.DataAccessLayer.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "CreatedDate", "IsActive", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "15bda09a-effe-4634-88dc-855d9642bfed", "a7ffd1c1-c7ee-4ddc-a10e-882dcba329c6", new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Candidate", "CANDIDATE" },
-                    { "859e583d-691f-40b4-adb2-828703ee1dd7", "31a59558-0a25-48f4-91ba-6a2ffc0ad41c", new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Admin", "ADMIN" },
-                    { "a7ffd1c1-c7ee-4ddc-a10e-882dcba329c6", "03f9632b-47fd-4ec4-a53f-39e14666d282", new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "SuperAdmin", "SUPERADMIN" }
+                    { "15bda09a-effe-4634-88dc-855d9642bfed", "a7ffd1c1-c7ee-4ddc-a10e-882dcba329c6", new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Utc), true, "Candidate", "CANDIDATE" },
+                    { "859e583d-691f-40b4-adb2-828703ee1dd7", "31a59558-0a25-48f4-91ba-6a2ffc0ad41c", new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Utc), true, "Admin", "ADMIN" },
+                    { "a7ffd1c1-c7ee-4ddc-a10e-882dcba329c6", "03f9632b-47fd-4ec4-a53f-39e14666d282", new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Utc), true, "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(

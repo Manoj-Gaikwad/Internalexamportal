@@ -22,7 +22,7 @@ namespace InternalExamportal.DataAccessLayer.EntityConfiguration
                     Name = "SuperAdmin",
                     NormalizedName = "SuperAdmin".ToUpper(),
                     IsActive = true,
-                    CreatedDate = DateTime.Parse("07/10/2020")
+                    CreatedDate = new DateTime(2020, 10, 7, 0, 0, 0, DateTimeKind.Utc)
                 },
                 new Role
                 {
@@ -31,7 +31,7 @@ namespace InternalExamportal.DataAccessLayer.EntityConfiguration
                     Name = "Admin",
                     NormalizedName = "Admin".ToUpper(),
                     IsActive = true,
-                    CreatedDate = DateTime.Parse("07/10/2020")
+                    CreatedDate = new DateTime(2020, 10, 7, 0, 0, 0, DateTimeKind.Utc)
                 },
                 new Role
                 {
@@ -40,7 +40,7 @@ namespace InternalExamportal.DataAccessLayer.EntityConfiguration
                     Name = "Candidate",
                     NormalizedName = "Candidate".ToUpper(),
                     IsActive = true,
-                    CreatedDate = DateTime.Parse("07/10/2020")
+                    CreatedDate = new DateTime(2020, 10, 7, 0, 0, 0, DateTimeKind.Utc)
                 }
             );
         }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Internalexamportal.DataAccessLayer.Migrations
 {
     [DbContext(typeof(InternalExamportalContext))]
-    [Migration("20260914034543_AddSeedData")]
+    [Migration("20260914035332_AddSeedData")]
     partial class AddSeedData
     {
         /// <inheritdoc />
@@ -2011,7 +2011,7 @@ namespace Internalexamportal.DataAccessLayer.Migrations
                         {
                             Id = "a7ffd1c1-c7ee-4ddc-a10e-882dcba329c6",
                             ConcurrencyStamp = "03f9632b-47fd-4ec4-a53f-39e14666d282",
-                            CreatedDate = new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
@@ -2020,7 +2020,7 @@ namespace Internalexamportal.DataAccessLayer.Migrations
                         {
                             Id = "859e583d-691f-40b4-adb2-828703ee1dd7",
                             ConcurrencyStamp = "31a59558-0a25-48f4-91ba-6a2ffc0ad41c",
-                            CreatedDate = new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Admin",
                             NormalizedName = "ADMIN"
@@ -2029,7 +2029,7 @@ namespace Internalexamportal.DataAccessLayer.Migrations
                         {
                             Id = "15bda09a-effe-4634-88dc-855d9642bfed",
                             ConcurrencyStamp = "a7ffd1c1-c7ee-4ddc-a10e-882dcba329c6",
-                            CreatedDate = new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2020, 10, 7, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             Name = "Candidate",
                             NormalizedName = "CANDIDATE"
