@@ -76,18 +76,16 @@ namespace Internalexamportal.DataAccessLayer
                     if (value is null) continue;
 
                     DateTime dateTime = (DateTime)value;
-                    switch (dateTime.Kind)
+                    if (dateTime.Kind == DateTimeKind.Utc) continue;
+
+                    DateTime normalized = dateTime.Kind == DateTimeKind.Unspecified
+                        ? DateTime.SpecifyKind(dateTime, DateTimeKind.Utc)
+                        : dateTime.ToUniversalTime();
+
+                    var propInfo = entry.Entity.GetType().GetProperty(property.Metadata.Name);
+                    if (propInfo != null && propInfo.CanWrite)
                     {
-                        case DateTimeKind.Utc:
-                            break;
-                        case DateTimeKind.Unspecified:
-                            // PostgreSQL 'timestamp with time zone' (Npgsql) only accepts Kind=Utc.
-                            // Preserve the wall-clock value (matches how migrated SQL Server data is stored).
-                            property.CurrentValue = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
-                            break;
-                        default:
-                            property.CurrentValue = dateTime.ToUniversalTime();
-                            break;
+                        propInfo.SetValue(entry.Entity, normalized);
                     }
                 }
             }

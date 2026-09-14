@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,6 +23,7 @@ namespace Internalexamportal.Core.Features.Candidate
         public string SortingColumn { get; set; }
         public string SortingDirection { get; set; }
     }
+
     public class GetAdminGridResult
     {
         public List<AdminModel> Admins { get; set; }
@@ -41,6 +41,7 @@ namespace Internalexamportal.Core.Features.Candidate
         public string Role { get; set; }
         public bool IsActive { get; set; }
     }
+
     public class GetAdminGridHandler : IRequestHandler<AdminGridModel, GetAdminGridResult>
     {
         private readonly UserManager<User> _userManager;
@@ -48,8 +49,8 @@ namespace Internalexamportal.Core.Features.Candidate
         private readonly IMapper _mapper;
         private readonly IClientManagerService _clientManager;
 
-
-        public GetAdminGridHandler(UserManager<User> userManager,
+        public GetAdminGridHandler(
+            UserManager<User> userManager,
             IMapper mapper,
             InternalExamportalContext dbContext,
             IClientManagerService clientManager)
@@ -60,25 +61,30 @@ namespace Internalexamportal.Core.Features.Candidate
             _clientManager = clientManager;
         }
 
-        public async Task<GetAdminGridResult> Handle(AdminGridModel request, CancellationToken cancellationToken)
+        public async Task<GetAdminGridResult> Handle(
+            AdminGridModel request,
+            CancellationToken cancellationToken)
         {
-            var result = new GetAdminGridResult();
-
             var client = await _clientManager.GetClientId();
 
-            var roles = _dbContext.Roles
+            // Materialize roles before using GetUsersInRoleAsync().
+            // This prevents NpgsqlOperationInProgressException because
+            // the Roles query is completed before another query starts.
+            var roles = await _dbContext.Roles
                 .Where(prop => prop.Name != GlobalConstants.CandidateRoleName)
-                .Where(prop => prop.Name != GlobalConstants.SuperAdminRoleName);
+                .Where(prop => prop.Name != GlobalConstants.SuperAdminRoleName)
+                .ToListAsync(cancellationToken);
 
-            List<AdminModel> users = new List<AdminModel>();
+            var users = new List<AdminModel>();
 
             foreach (var role in roles)
             {
                 var roleUsers = await _userManager.GetUsersInRoleAsync(role.Name);
 
-                roleUsers = roleUsers.Where(prop => !prop.IsDelete)
-                                    .Where(prop => client.Item2 || client.Item1 == prop.ClientId)
-                                    .ToList();
+                roleUsers = roleUsers
+                    .Where(prop => !prop.IsDelete)
+                    .Where(prop => client.Item2 || client.Item1 == prop.ClientId)
+                    .ToList();
 
                 var rUsers = _mapper.Map<IEnumerable<AdminModel>>(roleUsers);
 
@@ -90,36 +96,48 @@ namespace Internalexamportal.Core.Features.Candidate
                 users.AddRange(rUsers);
             }
 
-            result.Admins = await Paginate(users, request);
+            // Search
+            IEnumerable<AdminModel> admins = users;
 
-            result.TotalCount = users.Count();
-
-            return result;
-        }
-
-
-        private async Task<List<AdminModel>> Paginate(
-          IEnumerable<AdminModel> admins,
-          AdminGridModel model)
-        {
-            //search
-            if (!string.IsNullOrWhiteSpace(model.SearchTerm))
-                admins = SearchAdmins(admins, model.SearchTerm);
-
-            //sort
-            if (!string.IsNullOrWhiteSpace(model.SortingColumn) &&
-               !string.IsNullOrWhiteSpace(model.SortingDirection))
+            if (!string.IsNullOrWhiteSpace(request.SearchTerm))
             {
-                admins = SortAdmins(admins, model.SortingColumn, model.SortingDirection);
+                admins = SearchAdmins(admins, request.SearchTerm);
             }
 
-            if (model.PageNumber == 0) model.PageNumber = 1;
+            // Sort
+            if (!string.IsNullOrWhiteSpace(request.SortingColumn) &&
+                !string.IsNullOrWhiteSpace(request.SortingDirection))
+            {
+                admins = SortAdmins(
+                    admins,
+                    request.SortingColumn,
+                    request.SortingDirection);
+            }
 
-            //paginate
-            return admins
-                .Skip((model.PageNumber - 1) * model.PageSize)
-                .Take(model.PageSize)
+            // Total count after search but before pagination
+            var totalCount = admins.Count();
+
+            // Page number
+            var pageNumber = request.PageNumber <= 0
+                ? 1
+                : request.PageNumber;
+
+            // Page size
+            var pageSize = request.PageSize <= 0
+                ? 10
+                : request.PageSize;
+
+            // Pagination
+            var pagedAdmins = admins
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToList();
+
+            return new GetAdminGridResult
+            {
+                Admins = pagedAdmins,
+                TotalCount = totalCount
+            };
         }
 
         private IEnumerable<AdminModel> SearchAdmins(
@@ -128,52 +146,60 @@ namespace Internalexamportal.Core.Features.Candidate
         {
             searchTerm = searchTerm.ToLower();
 
-            return admins
-                .Where(c => c.Email.Contains(searchTerm)
-                    || c.FirstName.Contains(searchTerm)
-                    || c.LastName.Contains(searchTerm)
-                    || c.PhoneNumber.Contains(searchTerm)
-                    );
+            return admins.Where(c =>
+                (!string.IsNullOrEmpty(c.Email) &&
+                 c.Email.ToLower().Contains(searchTerm))
+                ||
+                (!string.IsNullOrEmpty(c.FirstName) &&
+                 c.FirstName.ToLower().Contains(searchTerm))
+                ||
+                (!string.IsNullOrEmpty(c.LastName) &&
+                 c.LastName.ToLower().Contains(searchTerm))
+                ||
+                (!string.IsNullOrEmpty(c.PhoneNumber) &&
+                 c.PhoneNumber.ToLower().Contains(searchTerm))
+            );
         }
 
         private IEnumerable<AdminModel> SortAdmins(
-           IEnumerable<AdminModel> admins,
-           string sortColumn,
-           string sortDirection)
+            IEnumerable<AdminModel> admins,
+            string sortColumn,
+            string sortDirection)
         {
             switch (sortColumn)
             {
-
                 case "name":
-                    admins = (sortDirection == "desc") ?
-                    admins.OrderByDescending(s => s.FirstName) :
-                    admins.OrderBy(s => s.FirstName);
-                    break;
-                case "email":
-                    admins = (sortDirection == "desc") ?
-                    admins.OrderByDescending(s => s.Email) :
-                    admins.OrderBy(s => s.Email);
-                    break;
-                case "phoneNumber":
-                    admins = (sortDirection == "desc") ?
-                    admins.OrderByDescending(s => s.PhoneNumber) :
-                    admins.OrderBy(s => s.PhoneNumber);
-                    break;
-                case "role":
-                    admins = (sortDirection == "desc") ?
-                    admins.OrderByDescending(s => s.Role) :
-                    admins.OrderBy(s => s.Role);
-                    break;
-                case "status":
-                    admins = (sortDirection == "desc") ?
-                    admins.OrderByDescending(s => s.IsActive) :
-                    admins.OrderBy(s => s.IsActive);
+                    admins = sortDirection == "desc"
+                        ? admins.OrderByDescending(s => s.FirstName)
+                        : admins.OrderBy(s => s.FirstName);
                     break;
 
+                case "email":
+                    admins = sortDirection == "desc"
+                        ? admins.OrderByDescending(s => s.Email)
+                        : admins.OrderBy(s => s.Email);
+                    break;
+
+                case "phoneNumber":
+                    admins = sortDirection == "desc"
+                        ? admins.OrderByDescending(s => s.PhoneNumber)
+                        : admins.OrderBy(s => s.PhoneNumber);
+                    break;
+
+                case "role":
+                    admins = sortDirection == "desc"
+                        ? admins.OrderByDescending(s => s.Role)
+                        : admins.OrderBy(s => s.Role);
+                    break;
+
+                case "status":
+                    admins = sortDirection == "desc"
+                        ? admins.OrderByDescending(s => s.IsActive)
+                        : admins.OrderBy(s => s.IsActive);
+                    break;
             }
 
             return admins;
         }
     }
-
 }
