@@ -20,6 +20,7 @@ namespace Internalexamportal.Core.Features.GenerateJwtToken
     public class GenerateJwtTokenModel : IRequest<GenerateTokenResult>
     {
         public string Email { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
         public bool RememberMe { get; set; }
     }
@@ -74,7 +75,10 @@ namespace Internalexamportal.Core.Features.GenerateJwtToken
 
         public async Task<GenerateTokenResult> Handle(GenerateJwtTokenModel message, CancellationToken token)
         {
-            var user = await _userManager.FindByEmailAsync(message.Email);
+            var user = string.IsNullOrWhiteSpace(message.Username)
+                ? await _userManager.FindByEmailAsync(message.Email)
+                : await _userManager.FindByNameAsync(message.Username)
+                    ?? await _userManager.FindByEmailAsync(message.Username);
 
             var isValid = (user != null)
                 && await _userManager.CheckPasswordAsync(user, message.Password)
