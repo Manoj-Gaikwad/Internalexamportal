@@ -72,6 +72,9 @@ namespace Internalexamportal.Core.Commons
                 //Set email confirmed property to true. By Default. 
                 user.EmailConfirmed = true;
 
+                // default admin user must be active so that login is allowed.
+                user.IsActive = true;
+
                 // create the user in database
                 var identitResult = _userManager
                     .CreateAsync(user, _defaultUserConfiguration.DefaultMasterPassword).Result;
@@ -93,6 +96,18 @@ namespace Internalexamportal.Core.Commons
                 if (!identityResult.Succeeded)
                 {
                     throw new Exception("Could not assign admin role to default user.");
+                }
+            }
+
+            // ensure the default user is active so login is allowed
+            if (!user.IsActive)
+            {
+                user.IsActive = true;
+                var updateResult = _userManager.UpdateAsync(user).Result;
+
+                if (!updateResult.Succeeded)
+                {
+                    throw new Exception("Could not activate default user.");
                 }
             }
         }
